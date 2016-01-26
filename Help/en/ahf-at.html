@@ -1,0 +1,2067 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<link rev="made" href="mailto:xml-info@antenna.co.jp" />
+<link rel="stylesheet" href="ahfmain.css" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<script type="text/javascript" src="ahfmain.js"></script>
+<title>AH Formatter V6.3 - AreaTree</title>
+</head>
+<body onload="init(0)" id="ahf-at-single">
+
+
+<h1 class="chapter" id="AreaTree">
+<img src="img/ico6.png" alt="" class="chapttl single" />
+<span class="index"><!--AreaTree-->AreaTree</span></h1>
+<div class="chapter-body">
+
+<h2 id="introduction" class="section">Introduction</h2>
+<div class="section-body">
+
+
+<p>
+The <b class="product-name">AH Formatter V6.3</b>  AreaTree is created by integrating <a href="http://www.w3.org/TR/xsl/">XSL 1.1</a>  <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> , but it is not intended to completely mimic the samples in Section 4.10 (although they are very similar). 
+</p>
+
+<p>This specification is provided as-is, without any warranty expressed or implied.
+</p>
+
+<p>The XSL 1.1 Recommendation does not define an XML representation for the AreaTree. The AreaTree XML defined here is an original specification produced by Antenna House for use only with <b class="product-name">AH Formatter V6.3</b>.
+
+</p>
+
+<p>The AreaTree output for "Hello World!" is shown below. As you can see, it contains information about font, color, and paper size (A4).
+
+</p>
+
+<pre>&lt;?xml version="1.0"?&gt;
+&lt;AreaRoot is-first="true" is-last="true" version="602.2"
+    xmlns="http://www.antennahouse.com/names/XSL/AreaTree"&gt;
+    &lt;PageViewportArea output-volume-break="false" is-first="true" is-last="true"
+        width="595.276pt" height="841.89pt" abs-page-number="1" page-number="1" format="1"&gt;
+        &lt;PageReferenceArea is-first="true" is-last="true" width="595.276pt" height="841.89pt"
+            display-role="block"&gt;
+            &lt;RegionViewportArea is-first="true" is-last="true" width="595.276pt"
+                height="841.89pt" region-name="xsl-region-body"&gt;
+                &lt;RegionReferenceArea is-first="true" is-last="true" width="595.276pt"
+                    height="841.89pt" display-role="block"&gt;
+                    &lt;MainReferenceArea is-first="true" is-last="true" width="595.276pt"
+                        height="841.89pt"&gt;
+                        &lt;ColumnReferenceArea is-first="true" is-last="true" width="595.276pt"
+                            height="841.89pt"&gt;
+                            &lt;NormalFlowReferenceArea is-first="true" is-last="true"
+                                width="595.276pt" height="841.89pt"&gt;
+                                &lt;BlockArea is-first="true" is-last="true"
+                                    bottom-position="829.89pt" width="595.276pt" height="12pt"&gt;
+                                    &lt;LineArea is-first="true" is-last="true"
+                                        top-position="1pt" bottom-position="830.89pt"
+                                        width="595.276pt" height="10pt"
+                                        baseline-after="2.16309pt" space-before="1pt"
+                                        space-after="1pt"&gt;
+                                        &lt;TextArea color="#000000" is-first="true"
+                                            is-last="true" top-position="1pt"
+                                            bottom-position="830.89pt"
+                                            right-position="542.483pt" width="52.793pt"
+                                            height="10pt" baseline-after="2.16309pt"
+                                            script="Latn" font-size="10pt"
+                                            font-family="Times New Roman"
+                                            text-width="52.793pt" text="Hello World!"
+                                            kerning-mode="pair" /&gt;
+                                    &lt;/LineArea&gt;
+                                &lt;/BlockArea&gt;
+                            &lt;/NormalFlowReferenceArea&gt;
+                        &lt;/ColumnReferenceArea&gt;
+                    &lt;/MainReferenceArea&gt;
+                &lt;/RegionReferenceArea&gt;
+            &lt;/RegionViewportArea&gt;
+        &lt;/PageReferenceArea&gt;
+    &lt;/PageViewportArea&gt;
+&lt;/AreaRoot&gt;
+</pre>
+</div>
+
+<h2 id="area-model" class="section">
+<span class="index"><!--area-model-->Area Model</span>
+</h2>
+<div class="section-body">
+
+<p>The XSL area model (Area Model) represents areas as nested rectangular structures. It is impossible to handle documents that are not represented as nested rectangular structures. However, the nested structure is nested in a logical arrangement and the actual rectangles may be rendered as overlapping each other.
+
+</p>
+
+<p>
+☞For more details on Area Model, refer to <a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a>.
+
+</p>
+
+<p>Every element, other than the root element, defines an area. Areas are classified into two types: block area and inline area. In the XSL specification, regions are stacked (from top to bottom) in the block-progression-direction. The position of all areas in AreaTree is predetermined so the renderer need not worry about stacking. Although there is no cause for concern whether it is a block-area or an inline-area, the block-progression-direction must be considered. For that reason, it is important to know the exact physical position of the rectangle's sides (edges).
+
+</p>
+
+<p>The rectangular area, as shown in the figure, consists of the Content Rectangle, Padding Rectangle, and Border Rectangle.
+
+</p>
+
+<pre class="figure">+----------------------------+
+| Border Rectangle           |
+| +------------------------+ |
+| | Padding Rectangle      | |
+| | +--------------------+ | |
+| | | Content Rectangle  | | |
+| | |                    | | |
+| | +--------------------+ | |
+| +------------------------+ |
++----------------------------+
+</pre>
+
+<p>This figure shows the general horizontal writing style using the block-progression-direction from top to bottom and the inline-progression-direction from left to right. This writing-mode is abbreviated as lr-tb. lr (left to right) is the inline-progression-direction and tb (top to bottom) is the block-progression-direction. The edges are defined as follows:
+
+</p>
+
+<ul>
+<li>The before edge is the edge appearing first in the block-progression-direction. In lr-tb, this is the top edge.
+</li>
+<li>The after-edge is the edge opposite the before-edge. In lr-tb, this is the bottom edge.
+</li>
+<li>The start-edge is the edge appearing first in the inline-progression-direction. In lr-tb, this is the left edge.
+</li>
+<li>The end-edge is the edge opposite the start-edge. In lr-tb, this is the right edge.
+</li>
+</ul>
+
+<p>
+It is possible to rotate the areas. Even so, the definition of a logical sides remains the same. However, when the area rotates, the physical position is also rotated relative to the page edges.
+
+</p>
+
+<p>
+If not, before and start would remain as the absolute positions top and left. Instead, these are mapped according to the progression-direction as follows:
+
+</p>
+
+<table class="std">
+<col align="center" />
+<col align="center" span="4" />
+<tbody><tr><th></th><th>top</th><th>bottom</th><th>left</th><th>right</th></tr>
+<tr><th>lr-tb</th><td>before</td><td>after</td><td>start</td><td>end</td></tr>
+<tr><th>lr-bt</th><td>after</td><td>before</td><td>start</td><td>end</td></tr>
+<tr><th>rl-tb</th><td>before</td><td>after</td><td>end</td><td>start</td></tr>
+<tr><th>rl-bt</th><td>after</td><td>before</td><td>end</td><td>start</td></tr>
+<tr><th>tb-lr</th><td>start</td><td>end</td><td>before</td><td>after</td></tr>
+<tr><th>tb-rl</th><td>start</td><td>end</td><td>after</td><td>before</td></tr>
+<tr><th>bt-lr</th><td>end</td><td>start</td><td>before</td><td>after</td></tr>
+<tr><th>bt-rl</th><td>end</td><td>start</td><td>after</td><td>before</td></tr>
+</tbody></table>
+
+<p>
+This area is called either a viewport-area or a reference-area. The viewport-area indicates the area included in the area to be rendered. The reference-area has its own coordinate system, and the coordinates of its child areas are relative to the reference area. In the XSL specification, a reference-area is always the child of a viewport-area, but it is not necessarily always so in the AreaTree. In the AreaTree XML representation, ViewportArea lines up behind the viewport-area element name and in ReferenceArea, behind the reference-area element name.
+
+</p>
+</div>
+
+
+<h2 id="datatypes" class="section">Datatypes
+</h2>
+<div class="section-body">
+
+<p>
+&lt;digits&gt; is a string of numbers. It is an integer with no '+' or '-' sign.
+
+</p>
+
+<p>
+&lt;integer&gt; is a (possibly signed) integer.
+
+</p>
+
+<p>
+&lt;number&gt; is a (possibly signed) number. Numeric values may include decimal points. Decimal points are represented by periods, not commas.
+
+</p>
+
+<p>
+&lt;length&gt;, such as 12pt, has a &lt;number&gt; plus a unit.  The following units are available:
+
+</p>
+<table class="std">
+<tbody><tr><td>cm</td><td>centimeters</td></tr>
+<tr><td>mm</td><td>millimeters</td></tr>
+<tr><td>in</td><td>2.54cm</td></tr>
+<tr><td>pt</td><td>1/72in</td></tr>
+<tr><td>pc</td><td>12pt</td></tr>
+
+
+</tbody></table>
+<p>
+<b class="product-name">AH Formatter V6.3</b> converts all lengths in the AreaTree to pt. The aim by doing so is to get rid of as many errors as possible because of the font size in pt.
+
+</p>
+
+<p>
+&lt;percentage&gt; is the percent value plus '%', for example, 75%. As a &lt;number&gt;, this would be written as 0.75.
+
+</p>
+
+<p>&lt;color&gt; has the following formats: Color values are not case-sensitive.
+</p>
+<ul>
+<li>#RRGGBB</li>
+<li>transparent</li>
+<li>rgb(&lt;R&gt;,&lt;G&gt;,&lt;B&gt;)</li>
+<li>rgb-icc(&lt;R&gt;,&lt;G&gt;,&lt;B&gt;,#GRAYSCALE,&lt;S&gt;)</li>
+<li>rgb-icc(&lt;R&gt;,&lt;G&gt;,&lt;B&gt;,#CMYK,&lt;C&gt;,&lt;M&gt;,&lt;Y&gt;,&lt;K&gt;)</li>
+</ul>
+<table class="std">
+<tbody><tr><td>&lt;R&gt;,&lt;G&gt;,&lt;B&gt;</td><td>0–255</td></tr>
+<tr><td>&lt;S&gt;</td><td>0.0(black)–1.0(white)</td></tr>
+<tr><td>&lt;C&gt;,&lt;M&gt;,&lt;Y&gt;,&lt;K&gt;</td><td>0.0–1.0</td></tr>
+</tbody></table>
+
+</div>
+
+<h2 id="properties" class="section">
+<span class="index"><!--properties-->Properties</span>
+</h2>
+<div class="section-body">
+
+<h3 id="common-properties" class="subsection">
+<span class="index"><!--common-properties-->Common properties</span>
+</h3>
+<div class="subsection-body">
+
+<p>
+These are the properties common to AreaTree elements. Although not all elements necessarily have these properties, many of them do.
+
+</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="is-first">is-first</td>
+<td>true | false</td>
+<td>false</td>
+<td rowspan="2">
+Indicates whether the area is the first or last child of its parent area.
+</td>
+</tr>
+<tr>
+<td id="is-last">is-last</td>
+<td>true | false</td>
+<td>false</td>
+</tr>
+
+<tr>
+<td id="writing-mode">writing-mode</td>
+<td>lr-tb | rl-tb | tb-rl | lr-bt | rl-bt | tb-lr | bt-rl | br-lr
+
+</td>
+<td>lr-tb</td>
+<td>
+Text, etc., progression-direction.
+</td>
+</tr>
+
+<tr>
+<td id="width">width</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td rowspan="2">
+Size of the content rectangle. width is the length between the start-edge and end-edge; height is the length between the before-edge and after-edge.
+</td>
+</tr>
+<tr>
+<td id="height">height</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="top-position">top-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td rowspan="4">
+Position of the content rectangle within its reference-area. This is the distance from each side of the reference-area. The following figure shows the positions when the writing mode is lr-tb.
+
+<pre class="figure">|--&gt;left-position
++-------------------+ --
+|                   | ↓
+|   +-----------+   | top-position
+|   | Content   |   |
+|   | Rectangle |   |
+|   +-----------+   | bottom-position
+|                   | ↑
++-------------------+ --
+   right-position&lt;--|
+</pre>
+</td>
+</tr>
+<tr>
+<td id="bottom-position">bottom-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="left-position">left-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="right-position">right-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="space-before">space-before</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+<td rowspan="4">
+The space to be left blank before the area. Many areas do not need to have anything drawn on them. This is because the placement of the area is fixed. Fixed placement of character strings is represented using TextArea.
+
+<pre class="figure">------------------------
+                        &lt;--space-before
++-----------------------
+| Border Rectangle
+| +---------------------
+| | Padding Rectangle
+| | +-------------------
+| | | Content Rectangle
+| | |
+</pre>
+</td>
+</tr>
+<tr>
+<td id="space-after">space-after</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="space-start">space-start</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="space-end">space-end</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="padding-before">padding-before</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+<td rowspan="6">
+Padding widths.
+
+<pre class="figure">+-----------------------
+| Border Rectangle
+| +---------------------
+| | Padding Rectangle   &lt;--padding-before
+| | +-------------------
+| | | Content Rectangle
+| | |
+</pre>
+</td>
+</tr>
+<tr>
+<td id="padding-before.conditionality">padding-before.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="padding-before.length">padding-before.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="padding-after">padding-after</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="padding-start">padding-start</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="padding-end">padding-end</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="border-before-width">border-before-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+<td rowspan="15">
+Border widths.
+
+<pre class="figure">+-----------------------
+| Border Rectangle      &lt;--border-before-width
+| +---------------------
+| | Padding Rectangle
+| | +-------------------
+| | | Content Rectangle
+| | |
+</pre>
+</td>
+</tr>
+<tr>
+<td id="border-before-width.length">border-before-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-before-width.conditionality">border-before-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-after-width">border-after-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-after-width.length">border-after-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-after-width.conditionality">border-after-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-start-width">border-start-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-start-width.length">border-start-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-start-width.conditionality">border-start-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-end-width">border-end-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-end-width.length">border-end-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-end-width.conditionality">border-end-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-double-thickness">border-double-thickness</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="diagonal-border-width">diagonal-border-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="reverse-diagonal-border-width">reverse-diagonal-border-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="border-before-style">border-before-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+<td rowspan="6">
+Border style. The XSL-FO specification values are based on <a href="http://www.w3.org/TR/REC-CSS2/box.html#border-style-properties">CSS2</a> , but <b class="product-name">AH Formatter V6.3</b> implements some additional values from <a href="http://www.w3.org/TR/2002/WD-css3-border-20021107/">CSS3</a>.
+<br />
+<br />none |
+hidden |
+dotted |
+dashed |
+solid |
+double |
+groove |
+ridge |
+dot-dash |
+dot-dot-dash |
+inset |
+outset |
+wave
+</td>
+</tr>
+<tr>
+<td id="border-after-style">border-after-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="border-start-style">border-start-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="border-end-style">border-end-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="diagonal-border-style">diagonal-border-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="reverse-diagonal-border-style">reverse-diagonal-border-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+
+<tr>
+<td id="border-before-color">border-before-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td rowspan="6">
+Border color.
+</td>
+</tr>
+<tr>
+<td id="border-after-color">border-after-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="border-start-color">border-start-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="border-end-color">border-end-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="diagonal-border-color">diagonal-border-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="reverse-diagonal-border-color">reverse-diagonal-border-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="border-top-left-radius">border-top-left-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+<td rowspan="4">Radii of the quarter ellipse that defines the shape of the corner.
+ <a href="http://www.w3.org/TR/2012/CR-css3-background-20120724/#the-border-radius">[CSS3-Background] Curve Radii: the ‘border-radius’ properties</a></td>
+</tr>
+<tr>
+<td id="border-top-right-radius">border-top-right-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-bottom-left-radius">border-bottom-left-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-bottom-right-radius">border-bottom-right-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="color">color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>Color.
+</td>
+</tr>
+
+<tr>
+<td id="background-color">background-color</td>
+<td>&lt;color&gt;</td>
+<td>transparent</td>
+<td>
+Background color.
+</td>
+</tr>
+
+<tr>
+<td id="font-family">font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Family name of a font.
+</td>
+</tr>
+<tr>
+<td id="font-size">font-size</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>Font size.
+</td>
+</tr>
+<tr>
+<td id="font-weight">font-weight</td>
+<td>100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900</td>
+<td>400</td>
+<td>Font weight.
+</td>
+</tr>
+<tr>
+<td id="font-style">font-style</td>
+<td>normal | italic | oblique | backslant</td>
+<td>normal</td>
+<td>Font style.
+</td>
+</tr>
+<tr>
+<td id="font-stretch">font-stretch</td>
+<td>&lt;number&gt; | &lt;percentage&gt;</td>
+<td>1.0</td>
+<td>Font expansion. (1.0 = 100%)
+</td>
+</tr>
+
+<tr>
+<td id="baseline-after">baseline-after</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+The portion of the font height that is below the baseline.
+</td>
+</tr>
+
+<tr>
+<td id="baseline-offset">baseline-offset</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+Offset from the baseline in the before direction.
+</td>
+</tr>
+
+<tr>
+<td id="reference-orientation">reference-orientation</td>
+<td>&lt;number&gt;</td>
+<td>0</td>
+<td>
+Rotation of the reference area. The value is in degrees. reference-orientation="90"  indicates that the area is rotated 90°counterclockwise. <b class="product-name">AH Formatter V6.3</b> only allows a 90° right-angle rotation. Rotation at angles other than right angles is defined as follows:
+
+<ul>
+<li>The area position is given to the bound rectangle of the content-area.  That means, top-position, bottom-position, left-position, right-position determine the position of the bound rectangle.
+
+</li>
+<li>The actual content-area has a specified angle for the bound rectangle.
+</li>
+<li>The width and height of the bound rectangle. The same for space-*, padding-*, and border-*-width.
+
+</li>
+</ul>
+As in the following example, if the content area width is w, the height h, and the rotation angle θ, then the upper left of the figure is the starting point.
+<br />
+<br />
+<pre class="figure"> 0         X
+0+-----+---+
+ |   θ/ \  |
+ |  /     \|
+ |/        +
+ +        /|
+ |\     /  |
+ |  \ /    |
+Y+---+-----+
+</pre>
+<br />Dimensions of the bounding rectangle:
+<br />
+<table class="simple">
+<tbody><tr><td><span class="style-tt">X = abs(w*cos(θ))+abs(h*sin(θ))</span></td></tr>
+<tr><td><span class="style-tt">Y = abs(w*sin(θ))+abs(h*cos(θ))</span></td></tr>
+</tbody></table>
+are as above. The starting point moves to the next position.
+<table class="simple">
+<tbody><tr><td>0–90°</td><td>start-side</td><td><span class="style-tt">(0, w*sin(θ))</span></td></tr>
+<tr><td>90–180°</td><td>after-side</td><td><span class="style-tt">(w*sin(θ-90), Y)</span></td></tr>
+<tr><td>180–270°</td><td>end-side</td><td><span class="style-tt">(X, h*cos(θ-180))</span></td></tr>
+<tr><td>270–0°</td><td>before-side</td><td><span class="style-tt">(h*cos(θ-270), 0)</span></td></tr>
+</tbody></table>
+
+</td>
+</tr>
+
+<tr>
+<td id="z-index">z-index</td>
+<td>&lt;integer&gt;</td>
+<td>-</td>
+<td>
+Controls stacking of areas. Larger values are drawn later. Conforms to <a href="http://www.w3.org/TR/REC-CSS2/visuren.html#propdef-z-index" title="z-index">CSS2</a> . Once the AreaTree is resolved, the renderer may disregard this property.
+</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h3 id="annotation-properties" class="subsection">
+<span class="index"><!--annotation-properties-->Annotation properties</span>
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="annotation-author">annotation-author</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="18">Properties related to <a>Annotation in PDF Output</a>.
+</td>
+</tr>
+<tr>
+<td id="annotation-color">annotation-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-contents">annotation-contents</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-file-attachment">annotation-file-attachment</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-family">annotation-font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-size">annotation-font-size</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-style">annotation-font-style</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-weight">annotation-font-weight</td>
+<td>&lt;font-weight&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-height">annotation-height</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-icon-name">annotation-icon-name</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-open">annotation-open</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-position-horizontal">annotation-position-horizontal</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-position-vertical">annotation-position-vertical</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-text-align">annotation-text-align</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-text-color">annotation-text-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-title">annotation-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-type">annotation-type</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-width">annotation-width</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+
+<h2 id="elements" class="section">
+<span class="index"><!--elements-->Elements</span>
+</h2>
+<div class="section-body">
+
+<h3 id="AreaRoot" class="subsection">AreaRoot
+</h3>
+<div class="subsection-body">
+
+<p>
+Root element.
+
+</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="bookmark-tree.child">bookmark-tree.child</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="7">Properties corresponding to XSL 1.1 <a href="http://www.w3.org/TR/xsl11/#d0e14206">Formatting Objects for Bookmarks</a>.
+</td>
+</tr>
+<tr>
+<td id="bookmark-tree.color">bookmark-tree.color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.font-weight">bookmark-tree.font-weight</td>
+<td>normal | bold</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.internal-destination">bookmark-tree.internal-destination</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.next">bookmark-tree.next</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.starting-state">bookmark-tree.starting-state</td>
+<td>show | hide</td>
+<td>show</td>
+</tr>
+<tr>
+<td id="bookmark-tree.title">bookmark-tree.title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="color-profile._CMYK">color-profile._CMYK</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="3">Color profile to use when "#CMYK", "#GRAYSCALE", or "#RGB" is used with "rgb-icc()".  See <a>PDF/X</a>.
+</td>
+</tr>
+<tr>
+<td id="color-profile._GRAYSCALE">color-profile._GRAYSCALE</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="color-profile._RGB">color-profile._RGB</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.author">document-info.author</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="10">Properties corresponding to <a>axf:document-info</a> "name" values.
+</td>
+</tr>
+<tr>
+<td id="document-info.author-title">document-info.author-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.copyright-info-url">document-info.copyright-info-url</td>
+<td>&lt;anyURI&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.copyright-notice">document-info.copyright-notice</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.copyright-status">document-info.copyright-status</td>
+<td>Unknown | Copyrighted | PublicDomain</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.description-writer">document-info.description-writer</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.document-title">document-info.document-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.keywords">document-info.keywords</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.pagemode">document-info.pagemode</td>
+<td>UseNone | UseOutline | UseThumbs | FullScreen | UseOC</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.subject">document-info.subject</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="generator">generator</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Application that produced the AreaTree XML.
+</td>
+</tr>
+<tr>
+<td id="layer-settings">layer-settings</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Corresponds to <a>axf:layer-settings</a>.
+</td>
+</tr>
+
+<tr>
+<td id="output-volume-info.bookmark-include">output-volume-info.bookmark-include</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="4">Properties corresponding to <a>axf:output-volume-info</a>.
+</td>
+</tr>
+<tr>
+<td id="output-volume-info.document-info-include">output-volume-info.document-info-include</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="output-volume-info.format">output-volume-info.format</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="output-volume-info.initial-volume-number">output-volume-info.initial-volume-number</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="version">version</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Indicates the AreaTree XML version.
+</td>
+</tr>
+<tr>
+<td id="xmlns">xmlns</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Always use "http://www.antennahouse.com/names/XSL/AreaTree"
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#PageViewportArea">PageViewportArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="PageViewportArea" class="subsection">PageViewportArea
+</h3>
+<div class="subsection-body">
+
+<p>A page within a sequence of pages. 
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#PageReferenceArea">PageReferenceArea</a>, <a href="#FixedViewportArea">FixedViewportArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="PageReferenceArea" class="subsection">PageReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#RegionViewportArea">RegionViewportArea</a>+|<a href="#PageRegionViewportArea">PageRegionViewportArea</a>+)</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RegionViewportArea" class="subsection">RegionViewportArea
+</h3>
+<div class="subsection-body">
+<p>In the XSL-FO specification, a page has the following five regions:
+</p>
+<pre class="figure">          +-------------------+
+          |   region-before   |
+          +--+-------------+--+
+          |  |             |  |
+region-start | region-body | region-end
+          |  |             |  |
+          +--+-------------+--+
+          |   region-after    |
+          +-------------------+
+</pre>
+<p>
+In <b class="product-name">AH Formatter V6.3</b>, the RegionViewportArea represents these regions; the region-body is always present, but the other regions might not be present. The XSL-FO specification defines a sequence for the regions, but <b class="product-name">AH Formatter V6.3</b> allows them to appear in any order.  Consequently, even the order of the RegionViewportArea in AreaTree is not fixed. The AreaTree does not indicate which region produced which RegionViewportArea.
+</p>
+<p>
+The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains at most five RegionViewportArea. However, it is not a problem if the AreaTree contains more than five RegionViewportArea.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#RegionReferenceArea">RegionReferenceArea</a>, <a href="#SideNoteReferenceArea">SideNoteReferenceArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RegionReferenceArea" class="subsection">RegionReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>((<a href="#BlockArea">BlockArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> | <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#TableAndCaptionArea">TableAndCaptionArea</a>)+ | <a href="#MainReferenceArea">MainReferenceArea</a>)?, <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#BeforeFloatReferenceArea">BeforeFloatReferenceArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="MainReferenceArea" class="subsection">MainReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#ColumnReferenceArea">ColumnReferenceArea</a> | <a href="#SpanReferenceArea">SpanReferenceArea</a>)+, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ColumnReferenceArea" class="subsection">ColumnReferenceArea
+</h3>
+<div class="subsection-body">
+<p>When there is more than one column, there is one ColumnReferenceArea for column containing content. If the columns are interrupted by spanning areas, the number of ColumnReferenceArea may be greater than the number of columns.
+</p>
+<pre class="figure">+---------------+---------------+
+| Column        | Column        |
+| ReferenceArea | ReferenceArea |
++---------------+---------------+
+|       SpanReferenceArea       |
++---------------+---------------+
+| Column        | Column        |
+| ReferenceArea | ReferenceArea |
++---------------+---------------+
+</pre>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#FlowReferenceArea">FlowReferenceArea</a> | <a href="#NormalFlowReferenceArea">NormalFlowReferenceArea</a>), <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*, <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#ColumnruleArea">ColumnruleArea</a>?, <a href="#RevisionbarArea">RevisionbarArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SpanReferenceArea" class="subsection">SpanReferenceArea
+</h3>
+<div class="subsection-body">
+<p>Represents an area that spans two or more columns in a multi-column layout. Does not exist in single-column layouts.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#NormalFlowReferenceArea">NormalFlowReferenceArea</a> | <a href="#FlowReferenceArea">FlowReferenceArea</a>), <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#ColumnruleArea">ColumnruleArea</a>?, <a href="#RevisionbarArea">RevisionbarArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FlowReferenceArea" class="subsection">FlowReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+<p>Within <a href="#RubyContainerArea">RubyContainerArea</a> only:
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#RubyBaseArea">RubyBaseArea</a>, <a href="#RubyTextArea">RubyTextArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="NormalFlowReferenceArea" class="subsection">NormalFlowReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BlockArea" class="subsection">BlockArea
+</h3>
+<div class="subsection-body">
+<p>Block area.
+</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="line-continued-mark">line-continued-mark</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="8">Properties related to <a>Line Continued Mark</a>.
+</td>
+</tr>
+<tr>
+<td id="line-continued-mark-background-color">line-continued-mark-background-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-color">line-continued-mark-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-family">line-continued-mark-font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-size">line-continued-mark-font-size</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-style">line-continued-mark-font-style</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-weight">line-continued-mark-font-weight</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-offset">line-continued-mark-offset</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number">line-number</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="15">Properties related to <a>Line Numbering</a>.
+</td>
+</tr>
+<tr>
+<td id="line-number-background-color">line-number-background-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-color">line-number-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-family">line-number-font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-size">line-number-font-size</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-style">line-number-font-style</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-weight">line-number-font-weight</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-initial">line-number-initial</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-interval">line-number-interval</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-offset">line-number-offset</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-position">line-number-position</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-reset">line-number-reset</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-start">line-number-start</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-text-align">line-number-text-align</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-text-decoration">line-number-text-decoration</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+      <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+      <a href="#BlockViewportArea">BlockViewportArea</a> |
+      <a href="#FormArea">FormArea</a> |
+      <a href="#LineArea">LineArea</a> |
+      <a href="#TableAndCaptionArea">TableAndCaptionArea</a> |
+      <a href="#TableViewportArea">TableViewportArea</a> |
+      <a href="#ListBlockArea">ListBlockArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="LineArea" class="subsection">LineArea
+</h3>
+<div class="subsection-body">
+<p>One line of information. Line-break processing occurs before the AreaTree is produced.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#BidiOverrideArea">BidiOverrideArea</a> | <a href="#RubyArea">RubyArea</a> | <a href="#FormFieldArea">FormFieldArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="InlineArea" class="subsection">InlineArea
+</h3>
+<div class="subsection-body">
+<p>An area of a line to which different properties are applied.
+</p>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#RubyArea">RubyArea</a> | <a href="#FormFieldArea">FormFieldArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TextArea" class="subsection">TextArea
+</h3>
+<div class="subsection-body">
+<p>A sequence of characters that all have the same traits.
+</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="text">text</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Original text.
+</td>
+</tr>
+<tr>
+<td id="finished-text">finished-text</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>A string in the reverse order of the writing direction from the original text. It may contain ligatures and substituted glyphs.  If this property is present, its text is rendered instead of the original text. 
+</td>
+</tr>
+<tr>
+<td id="script">script</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Text script. Values defined by ISO 15924.
+</td>
+</tr>
+<tr>
+<td id="text-width">text-width</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>Width of the text.
+</td>
+</tr>
+<tr>
+<td id="underline-score">underline-score</td>
+<td>true | false</td>
+<td>false</td>
+<td>Whether the text has an underscore.
+</td>
+</tr>
+<tr>
+<td id="underline-score-color">underline-score-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>Color of the underscore.
+</td>
+</tr>
+<tr>
+<td id="overline-score">overline-score</td>
+<td>true | false</td>
+<td>false</td>
+<td>Whether the text has an overscore.
+</td>
+</tr>
+<tr>
+<td id="overline-score-color">overline-score-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>Color of the overscore.
+</td>
+</tr>
+<tr>
+<td id="through-score">through-score</td>
+<td>true | false</td>
+<td>false</td>
+<td>Whether the text is scored through.
+</td>
+</tr>
+<tr>
+<td id="through-score-color">through-score-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>Color of the through-score.
+</td>
+</tr>
+<tr>
+<td id="blink">blink</td>
+<td>true | false</td>
+<td>false</td>
+<td>Whether the text should blink.
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#GlyphArea">GlyphArea</a>* | <a href="#EmphasisArea">EmphasisArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="GlyphArea" class="subsection">GlyphArea
+</h3>
+<div class="subsection-body">
+<p>Lists glyph information for each character in the text. This is used instead of <a href="#finished-text">finished-text</a> in the <a href="#TextArea">TextArea</a> when rendering. <b class="product-name">AH Formatter V6.3</b> does not output glyph information for all text. It is output only for Arabic, Hebrew, and so on.  Glyph images are always rendered in the inline-progression-direction. The order remains the same for Arabic, etc. In other words, the glyph information for Arabic is arranged in the reverse order to the Arabic text.
+</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="length">length</td>
+<td>&lt;number&gt;</td>
+<td>-</td>
+<td>Indicates whether this single glyph corresponds to multiple characters in the original text.
+</td>
+</tr>
+<tr>
+<td id="glyph">glyph</td>
+<td>&lt;number&gt;</td>
+<td>-</td>
+<td>A specified font glyph ID in the <a href="#TextArea">TextArea</a>.
+</td>
+</tr>
+<tr>
+<td id="glyph-width">glyph-width</td>
+<td>&lt;number&gt;</td>
+<td>-</td>
+<td>Width of the glyph, where 2048 corresponds to the font size.
+</td>
+</tr>
+<tr>
+<td id="glyph-pos1">glyph-pos1</td>
+<td>&lt;number&gt;</td>
+<td>0</td>
+<td>Measure of movement before the glyph image. Units are the same as glyph-width.
+</td>
+</tr>
+<tr>
+<td id="glyph-pos2">glyph-pos2</td>
+<td>&lt;number&gt;</td>
+<td>glyph-width</td>
+<td>Measure of movement after the glyph image. Units are the same as <a href="#glyph-width">glyph-width</a>. At Normal position, glyph-pos1=0 and glyph-pos2=glyph-width. When this is a negative number, the characters overlap.
+
+</td>
+</tr>
+<tr>
+<td id="glyph-posy">glyph-posy</td>
+<td>&lt;number&gt;</td>
+<td>0</td>
+<td>Measure of the glyph vertical movement. +(glyph-posy) moves to a point before the glyph image and -(glyph-posy) moves to a point after the image.
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="EmphasisArea" class="subsection">EmphasisArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="LeaderArea" class="subsection">LeaderArea
+</h3>
+<div class="subsection-body">
+<p>Contents are used only when in leader-pattern="use-content" .
+</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="leader-pattern">leader-pattern</td>
+<td>space | rule | dots | use-content</td>
+<td>-</td>
+<td>Leader pattern.
+</td>
+</tr>
+<tr>
+<td id="rule-style">rule-style</td>
+<td>
+
+none |
+dotted |
+dashed |
+solid |
+double |
+dot-dash |
+dot-dot-dash |
+wave |
+double-wave |
+groove |
+ridge</td>
+<td>solid</td>
+<td>Leader style when leader-pattern="rule".
+</td>
+</tr>
+<tr>
+<td id="rule-thickness">rule-thickness</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>Leader thickness when leader-pattern="rule".
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BidiOverrideArea" class="subsection">BidiOverrideArea
+</h3>
+<div class="subsection-body">
+<p>Contains the result of bidirectional processing. The renderer treats BidiOverrideArea like an <a href="#InlineArea">InlineArea</a>.
+</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="direction">direction</td>
+<td>ltr | rtl</td>
+<td>-</td>
+<td>Writing direction. If <a href="#finished-text">finished-text</a> and glyph information are being used, then this property does not affect rendering. 
+</td>
+</tr>
+<tr>
+<td id="bidi-level">bidi-level</td>
+<td>&lt;digits&gt;</td>
+<td>-</td>
+<td>Bi-directionality level. Please refer to  <a href="http://www.unicode.org/reports/tr9/">UAX9</a> for more details. This property does not affect rendering.
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#BidiOverrideArea">BidiOverrideArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BeforeFloatReferenceArea" class="subsection">BeforeFloatReferenceArea
+</h3>
+<div class="subsection-body">
+<p>Reference area for areas floated to the top of the page.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BeforeFloatArea">BeforeFloatArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BeforeFloatArea" class="subsection">BeforeFloatArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FootnoteReferenceArea" class="subsection">FootnoteReferenceArea
+</h3>
+<div class="subsection-body">
+<p>Area for footnotes placed at the bottom of the page. When putting footnotes at the bottom of the page, they may be placed at the end of each column. In the former, theFootnoteReferenceArea is the child of a <a href="#RegionReferenceArea">RegionReferenceArea</a>, and in the latter, it is the child of a <a href="#ColumnReferenceArea">ColumnReferenceArea</a> or <a href="#SpanReferenceArea">SpanReferenceArea</a>.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FootnoteArea">FootnoteArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FootnoteArea" class="subsection">FootnoteArea
+</h3>
+<div class="subsection-body">
+<p>Footnote area.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>* | <a href="#ListBlockArea">ListBlockArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyArea" class="subsection">RubyArea
+</h3>
+<div class="subsection-body">
+<p>Ruby area.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#RubyContainerArea">RubyContainerArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyContainerArea" class="subsection">RubyContainerArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyBaseArea" class="subsection">RubyBaseArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyTextArea" class="subsection">RubyTextArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FormFieldArea" class="subsection">FormFieldArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FormArea" class="subsection">FormArea
+</h3>
+<div class="subsection-body">
+<p>Form area.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BlockAnchorArea" class="subsection">BlockAnchorArea
+</h3>
+<div class="subsection-body">
+<p>Block containing a footnote anchor. The renderer treats BlockAnchorArea like a <a href="#BlockArea">BlockArea</a>.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="InlineAnchorArea" class="subsection">InlineAnchorArea
+</h3>
+<div class="subsection-body">
+<p>Contains footnote anchor text. The renderer treats InlineAnchorArea like an <a href="#InlineArea">InlineArea</a>.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="GraphicViewportArea" class="subsection">GraphicViewportArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#GraphicArea">GraphicArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="GraphicArea" class="subsection">GraphicArea
+</h3>
+<div class="subsection-body">
+<p>A header indicating the type of the graphic may be included before the Base64-encoded graphic.
+</p>
+<pre class="sample-code">graphic-image="data:image/svg+xml;base64,H4sIAAAAAAAAC31S3W7TMBS...
+graphic-image="H4sIAAAAAAAAC31S3W7TMBS...
+</pre>
+<p>
+If the header contains the media type, the image type has been predetermined. If it is not included, then the renderer must determine the image type.
+</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="src">src</td>
+<td>&lt;uri-specification&gt;</td>
+<td>-</td>
+<td>The URI of an external image.
+</td>
+</tr>
+<tr>
+<td id="base-uri">base-uri</td>
+<td>&lt;uri-specification&gt;</td>
+<td>-</td>
+<td>Base URI to apply to src.
+</td>
+</tr>
+<tr>
+<td id="graphic-image">graphic-image</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>Image data encoded in Base64. When the same original is included in different areas, the data is repeated each time.
+
+After processing SVG in svgz, the data is transformed to Base64.
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableAndCaptionArea" class="subsection">TableAndCaptionArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableCaptionViewportArea">TableCaptionViewportArea</a>?, <a href="#TableViewportArea">TableViewportArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableCaptionViewportArea" class="subsection">TableCaptionViewportArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableCaptionArea">TableCaptionArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableCaptionArea" class="subsection">TableCaptionArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableViewportArea" class="subsection">TableViewportArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableArea">TableArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableArea" class="subsection">TableArea
+</h3>
+<div class="subsection-body">
+<p>The W3C table model divides a table into table-header, table-body, and table-footer, but the AreaTree does not preserve the distinction.  <b class="product-name">AH Formatter V6.3</b> resolves how to divide the table across pages or columns and repeats the table's header as necessary.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableColumnGroupArea">TableColumnGroupArea</a>*, <a href="#TableColumnArea">TableColumnArea</a>*, <a href="#TableRowGroupArea">TableRowGroupArea</a>*, <a href="#TableRowArea">TableRowArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableColumnGroupArea" class="subsection">TableColumnGroupArea
+</h3>
+<div class="subsection-body">
+<p>Table column-group area. Holds settings such as background color for groups of columns. <b class="product-name">AH Formatter V6.3</b> does not generate this area.
+</p>
+<table class="std">
+<tr><th>Contents</th><td><a href="#TableColumnArea">TableColumnArea</a>+</td></tr>
+</table>
+
+
+</div>
+
+<h3 id="TableColumnArea" class="subsection">TableColumnArea
+</h3>
+<div class="subsection-body">
+<p>Holds settings such as background color that are used when generating rows.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableRowGroupArea" class="subsection">TableRowGroupArea
+</h3>
+<div class="subsection-body">
+<p>TableRowGroupArea corresponds to table-header, table-body, and table-footer and holds settings such as background color.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableRowArea" class="subsection">TableRowArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableCellArea">TableCellArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableCellArea" class="subsection">TableCellArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListBlockArea" class="subsection">ListBlockArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#ListItemArea">ListItemArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListItemArea" class="subsection">ListItemArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#ListItemLabelArea">ListItemLabelArea</a>?, <a href="#ListItemBodyArea">ListItemBodyArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListItemLabelArea" class="subsection">ListItemLabelArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListItemBodyArea" class="subsection">ListItemBodyArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RelativeFloatArea" class="subsection">RelativeFloatArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#TableViewportArea">TableViewportArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SideFloatArea" class="subsection">SideFloatArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SideNoteReferenceArea" class="subsection">SideNoteReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#SideNoteArea">SideNoteArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SideNoteArea" class="subsection">SideNoteArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="AbsoluteFloatArea" class="subsection">AbsoluteFloatArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BlockViewportArea" class="subsection">BlockViewportArea
+</h3>
+<div class="subsection-body">
+<p>A viewport area that contains a reference area but that is not absolutely position within its containing reference area. However, since its position in AreaTree is fixed, there is no need to differentiate BlockViewportArea and <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a> from <a href="#FixedViewportArea">FixedViewportArea</a>.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a> | <a href="#MultiColumnReferenceArea">MultiColumnReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="AbsoluteViewportArea" class="subsection">AbsoluteViewportArea
+</h3>
+<div class="subsection-body">
+<p>A viewport area that contains a reference area and that is absolutely positioned within its containing reference area.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FixedViewportArea" class="subsection">FixedViewportArea
+</h3>
+<div class="subsection-body">
+<p>A viewport area whose fixed position on the page does not depend on the position of any other reference area.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="InlineViewportArea" class="subsection">InlineViewportArea
+</h3>
+<div class="subsection-body">
+<p>A viewport area within an inline area.
+</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ColumnruleArea" class="subsection">ColumnruleArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RevisionbarArea" class="subsection">RevisionbarArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="MultiColumnReferenceArea" class="subsection">MultiColumnReferenceArea
+</h3>
+<div class="subsection-body">
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#ColumnReferenceArea">ColumnReferenceArea</a> | <a href="#SpanReferenceArea">SpanReferenceArea</a> | <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+</div>
+
+<h2 id="license" class="section">License</h2>
+<div class="section-body">
+    
+    <p>Copyright 2016 Antenna House, Inc.</p>
+    
+    <p>Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at</p>
+    
+    <p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+    
+    <p>Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.</p>
+    
+</div>
+</div>
+
+<hr />
+<div align="center" class="copyright">
+<address>Copyright © 1999-2016<a href="http://www.antennahouse.com/"> Antenna House, Inc.</a> All rights reserved.<br />Antenna House is a trademark of Antenna House, Inc.</address>
+</div>
+<hr />
+</body>
+</html>

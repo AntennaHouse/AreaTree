@@ -1,0 +1,1339 @@
+# Copyright 2016 Antenna House, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+default namespace = "http://www.antennahouse.com/names/XSL/AreaTree"
+
+start =
+  AreaRoot
+
+leader.rule.style =
+   'none' | 'dotted' | 'dashed' | 'solid' | 'double' | 'groove' | 'ridge' | 'dot-dash' | 'dot-dot-dash' | 'wave'
+
+border.style =
+   leader.rule.style | 'hidden' | 'outset' | 'inset'
+
+length = xsd:NMTOKEN { pattern = "-?[0-9]+(\.[0-9]+)?(pt|in|mm|cm)" }
+length-or-auto = length | 'auto'
+true-or-false = 'true' | 'false'
+
+common.properties.attlist =
+   attribute baseline-after { xsd:NMTOKEN }?,
+   attribute baseline-offset { xsd:NMTOKEN }?,
+   attribute border-after-color { text }?,
+   attribute border-after-style { border.style }?,
+   attribute border-after-width { length }?,
+   attribute border-after-width.conditionality { xsd:NCName }?,
+   attribute border-after-width.length { length }?,
+   attribute border-before-color { text }?,
+   attribute border-before-style { border.style }?,
+   attribute border-before-width { length }?,
+   attribute border-before-width.conditionality { xsd:NCName }?,
+   attribute border-before-width.length { length }?,
+   attribute border-bottom-left-radius { text }?,
+   attribute border-bottom-right-radius { text }?,
+   attribute border-double-thickness { text }?,
+   attribute border-end-color { text }?,
+   attribute border-end-style { border.style }?,
+   attribute border-end-width { length }?,
+   attribute border-start-color { text }?,
+   attribute border-start-style { border.style }?,
+   attribute border-start-width { length }?,
+   attribute border-top-left-radius { text }?,
+   attribute border-top-right-radius { text }?,
+   attribute border-wave-form { text }?,
+   attribute bottom-position { xsd:NMTOKEN }?,
+   attribute box-shadow { text }?,
+   attribute diagonal-border-color { text }?,
+   attribute diagonal-border-style { border.style }?,
+   attribute diagonal-border-width { length }?,
+   attribute font-family { text }?,
+   attribute font-selection-strategy { xsd:NCName }?,
+   attribute font-size { xsd:NMTOKEN }?,
+   attribute font-stretch { text }?,
+   attribute font-style { 'normal' | 'italic' | 'oblique' | 'backslant' }?,
+   attribute font-variant { text }?,
+   attribute font-weight { '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' }?,
+   attribute height { text }?,
+   attribute is-first { true-or-false }?,
+   attribute is-last { true-or-false }?,
+   attribute left-position { xsd:NMTOKEN }?,
+   attribute padding-after { xsd:NMTOKEN }?,
+   attribute padding-after.conditionality { xsd:NMTOKEN }?,
+   attribute padding-after.length { length }?,
+   attribute padding-before { xsd:NMTOKEN }?,
+   attribute padding-before.conditionality { xsd:NMTOKEN }?,
+   attribute padding-before.length { length }?,
+   attribute padding-end { xsd:NMTOKEN }?,
+   attribute padding-start { xsd:NMTOKEN }?,
+   attribute reference-orientation { xsd:integer }?,
+   attribute reverse-diagonal-border-color { text }?,
+   attribute reverse-diagonal-border-style { border.style }?,
+   attribute reverse-diagonal-border-width { length }?,
+   attribute right-position { xsd:NMTOKEN }?,
+   attribute space-after { xsd:NMTOKEN }?,
+   attribute space-before { xsd:NMTOKEN }?,
+   attribute space-end { xsd:NMTOKEN }?,
+   attribute space-start { xsd:NMTOKEN }?,
+   attribute top-position { xsd:NMTOKEN }?,
+   attribute width { length }?,
+   attribute writing-mode { xsd:NCName }?,
+   attribute z-index { xsd:integer }?
+
+AreaRoot =
+  element AreaRoot {
+   AreaRoot.attlist,
+   AreaRoot.model
+}
+
+AreaRoot.model =
+  PageViewportArea+
+
+AreaRoot.attlist =
+   attribute base-uri { xsd:anyURI }?,
+   attribute bookmark-tree.child { text }?,
+   attribute bookmark-tree.color { text }?,
+   attribute bookmark-tree.font-weight { xsd:NCName }?,
+   attribute bookmark-tree.internal-destination { text }?,
+   attribute bookmark-tree.next { text }?,
+   attribute bookmark-tree.starting-state { xsd:NCName }?,
+   attribute bookmark-tree.title { text }?,
+   attribute color { text }?,
+   attribute color-profile._CMYK { text }?,
+   attribute color-profile._GRAYSCALE { text }?,
+   attribute color-profile._RGB { text }?,
+   attribute display { xsd:NCName }?,
+   attribute display-role { xsd:NCName }?,
+   attribute document-info.author { text }?,
+   attribute document-info.author-title { text }?,
+   attribute document-info.copyright-info-url { text }?,
+   attribute document-info.copyright-notice { text }?,
+   attribute document-info.copyright-status { xsd:NCName }?,
+   attribute document-info.description-writer { text }?,
+   attribute document-info.document-title { text }?,
+   attribute document-info.keywords { text }?,
+   attribute document-info.pagelayout { xsd:NCName }?,
+   attribute document-info.pagemode { xsd:NCName }?,
+   attribute document-info.subject { text }?,
+   attribute document-info.xmp { text }?,
+   attribute id { xsd:NMTOKEN }?,
+   attribute is-CSS { true-or-false }?,
+    common.properties.attlist,
+   attribute language { xsd:NCName }?,
+   attribute layer-settings { text }?,
+   attribute output-volume-info.bookmark-include { xsd:NCName }?,
+   attribute output-volume-info.document-info-include { xsd:NCName }?,
+   attribute output-volume-info.format { xsd:integer }?,
+   attribute output-volume-info.initial-volume-number { xsd:integer }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute text-align { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?,
+   attribute version { xsd:decimal }
+
+PageViewportArea =
+  element PageViewportArea {
+   PageViewportArea.attlist,
+   PageViewportArea.model
+}
+
+PageViewportArea.model =
+  (PageReferenceArea, FixedViewportArea*)
+
+PageViewportArea.attlist =
+   attribute abs-page-number { xsd:integer },
+   attribute background-attachment { xsd:NCName }?,
+   attribute background-color { text }?,
+   attribute background-content-height { xsd:NMTOKEN }?,
+   attribute background-content-type { xsd:anyURI }?,
+   attribute background-content-width { length }?,
+   attribute background-image { text }?,
+   attribute background-position-horizontal { text }?,
+   attribute background-position-vertical { text }?,
+   attribute background-repeat { xsd:NCName }?,
+   attribute background-scaling { xsd:NCName }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute bleed-bottom { xsd:NMTOKEN }?,
+   attribute bleed-left { xsd:NMTOKEN }?,
+   attribute bleed-right { xsd:NMTOKEN }?,
+   attribute bleed-top { xsd:NMTOKEN }?,
+   attribute crop-area-visibility { xsd:NCName }?,
+   attribute crop-offset-bottom { xsd:NMTOKEN }?,
+   attribute crop-offset-left { xsd:NMTOKEN }?,
+   attribute crop-offset-right { xsd:NMTOKEN }?,
+   attribute crop-offset-top { xsd:NMTOKEN }?,
+   attribute display-role { xsd:NCName }?,
+   attribute format { text },
+   attribute id { xsd:NMTOKEN }?,
+      common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute language { xsd:NCName }?,
+   attribute output-volume-break { true-or-false }?,
+   attribute output-volume-filename { xsd:NMTOKEN }?,
+   attribute page-number { xsd:integer },
+   attribute page-number-prefix { xsd:NCName }?,
+   attribute page-number-suffix { xsd:NMTOKEN }?,
+   attribute printer-marks { text }?,
+   attribute printer-marks-line-color { xsd:NCName }?,
+   attribute printer-marks-line-length { length | 'auto' }?,
+   attribute printer-marks-line-width { length | 'auto' }?,
+   attribute printer-marks-spine-width { length }?,
+   attribute printer-marks-zero-margin { xsd:NCName }?,
+   attribute stacking-context { xsd:NCName }?,
+   attribute title { xsd:anyURI }?
+
+PageReferenceArea =
+  element PageReferenceArea {
+   PageReferenceArea.attlist,
+   PageReferenceArea.model
+}
+
+PageReferenceArea.model =
+   (RegionViewportArea+ | PageRegionViewportArea)
+
+PageReferenceArea.attlist =
+   attribute display-role { xsd:NCName },
+   attribute id { xsd:NMTOKEN }?,
+        common.properties.attlist,
+   attribute is-link-destination { true-or-false }?
+
+PageRegionViewportArea =
+  element PageRegionViewportArea {
+   PageRegionViewportArea.attlist,
+   PageRegionViewportArea.model
+}
+
+PageRegionViewportArea.model =
+   PageRegionReferenceArea
+
+PageRegionViewportArea.attlist =
+   attribute bottom-position { xsd:NMTOKEN },
+   attribute display-role { xsd:NCName },
+   attribute height { xsd:NMTOKEN },
+   attribute is-first { true-or-false },
+   attribute is-last { true-or-false },
+   attribute left-position { xsd:NMTOKEN },
+   attribute region-name { text },
+   attribute right-position { xsd:NMTOKEN },
+   attribute top-position { xsd:NMTOKEN },
+   attribute width { length }
+           
+PageRegionReferenceArea =
+  element PageRegionReferenceArea {
+   attribute display-role { xsd:NCName },
+   attribute height { xsd:NMTOKEN },
+   attribute is-first { true-or-false }?,
+   attribute is-last { true-or-false }?,
+   attribute width { length },
+             BlockArea
+}
+FixedViewportArea =
+  element FixedViewportArea {
+   FixedViewportArea.attlist,
+   FixedViewportArea.model
+}
+
+FixedViewportArea.model =
+   FlowReferenceArea
+
+FixedViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   common.properties.attlist,
+   attribute text-align { xsd:NCName }?
+
+FlowReferenceArea =
+  element FlowReferenceArea {
+   FlowReferenceArea.attlist,
+   FlowReferenceArea.model
+}
+
+FlowReferenceArea.model =
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | BlockViewportArea | AbsoluteViewportArea)*,  SideFloatArea?, RelativeFloatArea*, AbsoluteFloatArea*
+
+FlowReferenceArea.attlist =
+   attribute display-role { xsd:NCName }?,
+    common.properties.attlist,
+   attribute text-align { xsd:NCName }?
+
+RegionViewportArea =
+  element RegionViewportArea {
+   RegionViewportArea.attlist,
+   RegionViewportArea.model
+}
+
+RegionViewportArea.model =
+   RegionReferenceArea, SideNoteReferenceArea*
+
+RegionViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-content-height { xsd:NMTOKEN }?,
+   attribute background-content-width { length }?,
+   attribute background-image { text }?,
+   attribute background-position-horizontal { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   common.properties.attlist,
+   attribute overflow { xsd:NCName }?,
+   attribute region-name { xsd:NCName },
+   attribute text-align { xsd:NCName }?
+
+RegionReferenceArea =
+  element RegionReferenceArea {
+   RegionReferenceArea.attlist,
+   RegionReferenceArea.model
+}
+
+RegionReferenceArea.model =
+   ((BlockArea | ListBlockArea | BlockAnchorArea | BlockViewportArea | AbsoluteViewportArea | TableViewportArea | TableAndCaptionArea)+ | MainReferenceArea)?,
+      FootnoteReferenceArea?,
+      BeforeFloatReferenceArea?,
+      RelativeFloatArea*,
+      AbsoluteFloatArea*
+
+RegionReferenceArea.attlist =
+   attribute display-role { xsd:NCName },
+   common.properties.attlist,
+   attribute line-height { xsd:NMTOKEN }?
+
+MainReferenceArea =
+  element MainReferenceArea {
+   MainReferenceArea.attlist,
+   MainReferenceArea.model
+}
+
+MainReferenceArea.model =
+   (ColumnReferenceArea | SpanReferenceArea)*, AbsoluteFloatArea*
+
+MainReferenceArea.attlist =
+   common.properties.attlist
+
+BeforeFloatReferenceArea =
+  element BeforeFloatReferenceArea {
+   BeforeFloatReferenceArea.attlist,
+   BeforeFloatReferenceArea.model
+}
+
+BeforeFloatReferenceArea.model =
+   BeforeFloatArea+
+
+BeforeFloatReferenceArea.attlist =
+               common.properties.attlist
+
+BeforeFloatArea =
+  element BeforeFloatArea {
+   BeforeFloatArea.attlist,
+   BeforeFloatArea.model
+}
+
+BeforeFloatArea.model =
+   BlockArea+
+
+BeforeFloatArea.attlist =
+                 common.properties.attlist
+
+SideNoteReferenceArea =
+  element SideNoteReferenceArea {
+   SideNoteReferenceArea.attlist,
+   SideNoteReferenceArea.model
+}
+
+SideNoteReferenceArea.model =
+   SideNoteArea+
+
+SideNoteReferenceArea.attlist =
+   attribute display-role { xsd:NCName },
+            common.properties.attlist
+
+SideNoteArea =
+  element SideNoteArea {
+   SideNoteArea.attlist,
+   SideNoteArea.model
+}
+
+SideNoteArea.model =
+   (BlockArea | BlockViewportArea)
+
+SideNoteArea.attlist =
+              common.properties.attlist
+
+ColumnReferenceArea =
+  element ColumnReferenceArea {
+   ColumnReferenceArea.attlist,
+   ColumnReferenceArea.model
+}
+
+ColumnReferenceArea.model =
+   (FlowReferenceArea | NormalFlowReferenceArea), AbsoluteFloatArea*, FootnoteReferenceArea?, ColumnruleArea*, RevisionbarArea*
+
+ColumnReferenceArea.attlist =
+    common.properties.attlist,
+   attribute text-align { xsd:NCName }?
+
+TableAndCaptionArea =
+  element TableAndCaptionArea {
+   TableAndCaptionArea.attlist,
+   TableAndCaptionArea.model
+}
+
+TableAndCaptionArea.model =
+   TableCaptionViewportArea?, TableViewportArea
+
+TableAndCaptionArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute border-separation.block-progression-direction {
+      xsd:NMTOKEN
+    }?,
+   attribute border-separation.inline-progression-direction {
+      xsd:NMTOKEN
+    }?,
+   attribute id { xsd:NMTOKEN }?,
+    common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute text-align { xsd:NCName }?
+
+TableCaptionViewportArea =
+  element TableCaptionViewportArea {
+   TableCaptionViewportArea.attlist,
+   TableCaptionViewportArea.model
+}
+
+TableCaptionViewportArea.model =
+   TableCaptionArea
+
+TableCaptionViewportArea.attlist =
+         common.properties.attlist,
+   attribute keep-with-next { xsd:NCName },
+   attribute text-align { xsd:NCName }?
+
+TableCaptionArea =
+  element TableCaptionArea {
+   TableCaptionArea.attlist,
+   TableCaptionArea.model
+}
+
+TableCaptionArea.model =
+   BlockArea*
+
+TableCaptionArea.attlist =
+   attribute display-role { xsd:NCName },
+           common.properties.attlist
+
+BlockAnchorArea =
+  element BlockAnchorArea {
+   BlockAnchorArea.attlist,
+   BlockAnchorArea.model
+}
+
+BlockAnchorArea.model =
+   LineArea*
+
+BlockAnchorArea.attlist =
+    common.properties.attlist,
+   attribute keep-with-next { xsd:NCName }?
+
+
+RelativeFloatArea =
+  element RelativeFloatArea {
+   RelativeFloatArea.attlist,
+   RelativeFloatArea.model
+}
+
+RelativeFloatArea.model =
+   (BlockArea | BlockViewportArea | TableViewportArea)*
+
+RelativeFloatArea.attlist =
+    common.properties.attlist
+
+BlockViewportArea =
+  element BlockViewportArea {
+   BlockViewportArea.attlist,
+   BlockViewportArea.model
+}
+
+BlockViewportArea.model =
+   FlowReferenceArea | MultiColumnReferenceArea
+
+BlockViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-content-height { xsd:NMTOKEN }?,
+   attribute background-content-width { length }?,
+   attribute background-image { text }?,
+   attribute background-repeat { xsd:NCName }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute color { text }?,
+   attribute graphic-image { xsd:anyURI }?,
+   attribute id { xsd:NMTOKEN }?,
+    common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute language { xsd:NCName }?,
+   attribute layer { xsd:NCName }?,
+   attribute line-number { xsd:NCName }?,
+   attribute line-number-color { text }?,
+   attribute line-number-font-family { xsd:NCName }?,
+   attribute line-number-font-size { xsd:NMTOKEN }?,
+   attribute line-number-font-style { xsd:NCName }?,
+   attribute line-number-font-weight { xsd:integer }?,
+   attribute line-number-offset { xsd:NMTOKEN }?,
+   attribute line-number-text-align { xsd:NCName }?,
+   attribute line-number-text-decoration { xsd:NCName }?,
+   attribute overflow { xsd:NCName }?,
+   attribute overprint { text }?,
+   attribute relative-position-left { xsd:NMTOKEN }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute text-align { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?
+
+MultiColumnReferenceArea =
+  element MultiColumnReferenceArea {
+   MultiColumnReferenceArea.attlist,
+   MultiColumnReferenceArea.model
+}
+
+MultiColumnReferenceArea.model =
+   (ColumnReferenceArea | SpanReferenceArea | AbsoluteFloatArea)+
+
+MultiColumnReferenceArea.attlist =
+   attribute display-role { xsd:NCName },
+      common.properties.attlist
+
+TableViewportArea =
+  element TableViewportArea {
+   TableViewportArea.attlist,
+   TableViewportArea.model
+}
+
+TableViewportArea.model =
+   TableArea
+
+TableViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute border-collapse { xsd:NCName },
+   attribute border-separation { xsd:NMTOKEN }?,
+   attribute border-separation.block-progression-direction {
+      xsd:NMTOKEN
+    }?,
+   attribute border-separation.inline-progression-direction {
+      xsd:NMTOKEN
+    }?,
+   attribute external-destination { text }?,
+   attribute id { xsd:NMTOKEN }?,
+    common.properties.attlist,
+   attribute is-link { true-or-false }?,
+   attribute is-link-destination { true-or-false }?,
+   attribute language { xsd:NCName }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute text-align { text }?,
+   attribute text-align-string { xsd:NCName }?
+
+TableArea =
+  element TableArea {
+   TableArea.attlist,
+   TableArea.model
+}
+
+TableArea.model =
+   (TableColumnGroupArea*, TableColumnArea*, TableRowGroupArea*, TableRowArea*)
+
+TableArea.attlist =
+   attribute border-separation.block-progression-direction {
+      xsd:NMTOKEN
+    }?,
+   attribute border-separation.inline-progression-direction {
+      xsd:NMTOKEN
+    }?,
+   attribute display-role { xsd:NCName },
+   attribute id { xsd:NMTOKEN }?,
+      common.properties.attlist,
+   attribute language { xsd:NCName }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute text-align { xsd:NCName }?
+
+TableColumnGroupArea =
+  element TableColumnGroupArea {
+   TableColumnGroupArea.model
+}
+
+TableColumnGroupArea.model =
+   TableColumnArea+
+
+TableColumnArea =
+  element TableColumnArea {
+   TableColumnArea.attlist,
+   TableColumnArea.model
+}
+
+TableColumnArea.model =
+   empty
+
+TableColumnArea.attlist =
+   attribute background-color { text },
+   attribute background-setup { xsd:NCName },
+        common.properties.attlist,
+   attribute text-align { xsd:NCName }
+
+TableRowGroupArea =
+  element TableRowGroupArea {
+   TableRowGroupArea.attlist,
+   TableRowGroupArea.model
+}
+
+TableRowGroupArea.model =
+   empty
+
+TableRowGroupArea.attlist =
+   attribute background-color { text },
+   attribute background-setup { xsd:NCName },
+        common.properties.attlist
+
+TableRowArea =
+  element TableRowArea {
+   TableRowArea.attlist,
+   TableRowArea.model
+}
+
+TableRowArea.model =
+   TableCellArea+
+
+TableRowArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute color { text }?,
+   attribute id { xsd:NMTOKEN }?,
+        common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute language { xsd:NCName }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute row-group-type { xsd:NCName },
+   attribute text-align { xsd:NCName }?
+
+TableCellArea =
+  element TableCellArea {
+   TableCellArea.attlist,
+   TableCellArea.model
+}
+
+TableCellArea.model =
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | BlockViewportArea)*, SideFloatArea?, RelativeFloatArea*, AbsoluteViewportArea*
+
+TableCellArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute color { text }?,
+   attribute colspan { xsd:integer }?,
+   attribute column-number { xsd:integer },
+   attribute id { xsd:NMTOKEN }?,
+          common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute language { xsd:NCName }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute row-number { xsd:integer },
+   attribute rowspan { xsd:integer }?,
+   attribute text-align { xsd:NMTOKEN }?,
+   attribute text-align-last { xsd:NCName }?
+
+BlockArea =
+  element BlockArea {
+   BlockArea.attlist,
+   BlockArea.model
+}
+
+BlockArea.model =
+   (BlockArea |
+      BlockAnchorArea |
+      BlockViewportArea |
+      FormArea |
+      LineArea |
+      TableAndCaptionArea |
+      TableViewportArea |
+      ListBlockArea)*
+
+BlockArea.attlist =
+   attribute annotation-author { text }?,
+   attribute annotation-color { text }?,
+   attribute annotation-contents { text }?,
+   attribute annotation-file-attachment { text }?,
+   attribute annotation-font-family { text }?,
+   attribute annotation-font-size { xsd:NMTOKEN }?,
+   attribute annotation-font-style { xsd:NCName }?,
+   attribute annotation-font-weight { xsd:integer }?,
+   attribute annotation-height { xsd:NMTOKEN }?,
+   attribute annotation-icon-name { xsd:NCName }?,
+   attribute annotation-open { true-or-false }?,
+   attribute annotation-position-horizontal { xsd:NMTOKEN }?,
+   attribute annotation-position-vertical { xsd:NMTOKEN }?,
+   attribute annotation-text-align { xsd:NCName }?,
+   attribute annotation-text-color { text }?,
+   attribute annotation-title { text }?,
+   attribute annotation-type { xsd:NCName }?,
+   attribute annotation-width { length-or-auto }?,
+   attribute background-color { text }?,
+   attribute background-content-height { xsd:NMTOKEN }?,
+   attribute background-content-width { length }?,
+   attribute background-image { text }?,
+   attribute background-position-horizontal { text }?,
+   attribute background-position-vertical { text }?,
+   attribute background-repeat { xsd:NCName }?,
+   attribute background-scaling { xsd:NCName }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute color { text }?,
+   attribute destination-type { text }?,
+   attribute display { xsd:NCName }?,
+   attribute display-role { xsd:NCName }?,
+   attribute id { xsd:NMTOKEN }?,
+   attribute index-class { xsd:NCName }?,
+   attribute index-key { text }?,
+   attribute intrinsic-scale-value { text }?,
+   common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute keep-with-next { xsd:NCName }?,
+   attribute language { text }?,
+   attribute layer { xsd:NCName }?,
+   attribute line-continued-mark { xsd:NMTOKEN }?,
+   attribute line-continued-mark-background-color { text }?,
+   attribute line-continued-mark-color { text }?,
+   attribute line-continued-mark-font-family { xsd:NCName }?,
+   attribute line-continued-mark-font-size { xsd:NMTOKEN }?,
+   attribute line-continued-mark-font-style { xsd:NCName }?,
+   attribute line-continued-mark-font-weight { xsd:integer }?,
+   attribute line-continued-mark-offset { xsd:NMTOKEN }?,
+   attribute line-number { xsd:NCName }?,
+   attribute line-number-background-color { text }?,
+   attribute line-number-color { text }?,
+   attribute line-number-font-family { xsd:NCName }?,
+   attribute line-number-font-size { xsd:NMTOKEN }?,
+   attribute line-number-font-style { xsd:NCName }?,
+   attribute line-number-font-weight { xsd:integer }?,
+   attribute line-number-initial { xsd:integer }?,
+   attribute line-number-interval { xsd:integer }?,
+   attribute line-number-offset { xsd:NMTOKEN }?,
+   attribute line-number-position { xsd:NCName }?,
+   attribute line-number-reset { xsd:NCName }?,
+   attribute line-number-start { xsd:integer }?,
+   attribute line-number-text-align { xsd:NCName }?,
+   attribute line-number-text-decoration { xsd:NCName }?,
+   attribute number-transform { text }?,
+   attribute outline-expand { true-or-false }?,
+   attribute outline-group { xsd:NCName }?,
+   attribute outline-level { xsd:integer }?,
+   attribute outline-title { text }?,
+   attribute overprint { text }?,
+   attribute page-number-treatment { xsd:NMTOKEN }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute rule-thickness { xsd:NMTOKEN }?,
+   attribute text-align { text }?,
+   attribute text-align-first { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?,
+   attribute text-shadow { text }?,
+   attribute text-transform { xsd:NCName }?,
+   attribute text-underline-position { text }?,
+   attribute transform-origin { text }?,
+   attribute transform.a { xsd:decimal }?,
+   attribute transform.b { xsd:decimal }?,
+   attribute transform.c { xsd:decimal }?,
+   attribute transform.d { xsd:decimal }?,
+   attribute transform.e { xsd:NMTOKEN }?,
+   attribute transform.f { xsd:NMTOKEN }?
+
+ SideFloatArea =
+  element SideFloatArea {
+   SideFloat.model
+}
+
+SideFloat.model =
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | BlockViewportArea)+
+
+ListBlockArea =
+  element ListBlockArea {
+   ListBlockArea.attlist,
+   ListBlockArea.model
+}
+
+ListBlockArea.model =
+   ListItemArea+
+
+ListBlockArea.attlist =
+   attribute color { text }?,
+   attribute id { xsd:NMTOKEN }?,
+   attribute internal-destination { text }?,
+    common.properties.attlist,
+   attribute is-link { true-or-false }?,
+   attribute is-link-destination { true-or-false }?,
+   attribute outline-expand { true-or-false }?,
+   attribute outline-level { xsd:integer }?,
+   attribute outline-title { text }?,
+   attribute text-align { xsd:NCName }?
+
+ListItemArea =
+  element ListItemArea {
+   ListItemArea.attlist,
+   ListItemArea.model
+}
+
+ListItemArea.model =
+   (ListItemLabelArea?, ListItemBodyArea)
+
+ListItemArea.attlist =
+   attribute id { xsd:NMTOKEN }?,
+      common.properties.attlist,
+   attribute is-link-destination { true-or-false }?
+
+ListItemLabelArea =
+  element ListItemLabelArea {
+   ListItemLabelArea.attlist,
+   ListItemLabelArea.model
+}
+
+ListItemLabelArea.model =
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | SideFloatArea | BlockViewportArea | AbsoluteViewportArea)+
+
+ListItemLabelArea.attlist =
+           common.properties.attlist,
+   attribute text-align { xsd:NCName }?
+
+ListItemBodyArea =
+  element ListItemBodyArea {
+   ListItemBodyArea.attlist,
+   ListItemBodyArea.model
+}
+
+ListItemBodyArea.model =
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | BlockViewportArea)*, SideFloatArea?, AbsoluteViewportArea*
+
+ListItemBodyArea.attlist =
+   attribute id { xsd:NMTOKEN }?,
+         common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute text-align { xsd:NCName }?
+
+AbsoluteViewportArea =
+  element AbsoluteViewportArea {
+   AbsoluteViewportArea.attlist,
+   AbsoluteViewportArea.model
+}
+
+AbsoluteViewportArea.model =
+   FlowReferenceArea
+
+AbsoluteViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-content-height { xsd:NMTOKEN }?,
+   attribute background-content-width { length }?,
+   attribute background-image { text }?,
+   attribute background-repeat { xsd:NCName }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute color { text }?,
+   attribute id { xsd:NMTOKEN }?,
+    common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute layer { xsd:NCName }?,
+   attribute overflow { xsd:NCName }?,
+   attribute overprint { text }?,
+   attribute text-align { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?
+
+
+RevisionbarArea =
+  element RevisionbarArea {
+   RevisionbarArea.attlist,
+   RevisionbarArea.model
+}
+
+RevisionbarArea.model =
+   empty
+
+RevisionbarArea.attlist =
+         common.properties.attlist
+
+ColumnruleArea =
+  element ColumnruleArea {
+   ColumnruleArea.attlist,
+   ColumnruleArea.model
+}
+
+ColumnruleArea.model =
+   empty
+
+ColumnruleArea.attlist =
+      common.properties.attlist
+
+SpanReferenceArea =
+  element SpanReferenceArea {
+   SpanReferenceArea.attlist,
+   SpanReferenceArea.model
+}
+
+SpanReferenceArea.model =
+   (NormalFlowReferenceArea | FlowReferenceArea), FootnoteReferenceArea?, ColumnruleArea?, RevisionbarArea*, AbsoluteFloatArea*
+
+SpanReferenceArea.attlist =
+    common.properties.attlist,
+   attribute text-align { xsd:NCName }?
+
+AbsoluteFloatArea =
+  element AbsoluteFloatArea {
+   AbsoluteFloatArea.attlist,
+   AbsoluteFloatArea.model
+}
+
+AbsoluteFloatArea.model =
+   (BlockArea | BlockViewportArea)+
+
+AbsoluteFloatArea.attlist =
+    common.properties.attlist
+
+FootnoteReferenceArea =
+  element FootnoteReferenceArea {
+   FootnoteReferenceArea.attlist,
+   FootnoteReferenceArea.model
+}
+
+FootnoteReferenceArea.model =
+   FootnoteArea*
+
+FootnoteReferenceArea.attlist =
+   attribute display-align { xsd:NCName },
+    common.properties.attlist
+
+FootnoteArea =
+  element FootnoteArea {
+   FootnoteArea.attlist,
+   FootnoteArea.model
+}
+
+FootnoteArea.model =
+   BlockArea* | ListBlockArea*
+
+FootnoteArea.attlist =
+      common.properties.attlist,
+   attribute keep-with-next { xsd:NCName }?,
+   attribute text-align { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?,
+   attribute visibility { xsd:NCName }?
+
+RubyArea =
+  element RubyArea {
+   RubyArea.attlist,
+   RubyArea.model
+}
+
+RubyArea.model =
+   RubyContainerArea+
+
+RubyArea.attlist =
+   common.properties.attlist,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?
+
+RubyContainerArea =
+  element RubyContainerArea {
+   RubyContainerArea.attlist,
+   RubyContainerArea.model
+}
+
+RubyContainerArea.model =
+      ruby.FlowReferenceArea
+
+ruby.FlowReferenceArea =
+  element FlowReferenceArea {
+      FlowReferenceArea.attlist,
+      ruby.FlowReferenceArea.model
+}
+
+ruby.FlowReferenceArea.model =
+   RubyBaseArea, RubyTextArea
+
+RubyContainerArea.attlist =
+   common.properties.attlist,
+   attribute text-align { xsd:NCName },
+   attribute text-align-last { xsd:NCName }
+
+RubyBaseArea =
+  element RubyBaseArea {
+   RubyBaseArea.attlist,
+   RubyBaseArea.model
+}
+
+RubyBaseArea.model =
+   LineArea
+
+RubyBaseArea.attlist =
+      common.properties.attlist
+
+RubyTextArea =
+  element RubyTextArea {
+   RubyTextArea.attlist,
+   RubyTextArea.model
+}
+
+RubyTextArea.model =
+   LineArea
+
+RubyTextArea.attlist =
+   attribute color { text }?,
+      common.properties.attlist
+
+LineArea =
+  element LineArea {
+   LineArea.attlist,
+   LineArea.model
+}
+
+LineArea.model =
+   (TextArea | LeaderArea | InlineArea | InlineAnchorArea | InlineViewportArea | GraphicViewportArea | BidiOverrideArea | RubyArea | FormFieldArea)*
+
+LineArea.attlist =
+   attribute id { xsd:NMTOKEN }?,
+   common.properties.attlist,
+   attribute display { xsd:NCName }?,
+   attribute display-role { xsd:NCName }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?
+
+FormFieldArea =
+  element FormFieldArea {
+   FormFieldArea.attlist,
+   FormFieldArea.model
+}
+
+FormFieldArea.model =
+   empty
+
+FormFieldArea.attlist =
+   attribute action-type { xsd:NCName }?,
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute color { text }?,
+   attribute content-height { xsd:NMTOKEN }?,
+   attribute content-width { length }?,
+   attribute external-destination { text }?,
+   attribute field-apply-signature { true-or-false }?,
+   attribute field-button-face { text }?,
+   attribute field-button-face-down { text }?,
+   attribute field-button-face-rollover { text }?,
+   attribute field-button-layout { xsd:NCName }?,
+   attribute field-checked { true-or-false }?,
+   attribute field-checked-style { xsd:NCName }?,
+   attribute field-default-text { text }?,
+   attribute field-description { text }?,
+   attribute field-editable { true-or-false }?,
+   attribute field-maxlen { xsd:integer }?,
+   attribute field-multiline { true-or-false }?,
+   attribute field-multiple { true-or-false }?,
+   attribute field-name { text }?,
+   attribute field-password { true-or-false }?,
+   attribute field-required { true-or-false }?,
+   attribute field-scroll { true-or-false }?,
+   attribute field-top-index { xsd:integer }?,
+   attribute field-type { xsd:NCName },
+   attribute field-value { xsd:NCName }?,
+   attribute form-field-option { text }?,
+   common.properties.attlist,
+   attribute is-link { true-or-false }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?
+
+FormArea =
+  element FormArea {
+   FormArea.attlist,
+   FormArea.model
+}
+
+FormArea.model =
+   BlockArea+
+
+FormArea.attlist =
+   attribute base-uri { xsd:anyURI },
+   attribute external-destination { text },
+   attribute field-submit-coordinates { true-or-false },
+   attribute field-submit-method { xsd:NCName },
+    common.properties.attlist
+
+InlineAnchorArea =
+  element InlineAnchorArea {
+   InlineAnchorArea.attlist,
+   InlineAnchorArea.model
+}
+
+InlineAnchorArea.model =
+   (TextArea | LeaderArea | InlineArea | InlineViewportArea | GraphicViewportArea)*
+
+InlineAnchorArea.attlist =
+   common.properties.attlist,
+   attribute keep-with-next { xsd:NCName }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?
+
+NormalFlowReferenceArea =
+  element NormalFlowReferenceArea {
+   NormalFlowReferenceArea.attlist,
+   NormalFlowReferenceArea.model
+}
+
+NormalFlowReferenceArea.model =
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | BlockViewportArea | AbsoluteViewportArea | FormArea)*, SideFloatArea?, RelativeFloatArea*, AbsoluteFloatArea*
+
+NormalFlowReferenceArea.attlist =
+    common.properties.attlist
+
+TextArea =
+  element TextArea {
+   TextArea.attlist,
+   TextArea.model
+}
+
+TextArea.model =
+   GlyphArea* | EmphasisArea+
+
+TextArea.attlist =
+   attribute alttext { text }?,
+   attribute background-color { text }?,
+   attribute color { text },
+   attribute correspond { text }?,
+   attribute finished-text { text }?,
+   attribute glyph-orientation { xsd:integer }?,
+   attribute id { xsd:NMTOKEN }?,
+    common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute kerning-mode { xsd:NCName }?,
+   attribute overline-score { true-or-false }?,
+   attribute overline-score-color { text }?,
+   attribute overline-score-style { xsd:NCName }?,
+   attribute overline-score-width { xsd:NCName }?,
+   attribute ref-id { xsd:NCName }?,
+   attribute ref-index-key { text }?,
+   attribute scale-option { xsd:NCName }?,
+   attribute script { text },
+   attribute soft-hyphen-treatment { xsd:NCName }?,
+   attribute text { text },
+   attribute text-align-first { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?,
+   attribute text-width { length },
+   attribute through-score { true-or-false }?,
+   attribute through-score-color { text }?,
+   attribute through-score-style { xsd:NCName }?,
+   attribute through-score-width { length-or-auto }?,
+   attribute underline-score { true-or-false }?,
+   attribute underline-score-color { text }?,
+   attribute underline-score-position { text }?,
+   attribute underline-score-style { xsd:NCName }?,
+   attribute underline-score-width { xsd:NCName }?,
+   attribute vertical-underline-side { xsd:NCName }?
+
+GlyphArea =
+element GlyphArea {
+   GlyphArea.attlist,
+   GlyphArea.model
+}
+
+GlyphArea.model =
+   empty
+
+GlyphArea.attlist =
+   attribute glyph { xsd:integer },
+   attribute glyph-width { xsd:integer },
+         common.properties.attlist,
+   attribute length { xsd:integer }
+
+EmphasisArea =
+  element EmphasisArea {
+   EmphasisArea.attlist,
+   EmphasisArea.model
+}
+
+EmphasisArea.model =
+   empty
+
+EmphasisArea.attlist =
+   attribute color { text },
+   attribute glyph-orientation { xsd:integer }?,
+       common.properties.attlist,
+   attribute kerning-mode { xsd:NCName },
+   attribute script { text },
+   attribute text { text },
+   attribute text-width { length }
+
+InlineArea =
+  element InlineArea {
+   InlineArea.attlist,
+   InlineArea.model
+}
+
+InlineArea.model =
+   (TextArea | LeaderArea | InlineArea | InlineAnchorArea | InlineViewportArea | GraphicViewportArea | RubyArea | BidiOverrideArea)*
+
+InlineArea.attlist =
+   attribute action-type { xsd:NCName }?,
+   attribute annotation-color { text }?,
+   attribute annotation-contents { text }?,
+   attribute annotation-file-attachment { text }?,
+   attribute annotation-font-family { xsd:NCName }?,
+   attribute annotation-font-size { xsd:NMTOKEN }?,
+   attribute annotation-font-style { xsd:NCName }?,
+   attribute annotation-font-weight { xsd:integer }?,
+   attribute annotation-height { xsd:NMTOKEN }?,
+   attribute annotation-icon-name { xsd:NCName }?,
+   attribute annotation-open { true-or-false }?,
+   attribute annotation-position-horizontal { xsd:NMTOKEN }?,
+   attribute annotation-position-vertical { xsd:NMTOKEN }?,
+   attribute annotation-text-align { xsd:NCName }?,
+   attribute annotation-text-color { text }?,
+   attribute annotation-title { xsd:NCName }?,
+   attribute annotation-type { xsd:NCName }?,
+   attribute annotation-width { length-or-auto }?,
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute color { text }?,
+   attribute display-role { xsd:NCName }?,
+   attribute external-destination { text }?,
+   attribute gui-action-type { xsd:NCName }?,
+   attribute id { xsd:NMTOKEN }?,
+   attribute index-class { xsd:NCName }?,
+   attribute index-key { text }?,
+   attribute indicate-destination { true-or-false }?,
+   attribute internal-destination { text }?,
+   common.properties.attlist,
+   attribute is-link { true-or-false }?,
+   attribute is-link-destination { true-or-false }?,
+   attribute keep-with-next { xsd:NCName }?,
+   attribute keep-with-previous { xsd:NCName }?,
+   attribute language { xsd:NCName }?,
+   attribute number-transform { text }?,
+   attribute ref-id { xsd:NCName }?,
+   attribute ref-index-key { text }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute scale-option { xsd:NCName }?,
+   attribute show-destination { xsd:NCName }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?,
+   attribute text-line-color { text }?,
+   attribute text-line-style { xsd:NCName }?,
+   attribute text-line-width { length }?,
+   attribute text-underline-position { text }?
+
+InlineViewportArea =
+  element InlineViewportArea {
+   InlineViewportArea.attlist,
+   InlineViewportArea.model
+}
+
+InlineViewportArea.model =
+   FlowReferenceArea
+
+InlineViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute color { text }?,
+    common.properties.attlist,
+   attribute language { xsd:NCName }?,
+   attribute number-transform { text }?,
+   attribute overflow { xsd:NCName }?,
+   attribute role { xsd:NMTOKEN }?,
+   attribute text-align { xsd:NCName }?,
+   attribute text-align-first { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?,
+   attribute text-transform { xsd:NCName }?
+
+GraphicViewportArea =
+  element GraphicViewportArea {
+   GraphicViewportArea.attlist,
+   GraphicViewportArea.model
+}
+
+GraphicViewportArea.model =
+   GraphicArea
+
+GraphicViewportArea.attlist =
+   attribute background-color { text }?,
+   attribute background-setup { xsd:NCName }?,
+   attribute base-uri { xsd:anyURI }?,
+   attribute display { xsd:NCName }?,
+   attribute display-role { xsd:NCName }?,
+   attribute id { xsd:NMTOKEN }?,
+   attribute index-class { xsd:NCName }?,
+   attribute index-key { text }?,
+    common.properties.attlist,
+   attribute is-link-destination { true-or-false }?,
+   attribute media-play-mode { xsd:integer }?,
+   attribute media-volume { text }?,
+   attribute poster-image { text }?,
+   attribute role { text }?,
+   attribute show-controls { true-or-false }?,
+   attribute text-align { xsd:NCName }?
+
+GraphicArea =
+  element GraphicArea {
+   GraphicArea.attlist,
+   GraphicArea.model
+}
+
+GraphicArea.model =
+   empty
+
+GraphicArea.attlist =
+   attribute base-uri { xsd:anyURI }?,
+   attribute color { text },
+   attribute content-type { xsd:anyURI }?,
+   attribute display-role { xsd:NCName },
+   attribute graphic-image { xsd:anyURI }?,
+   attribute image-smoothing { true-or-false }?,
+   common.properties.attlist,
+   attribute poster-image { text }?,
+   attribute src { text }?
+
+
+LeaderArea =
+  element LeaderArea {
+   LeaderArea.attlist,
+   LeaderArea.model
+}
+
+LeaderArea.model =
+   (TextArea | LeaderArea | InlineArea | InlineViewportArea | GraphicViewportArea)*
+
+LeaderArea.attlist =
+   attribute color { text },
+   common.properties.attlist,
+   attribute leader-alignment { xsd:NCName },
+   attribute leader-pattern { 'space' | 'rule' | 'dots' | 'use-content' },
+   attribute rule-style { leader.rule.style }?,
+   attribute rule-thickness { length }?,
+   attribute text-align-first { xsd:NCName }?,
+   attribute text-align-last { xsd:NCName }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?
+
+BidiOverrideArea =
+  element BidiOverrideArea {
+   BidiOverrideArea.attlist,
+   BidiOverrideArea.model
+}
+
+BidiOverrideArea.model =
+   (TextArea | LeaderArea | InlineArea | InlineAnchorArea | InlineViewportArea | GraphicViewportArea | BidiOverrideArea)*
+
+BidiOverrideArea.attlist =
+   attribute bidi-level { text },
+   attribute direction { 'ltr' | 'rtl' },
+   common.properties.attlist,
+   attribute poster-image { text }?,
+   attribute src { text }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?

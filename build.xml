@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AreaTree" basedir="." default="release">
+<description>Antenna House AH Formatter AreaTree XML.</description>
+<!--
+     Copyright 2016 Antenna House, Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+
+<dirname property="AreaTree.basedir" file="${ant.file.AreaTree}"/>
+
+<pathconvert property="AreaTree.basedir.converted" dirsep="/">
+  <path location="${AreaTree.basedir}" />
+  <!-- Ant under cygwin uses a lowercase drive letter, which some Java
+       programs don't recognise as a drive letter, so translate. -->
+  <map from="c:" to="/C:"/>
+  <map from="d:" to="/D:"/>
+  <map from="e:" to="/E:"/>
+</pathconvert>
+
+<pathconvert property="basedir.converted" dirsep="/">
+  <path location="${basedir}" />
+  <!-- Ant under cygwin uses a lowercase drive letter, which some Java
+       programs don't recognise as a drive letter, so translate. -->
+  <map from="c:" to="/C:"/>
+  <map from="d:" to="/D:"/>
+  <map from="e:" to="/E:"/>
+</pathconvert>
+
+<!-- Local file of properties determining or describing local
+     configuration. -->
+<property name="build.local.properties"
+	  location="${basedir.converted}/build.local.properties"/>
+<property file="${build.local.properties}"/>
+
+<!-- XML file of properties determining or describing local
+     configuration. -->
+<property name="build.properties.xml"
+	  location="${fochek.basedir.converted}/properties.xml"/>
+<property file="${build.properties.xml}"/>
+
+<!-- File of properties determining or describing local
+     configuration. -->
+<property name="build.properties"
+	  location="${AreaTree.basedir.converted}/build.properties"/>
+<property file="${build.properties}"/>
+
+<tstamp>
+  <format property="timestamp" pattern="yyyy-MM-dd"/>
+</tstamp>
+
+<!-- Targets -->
+
+<target name="en.zip"
+	description="Make a Zip archive of just the English documentation.">
+  <mkdir dir="${AreaTree.basedir.converted}/releases" />
+  <zip destfile="${AreaTree.basedir.converted}/releases/${ant.project.name}-en-${version}.zip"
+       basedir="${AreaTree.basedir.converted}"
+       excludes="**"
+       update="true">
+    <zipfileset dir="Help/en"
+		includes="**"
+		prefix="${ant.project.name}" />
+  </zip>
+</target>
+
+<target name="ja.zip"
+	description="Make a Zip archive of just the Japanese documentation.">
+  <mkdir dir="${AreaTree.basedir.converted}/releases" />
+  <zip destfile="${AreaTree.basedir.converted}/releases/${ant.project.name}-ja-${version}.zip"
+       basedir="${AreaTree.basedir.converted}"
+       excludes="**"
+       update="true">
+    <zipfileset dir="Help/ja"
+		includes="**"
+		prefix="${ant.project.name}" />
+  </zip>
+</target>
+
+<target name="release" depends="en.zip, ja.zip" />
+
+<!-- Utility targets. -->
+
+<target name="echoproperties">
+  <echoproperties />
+</target>
+
+</project>
