@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html xml:lang="ja" lang="ja" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta http-equiv="content-style-type" content="text/css" />
@@ -8,33 +8,35 @@
 <link rel="stylesheet" href="ahfmain.css" />
 <meta http-equiv="content-script-type" content="text/javascript" />
 <script type="text/javascript" src="ahfmain.js"></script>
-<title>AH Formatter V6.3 - AreaTree</title>
+<title>AH Formatter V6.3 -  エリアツリー</title>
 </head>
 <body onload="init(0)" id="ahf-at-single">
 
 
 <h1 class="chapter" id="AreaTree">
 <img src="img/ico6.png" alt="" class="chapttl single" />
-<span class="index"><!--AreaTree-->AreaTree</span></h1>
+<span class="index"><!--AreaTree-->エリアツリー</span></h1>
 <div class="chapter-body">
 
-<h2 id="introduction" class="section">Introduction</h2>
+<h2 id="introduction" class="section">はじめに</h2>
 <div class="section-body">
 
 
 <p>
-The <b class="product-name">AH Formatter V6.3</b>  AreaTree is created by integrating <a href="http://www.w3.org/TR/xsl/">XSL 1.1</a>  <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> , but it is not intended to completely mimic the samples in Section 4.10 (although they are very similar). 
+
+<b class="product-name">AH Formatter V6.3</b>のエリアツリーは、<a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> の <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> を具現したものであるが、4.10 にあるサンプルを忠実に真似たものではない（非常に似てはいるが）。</p>
+
+<p>
+This specification is provided as-is, without any warranty expressed or implied.</p>
+
+<p>
+エリアツリーのXML表現に関するW3Cによる規定はない。
+ここに示すエリアツリーのXML表現は、<b class="product-name">AH Formatter V6.3</b> が生成するものであり、Antenna House 独自仕様のものである。
 </p>
 
-<p>This specification is provided as-is, without any warranty expressed or implied.
-</p>
-
-<p>The XSL 1.1 Recommendation does not define an XML representation for the AreaTree. The AreaTree XML defined here is an original specification produced by Antenna House for use only with <b class="product-name">AH Formatter V6.3</b>.
-
-</p>
-
-<p>The AreaTree output for "Hello World!" is shown below. As you can see, it contains information about font, color, and paper size (A4).
-
+<p>
+「Hello World!」と出力するだけのエリアツリーは次のようなものである。
+ここには、紙面(A4)上のどこにどのフォントで何色で出力すればよいかなどの情報が含まれているのが見て取れるであろう。
 </p>
 
 <pre>&lt;?xml version="1.0"?&gt;
@@ -84,25 +86,29 @@ The <b class="product-name">AH Formatter V6.3</b>  AreaTree is created by inte
 </div>
 
 <h2 id="area-model" class="section">
-<span class="index"><!--area-model-->Area Model</span>
-</h2>
+<span class="index"><!--area-model-->領域モデル</span></h2>
 <div class="section-body">
 
-<p>The XSL area model (Area Model) represents areas as nested rectangular structures. It is impossible to handle documents that are not represented as nested rectangular structures. However, the nested structure is nested in a logical arrangement and the actual rectangles may be rendered as overlapping each other.
+<p>
+XSLの 領域モデル(Area Model) は、領域(area) を入れ子構造の長方形で表現するモデルである。したがって、入れ子長方形構造で表現できない文書を扱うことはできない。
+ただし、入れ子構造は論理的な構造としての入れ子であり、実際の長方形が重なってレンダリングされることはあり得る。
 
 </p>
 
 <p>
-☞For more details on Area Model, refer to <a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a>.
 
+☞
+領域モデルの詳細については、<a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> の <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> を見よ。
 </p>
 
-<p>Every element, other than the root element, defines an area. Areas are classified into two types: block area and inline area. In the XSL specification, regions are stacked (from top to bottom) in the block-progression-direction. The position of all areas in AreaTree is predetermined so the renderer need not worry about stacking. Although there is no cause for concern whether it is a block-area or an inline-area, the block-progression-direction must be considered. For that reason, it is important to know the exact physical position of the rectangle's sides (edges).
-
+<p>
+ルート要素以外のすべての要素は領域である。領域は、ブロック領域 (block-area) と 行内領域 (inline-area) の２種類に分類することができる。
+また、XSL仕様では、領域はスタックされて、ある進行方向(上から下とか)に積み重ねられるとあるが、エリアツリー中ではすべての領域の位置は決定済みであり、レンダラがスタックを意識する必要はない。
+ブロック領域か行内領域かを意識する必要はあまりないが、進行方向は意識する必要がある。それは、長方形の各辺(edge)の物理的な位置を把握するのに必要である。
 </p>
 
-<p>The rectangular area, as shown in the figure, consists of the Content Rectangle, Padding Rectangle, and Border Rectangle.
-
+<p>
+長方形の領域は、図のように内容長方形(Content Rectangle)、パディング長方形(Padding Rectangle)、境界長方形(Border Rectangle)で構成されている。
 </p>
 
 <pre class="figure">+----------------------------+
@@ -117,29 +123,30 @@ The <b class="product-name">AH Formatter V6.3</b>  AreaTree is created by inte
 +----------------------------+
 </pre>
 
-<p>This figure shows the general horizontal writing style using the block-progression-direction from top to bottom and the inline-progression-direction from left to right. This writing-mode is abbreviated as lr-tb. lr (left to right) is the inline-progression-direction and tb (top to bottom) is the block-progression-direction. The edges are defined as follows:
-
+<p>
+この図で、普通の横書きの文章は、<span class="kw">ブロック進行方向</span>(block-progression-direction) は上から下であり、<span class="kw">行内進行方向</span>(inline-progression-direction) は左から右である。これは、lr-tb と略される。lr が行内進行方向(left to right)であり、 tb がブロック進行方向(top to bottom)である。
+このとき、各辺は次のように定義される。
 </p>
 
 <ul>
-<li>The before edge is the edge appearing first in the block-progression-direction. In lr-tb, this is the top edge.
-</li>
-<li>The after-edge is the edge opposite the before-edge. In lr-tb, this is the bottom edge.
-</li>
-<li>The start-edge is the edge appearing first in the inline-progression-direction. In lr-tb, this is the left edge.
-</li>
-<li>The end-edge is the edge opposite the start-edge. In lr-tb, this is the right edge.
-</li>
+<li>
+前辺(before-edge) は、ブロック進行方向で最初に現れる辺。lr-tb では上の辺。</li>
+<li>
+後辺(after-edge) は、前辺の反対の辺。lr-tb では下の辺。</li>
+<li>
+開始辺(start-edge) は、行内進行方向で最初に現れる辺。lr-tb では左の辺。</li>
+<li>
+終了辺(end-edge) は、開始辺の反対の辺。lr-tb では右の辺。</li>
 </ul>
 
 <p>
-It is possible to rotate the areas. Even so, the definition of a logical sides remains the same. However, when the area rotates, the physical position is also rotated relative to the page edges.
 
+また、領域自身が回転することがあり得る。その場合でも論理的な辺の定義は不変である。しかし、領域自体が回転しているので、紙面に対する物理的な位置も回転している。
 </p>
 
 <p>
-If not, before and start would remain as the absolute positions top and left. Instead, these are mapped according to the progression-direction as follows:
 
+before や start ではなく、top や left など絶対的な位置指定が行なわれることがある。これらは、進行方向によって次のようにマップされる。
 </p>
 
 <table class="std">
@@ -157,34 +164,40 @@ If not, before and start would remain as the absolute positions top and left. In
 </tbody></table>
 
 <p>
-This area is called either a viewport-area or a reference-area. The viewport-area indicates the area included in the area to be rendered. The reference-area has its own coordinate system, and the coordinates of its child areas are relative to the reference area. In the XSL specification, a reference-area is always the child of a viewport-area, but it is not necessarily always so in the AreaTree. In the AreaTree XML representation, ViewportArea lines up behind the viewport-area element name and in ReferenceArea, behind the reference-area element name.
 
+領域には、<span class="kw">表示領域</span>(viewport-area) と呼ばれる領域と <span class="kw">参照領域</span>(reference-area) と呼ばれる領域がある。
+表示領域は、その領域に含まれる領域がレンダリングされるべき領域であることを示している。
+参照領域は、その領域が独自の座標系を持っており、含まれる子領域の座標は参照領域の座標となる。
+XSL仕様によれば、表示領域には参照領域が子として必ず含まれることになっているが、エリアツリーでは必ずしもそうではない。
+エリアツリーのXML表現では、表示領域要素名には ViewportArea が後行し、参照領域要素名には ReferenceArea が後行している。
 </p>
 </div>
 
 
-<h2 id="datatypes" class="section">Datatypes
-</h2>
+<h2 id="datatypes" class="section">
+Datatypes</h2>
 <div class="section-body">
 
 <p>
-&lt;digits&gt; is a string of numbers. It is an integer with no '+' or '-' sign.
 
+&lt;digits&gt; は、数字列である。すなわち符号なし整数。
 </p>
 
 <p>
-&lt;integer&gt; is a (possibly signed) integer.
 
+&lt;integer&gt; は、(符号付きの)整数。
 </p>
 
 <p>
-&lt;number&gt; is a (possibly signed) number. Numeric values may include decimal points. Decimal points are represented by periods, not commas.
 
+&lt;number&gt; は、(符号付きの)数値。
+数値には小数点を含めてよい。小数点はピリオドであり、位取りのコンマなどは含まれない。
 </p>
 
 <p>
-&lt;length&gt;, such as 12pt, has a &lt;number&gt; plus a unit.  The following units are available:
 
+&lt;length&gt; は、12pt のような、単位を持つ &lt;number&gt; である。
+利用できる単位は以下のとおり。
 </p>
 <table class="std">
 <tbody><tr><td>cm</td><td>centimeters</td></tr>
@@ -196,17 +209,17 @@ This area is called either a viewport-area or a reference-area. The viewport-are
 
 </tbody></table>
 <p>
-<b class="product-name">AH Formatter V6.3</b> converts all lengths in the AreaTree to pt. The aim by doing so is to get rid of as many errors as possible because of the font size in pt.
 
+<b class="product-name">AH Formatter V6.3</b>は、すべて pt に換算してエリアツリーを出力する。それには、フォントサイズが pt であることから、誤差をなるべくなくそうという意図がある。
 </p>
 
 <p>
-&lt;percentage&gt; is the percent value plus '%', for example, 75%. As a &lt;number&gt;, this would be written as 0.75.
 
+&lt;percentage&gt; は、75% のような、%付きの値である。 これは、単に 0.75 と &lt;number&gt; を書いたのと等価。
 </p>
 
-<p>&lt;color&gt; has the following formats: Color values are not case-sensitive.
-</p>
+<p>
+&lt;color&gt; は、次のいずれかの形式。値の大文字小文字は無視される。</p>
 <ul>
 <li>#RRGGBB</li>
 <li>transparent</li>
@@ -223,24 +236,22 @@ This area is called either a viewport-area or a reference-area. The viewport-are
 </div>
 
 <h2 id="properties" class="section">
-<span class="index"><!--properties-->Properties</span>
-</h2>
+<span class="index"><!--properties-->プロパティ</span></h2>
 <div class="section-body">
 
 <h3 id="common-properties" class="subsection">
-<span class="index"><!--common-properties-->Common properties</span>
-</h3>
+<span class="index"><!--common-properties-->共通プロパティ</span></h3>
 <div class="subsection-body">
 
 <p>
-These are the properties common to AreaTree elements. Although not all elements necessarily have these properties, many of them do.
 
+エリアツリーの各要素に共通するプロパティを示す。すべての要素がこれらのプロパティを持つわけではないが、多くの要素は持っている。
 </p>
 
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -252,8 +263,8 @@ These are the properties common to AreaTree elements. Although not all elements 
 <td>true | false</td>
 <td>false</td>
 <td rowspan="2">
-Indicates whether the area is the first or last child of its parent area.
-</td>
+
+兄弟中の最初または最後の子であるかどうかを示す。</td>
 </tr>
 <tr>
 <td id="is-last">is-last</td>
@@ -268,8 +279,7 @@ Indicates whether the area is the first or last child of its parent area.
 </td>
 <td>lr-tb</td>
 <td>
-Text, etc., progression-direction.
-</td>
+テキストなどの進行方向。</td>
 </tr>
 
 <tr>
@@ -277,8 +287,8 @@ Text, etc., progression-direction.
 <td>&lt;length&gt;</td>
 <td>-</td>
 <td rowspan="2">
-Size of the content rectangle. width is the length between the start-edge and end-edge; height is the length between the before-edge and after-edge.
-</td>
+
+内容長方形領域の大きさ。width は start辺とend辺の間隔、height は before辺とafter辺の間隔である。</td>
 </tr>
 <tr>
 <td id="height">height</td>
@@ -291,8 +301,9 @@ Size of the content rectangle. width is the length between the start-edge and en
 <td>&lt;length&gt;</td>
 <td>-</td>
 <td rowspan="4">
-Position of the content rectangle within its reference-area. This is the distance from each side of the reference-area. The following figure shows the positions when the writing mode is lr-tb.
 
+参照領域からの内容領域の位置。これは、参照エリアの各辺からの距離である。
+lr-tb の場合は次のようになる。
 <pre class="figure">|--&gt;left-position
 +-------------------+ --
 |                   | ↓
@@ -327,8 +338,9 @@ Position of the content rectangle within its reference-area. This is the distanc
 <td>&lt;length&gt;</td>
 <td>0</td>
 <td rowspan="4">
-The space to be left blank before the area. Many areas do not need to have anything drawn on them. This is because the placement of the area is fixed. Fixed placement of character strings is represented using TextArea.
 
+領域の前に空けるべき間隔。多くの領域の描画では意味がない。なぜならば、領域の位置は決定的である。
+TextArea での文字列の位置決めなどで効果が現れる。
 <pre class="figure">------------------------
                         &lt;--space-before
 +-----------------------
@@ -362,8 +374,8 @@ The space to be left blank before the area. Many areas do not need to have anyth
 <td>&lt;length&gt;</td>
 <td>0</td>
 <td rowspan="6">
-Padding widths.
 
+パディングの幅。
 <pre class="figure">+-----------------------
 | Border Rectangle
 | +---------------------
@@ -405,8 +417,8 @@ Padding widths.
 <td>&lt;length&gt;</td>
 <td>0</td>
 <td rowspan="15">
-Border widths.
 
+境界の幅。
 <pre class="figure">+-----------------------
 | Border Rectangle      &lt;--border-before-width
 | +---------------------
@@ -493,8 +505,8 @@ Border widths.
 <td>&lt;border-style&gt;</td>
 <td>none</td>
 <td rowspan="6">
-Border style. The XSL-FO specification values are based on <a href="http://www.w3.org/TR/REC-CSS2/box.html#border-style-properties">CSS2</a> , but <b class="product-name">AH Formatter V6.3</b> implements some additional values from <a href="http://www.w3.org/TR/2002/WD-css3-border-20021107/">CSS3</a>.
-<br />
+
+境界のスタイル。XSL-FO仕様の値は <a href="http://www.w3.org/TR/REC-CSS2/box.html#border-style-properties">CSS2</a> だが、ここでの値は <a href="http://www.w3.org/TR/2002/WD-css3-border-20021107/">CSS3</a> による。<br />
 <br />none |
 hidden |
 dotted |
@@ -541,8 +553,8 @@ wave
 <td>&lt;color&gt;</td>
 <td>-</td>
 <td rowspan="6">
-Border color.
-</td>
+
+境界の色。</td>
 </tr>
 <tr>
 <td id="border-after-color">border-after-color</td>
@@ -574,8 +586,8 @@ Border color.
 <td id="border-top-left-radius">border-top-left-radius</td>
 <td>&lt;length&gt; &lt;length&gt;?</td>
 <td>0</td>
-<td rowspan="4">Radii of the quarter ellipse that defines the shape of the corner.
- <a href="http://www.w3.org/TR/2012/CR-css3-background-20120724/#the-border-radius">[CSS3-Background] Curve Radii: the ‘border-radius’ properties</a></td>
+<td rowspan="4">
+丸め罫の径を指定します。 <a href="http://www.w3.org/TR/2012/CR-css3-background-20120724/#the-border-radius">[CSS3-Background] Curve Radii: the ‘border-radius’ properties</a></td>
 </tr>
 <tr>
 <td id="border-top-right-radius">border-top-right-radius</td>
@@ -597,7 +609,7 @@ Border color.
 <td id="color">color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>Color.
+<td>
 </td>
 </tr>
 
@@ -606,44 +618,44 @@ Border color.
 <td>&lt;color&gt;</td>
 <td>transparent</td>
 <td>
-Background color.
-</td>
+
+背景の色。</td>
 </tr>
 
 <tr>
 <td id="font-family">font-family</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Family name of a font.
-</td>
+<td>
+フォントファミリ名。</td>
 </tr>
 <tr>
 <td id="font-size">font-size</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>Font size.
-</td>
+<td>
+フォントサイズ。</td>
 </tr>
 <tr>
 <td id="font-weight">font-weight</td>
 <td>100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900</td>
 <td>400</td>
-<td>Font weight.
-</td>
+<td>
+フォントの太さ。</td>
 </tr>
 <tr>
 <td id="font-style">font-style</td>
 <td>normal | italic | oblique | backslant</td>
 <td>normal</td>
-<td>Font style.
-</td>
+<td>
+フォントスタイル。</td>
 </tr>
 <tr>
 <td id="font-stretch">font-stretch</td>
 <td>&lt;number&gt; | &lt;percentage&gt;</td>
 <td>1.0</td>
-<td>Font expansion. (1.0 = 100%)
-</td>
+<td>
+フォントの進行方向への伸張。(1.0 = 100%)</td>
 </tr>
 
 <tr>
@@ -651,8 +663,8 @@ Background color.
 <td>&lt;length&gt;</td>
 <td>-</td>
 <td>
-The portion of the font height that is below the baseline.
-</td>
+
+フォントの高さのうち、ベースラインの下に出る高さ。</td>
 </tr>
 
 <tr>
@@ -660,8 +672,8 @@ The portion of the font height that is below the baseline.
 <td>&lt;length&gt;</td>
 <td>-</td>
 <td>
-Offset from the baseline in the before direction.
-</td>
+
+ベースラインのbefore方向への移動量。</td>
 </tr>
 
 <tr>
@@ -669,20 +681,25 @@ Offset from the baseline in the before direction.
 <td>&lt;number&gt;</td>
 <td>0</td>
 <td>
-Rotation of the reference area. The value is in degrees. reference-orientation="90"  indicates that the area is rotated 90°counterclockwise. <b class="product-name">AH Formatter V6.3</b> only allows a 90° right-angle rotation. Rotation at angles other than right angles is defined as follows:
 
+参照領域の回転。値の単位は度。
+reference-orientation="90" は、90°反時計回りに領域が回転していることを示す。
+<b class="product-name">AH Formatter V6.3</b> は、90°単位の直角な回転だけ許している。
+直角以外の回転に対して、次のように定義する。
 <ul>
-<li>The area position is given to the bound rectangle of the content-area.  That means, top-position, bottom-position, left-position, right-position determine the position of the bound rectangle.
-
+<li>
+領域の位置は、内容領域の外接長方形に対して行なわれる。
+すなわち、top-position、bottom-position、left-position、right-position は、外接長方形の位置を決定する。
 </li>
-<li>The actual content-area has a specified angle for the bound rectangle.
-</li>
-<li>The width and height of the bound rectangle. The same for space-*, padding-*, and border-*-width.
-
+<li>
+実際の内容領域は、指定角度回転した内接長方形である。</li>
+<li>
+widthやheightは、その内接長方形に対するものである。
+space-*、padding-*、border-*-width も同様。
 </li>
 </ul>
-As in the following example, if the content area width is w, the height h, and the rotation angle θ, then the upper left of the figure is the starting point.
-<br />
+
+ここで、内容領域の幅を w、高さを h、回転角を θ、図の左上を原点とした場合、<br />
 <br />
 <pre class="figure"> 0         X
 0+-----+---+
@@ -694,8 +711,8 @@ As in the following example, if the content area width is w, the height h, and t
  |  \ /    |
 Y+---+-----+
 </pre>
-<br />Dimensions of the bounding rectangle:
 <br />
+外接長方形の寸法は、<br />
 <table class="simple">
 <tbody><tr><td><span class="style-tt">X = abs(w*cos(θ))+abs(h*sin(θ))</span></td></tr>
 <tr><td><span class="style-tt">Y = abs(w*sin(θ))+abs(h*cos(θ))</span></td></tr>
@@ -716,8 +733,10 @@ are as above. The starting point moves to the next position.
 <td>&lt;integer&gt;</td>
 <td>-</td>
 <td>
-Controls stacking of areas. Larger values are drawn later. Conforms to <a href="http://www.w3.org/TR/REC-CSS2/visuren.html#propdef-z-index" title="z-index">CSS2</a> . Once the AreaTree is resolved, the renderer may disregard this property.
-</td>
+
+領域の重なり方を規定する。大きい値の方が上に描画される。
+<a href="http://www.w3.org/TR/REC-CSS2/visuren.html#propdef-z-index" title="z-index">CSS2</a> による。
+エリアツリー上では解決されているので、レンダラは無視してよい。</td>
 </tr>
 
 </tbody>
@@ -726,14 +745,13 @@ Controls stacking of areas. Larger values are drawn later. Conforms to <a href="
 </div>
 
 <h3 id="annotation-properties" class="subsection">
-<span class="index"><!--annotation-properties-->Annotation properties</span>
-</h3>
+<span class="index"><!--common-properties-->Annotation properties</span></h3>
 <div class="subsection-body">
 
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -744,8 +762,8 @@ Controls stacking of areas. Larger values are drawn later. Conforms to <a href="
 <td id="annotation-author">annotation-author</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="18">Properties related to <a>Annotation in PDF Output</a>.
-</td>
+<td rowspan="18">
+Properties related to <a>Annotation in PDF Output</a>.</td>
 </tr>
 <tr>
 <td id="annotation-color">annotation-color</td>
@@ -840,23 +858,22 @@ Controls stacking of areas. Larger values are drawn later. Conforms to <a href="
 
 
 <h2 id="elements" class="section">
-<span class="index"><!--elements-->Elements</span>
-</h2>
+<span class="index"><!--elements-->要素</span></h2>
 <div class="section-body">
 
-<h3 id="AreaRoot" class="subsection">AreaRoot
-</h3>
+<h3 id="AreaRoot" class="subsection">
+AreaRoot</h3>
 <div class="subsection-body">
 
 <p>
-Root element.
 
+ルート要素。
 </p>
 
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -867,8 +884,8 @@ Root element.
 <td id="bookmark-tree.child">bookmark-tree.child</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="7">Properties corresponding to XSL 1.1 <a href="http://www.w3.org/TR/xsl11/#d0e14206">Formatting Objects for Bookmarks</a>.
-</td>
+<td rowspan="7">
+Properties corresponding to XSL 1.1 <a href="http://www.w3.org/TR/xsl11/#d0e14206">Formatting Objects for Bookmarks</a>.</td>
 </tr>
 <tr>
 <td id="bookmark-tree.color">bookmark-tree.color</td>
@@ -904,8 +921,8 @@ Root element.
 <td id="color-profile._CMYK">color-profile._CMYK</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="3">Color profile to use when "#CMYK", "#GRAYSCALE", or "#RGB" is used with "rgb-icc()".  See <a>PDF/X</a>.
-</td>
+<td rowspan="3">
+Color profile to use when "#CMYK", "#GRAYSCALE", or "#RGB" is used with "rgb-icc()".  See <a>PDF/X</a>.</td>
 </tr>
 <tr>
 <td id="color-profile._GRAYSCALE">color-profile._GRAYSCALE</td>
@@ -921,8 +938,8 @@ Root element.
 <td id="document-info.author">document-info.author</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="10">Properties corresponding to <a>axf:document-info</a> "name" values.
-</td>
+<td rowspan="10">
+Properties corresponding to <a>axf:document-info</a> "name" values.</td>
 </tr>
 <tr>
 <td id="document-info.author-title">document-info.author-title</td>
@@ -973,23 +990,23 @@ Root element.
 <td id="generator">generator</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Application that produced the AreaTree XML.
-</td>
+<td>
+Application that produced the AreaTree XML.</td>
 </tr>
 <tr>
 <td id="layer-settings">layer-settings</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Corresponds to <a>axf:layer-settings</a>.
-</td>
+<td>
+Corresponds to <a>axf:layer-settings</a>.</td>
 </tr>
 
 <tr>
 <td id="output-volume-info.bookmark-include">output-volume-info.bookmark-include</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="4">Properties corresponding to <a>axf:output-volume-info</a>.
-</td>
+<td rowspan="4">
+Properties corresponding to <a>axf:output-volume-info</a>.</td>
 </tr>
 <tr>
 <td id="output-volume-info.document-info-include">output-volume-info.document-info-include</td>
@@ -1011,15 +1028,15 @@ Root element.
 <td id="version">version</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Indicates the AreaTree XML version.
-</td>
+<td>
+このエリアツリーのバージョンを示す。</td>
 </tr>
 <tr>
 <td id="xmlns">xmlns</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Always use "http://www.antennahouse.com/names/XSL/AreaTree"
-</td>
+<td>
+常に "http://www.antennahouse.com/names/XSL/AreaTree"</td>
 </tr>
 </tbody>
 </table>
@@ -1029,31 +1046,33 @@ Root element.
 </tbody></table>
 </div>
 
-<h3 id="PageViewportArea" class="subsection">PageViewportArea
-</h3>
+<h3 id="PageViewportArea" class="subsection">
+PageViewportArea</h3>
 <div class="subsection-body">
 
-<p>A page within a sequence of pages. 
-</p>
+<p>
+ページ表示領域。
+ページを示し、ページ数分だけ存在する。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#PageReferenceArea">PageReferenceArea</a>, <a href="#FixedViewportArea">FixedViewportArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="PageReferenceArea" class="subsection">PageReferenceArea
-</h3>
+<h3 id="PageReferenceArea" class="subsection">
+PageReferenceArea</h3>
 <div class="subsection-body">
-
+<p>ページ参照領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#RegionViewportArea">RegionViewportArea</a>+|<a href="#PageRegionViewportArea">PageRegionViewportArea</a>+)</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RegionViewportArea" class="subsection">RegionViewportArea
-</h3>
+<h3 id="RegionViewportArea" class="subsection">
+RegionViewportArea</h3>
 <div class="subsection-body">
-<p>In the XSL-FO specification, a page has the following five regions:
-</p>
+<p>
+区画表示領域。
+XSL-FO仕様では、ページは次の５つの区画(region)から成る。</p>
 <pre class="figure">          +-------------------+
           |   region-before   |
           +--+-------------+--+
@@ -1065,39 +1084,42 @@ region-start | region-body | region-end
           +-------------------+
 </pre>
 <p>
-In <b class="product-name">AH Formatter V6.3</b>, the RegionViewportArea represents these regions; the region-body is always present, but the other regions might not be present. The XSL-FO specification defines a sequence for the regions, but <b class="product-name">AH Formatter V6.3</b> allows them to appear in any order.  Consequently, even the order of the RegionViewportArea in AreaTree is not fixed. The AreaTree does not indicate which region produced which RegionViewportArea.
-</p>
+
+<b class="product-name">AH Formatter V6.3</b> では、RegionViewportAreaは、これらの区画に対応しており、region-bodyは必ず存在するが、region-body以外は存在しなくてもよい。
+区画の出現順序は、XSL-FO仕様としての制約はあるが、<b class="product-name">AH Formatter V6.3</b> は出現順序違反を許容している。したがって、AreaTree上でも順序は不定である。
+また、AreaTreeではそれがどの区画か区別はつかない。</p>
 <p>
-The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains at most five RegionViewportArea. However, it is not a problem if the AreaTree contains more than five RegionViewportArea.
-</p>
+
+<b class="product-name">AH Formatter V6.3</b> が出力するエリアツリーには、高々５つのRegionViewportAreaしか存在しない。しかし、エリアツリーとしては、もっと多数存在しても問題はない。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#RegionReferenceArea">RegionReferenceArea</a>, <a href="#SideNoteReferenceArea">SideNoteReferenceArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RegionReferenceArea" class="subsection">RegionReferenceArea
-</h3>
+<h3 id="RegionReferenceArea" class="subsection">
+RegionReferenceArea</h3>
 <div class="subsection-body">
-
+<p>区画参照領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>((<a href="#BlockArea">BlockArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> | <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#TableAndCaptionArea">TableAndCaptionArea</a>)+ | <a href="#MainReferenceArea">MainReferenceArea</a>)?, <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#BeforeFloatReferenceArea">BeforeFloatReferenceArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="MainReferenceArea" class="subsection">MainReferenceArea
-</h3>
+<h3 id="MainReferenceArea" class="subsection">
+MainReferenceArea</h3>
 <div class="subsection-body">
-
+<p>主要参照領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#ColumnReferenceArea">ColumnReferenceArea</a> | <a href="#SpanReferenceArea">SpanReferenceArea</a>)+, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="ColumnReferenceArea" class="subsection">ColumnReferenceArea
-</h3>
+<h3 id="ColumnReferenceArea" class="subsection">
+ColumnReferenceArea</h3>
 <div class="subsection-body">
-<p>When there is more than one column, there is one ColumnReferenceArea for column containing content. If the columns are interrupted by spanning areas, the number of ColumnReferenceArea may be greater than the number of columns.
-</p>
+<p>
+段参照領域。
+１段以上の多段組で、内容の存在する各段に対応する。段抜きがあると、段の数以上にColumnReferenceAreaが存在することがある。</p>
 <pre class="figure">+---------------+---------------+
 | Column        | Column        |
 | ReferenceArea | ReferenceArea |
@@ -1113,37 +1135,38 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 </tbody></table>
 </div>
 
-<h3 id="SpanReferenceArea" class="subsection">SpanReferenceArea
-</h3>
+<h3 id="SpanReferenceArea" class="subsection">
+SpanReferenceArea</h3>
 <div class="subsection-body">
-<p>Represents an area that spans two or more columns in a multi-column layout. Does not exist in single-column layouts.
-</p>
+<p>
+スパン参照領域。
+２段以上の多段組のときの段抜き領域に対応する。１段組のときには存在しない。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#NormalFlowReferenceArea">NormalFlowReferenceArea</a> | <a href="#FlowReferenceArea">FlowReferenceArea</a>), <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#ColumnruleArea">ColumnruleArea</a>?, <a href="#RevisionbarArea">RevisionbarArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="FlowReferenceArea" class="subsection">FlowReferenceArea
-</h3>
+<h3 id="FlowReferenceArea" class="subsection">
+FlowReferenceArea</h3>
 <div class="subsection-body">
-
+<p>浮動参照領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
-<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
  <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
 </tbody></table>
-<p>Within <a href="#RubyContainerArea">RubyContainerArea</a> only:
-</p>
+<p>
+Within <a href="#RubyContainerArea">RubyContainerArea</a> only:</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#RubyBaseArea">RubyBaseArea</a>, <a href="#RubyTextArea">RubyTextArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="NormalFlowReferenceArea" class="subsection">NormalFlowReferenceArea
-</h3>
+<h3 id="NormalFlowReferenceArea" class="subsection">
+NormalFlowReferenceArea</h3>
 <div class="subsection-body">
-
+<p>正規流し込み参照領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
 <a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
@@ -1151,16 +1174,16 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 </tbody></table>
 </div>
 
-<h3 id="BlockArea" class="subsection">BlockArea
-</h3>
+<h3 id="BlockArea" class="subsection">
+BlockArea</h3>
 <div class="subsection-body">
-<p>Block area.
-</p>
+<p>
+ブロック領域。</p>
 
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -1171,8 +1194,8 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 <td id="line-continued-mark">line-continued-mark</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="8">Properties related to <a>Line Continued Mark</a>.
-</td>
+<td rowspan="8">
+Properties related to <a>行継続マーク</a>。</td>
 </tr>
 <tr>
 <td id="line-continued-mark-background-color">line-continued-mark-background-color</td>
@@ -1213,8 +1236,8 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 <td id="line-number">line-number</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="15">Properties related to <a>Line Numbering</a>.
-</td>
+<td rowspan="15">
+Properties related to <a>行番号</a>。</td>
 </tr>
 <tr>
 <td id="line-number-background-color">line-number-background-color</td>
@@ -1302,36 +1325,39 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 </tbody></table>
 </div>
 
-<h3 id="LineArea" class="subsection">LineArea
-</h3>
+<h3 id="LineArea" class="subsection">
+LineArea</h3>
 <div class="subsection-body">
-<p>One line of information. Line-break processing occurs before the AreaTree is produced.
-</p>
+<p>
+行領域。
+１行の情報である。エリアツリー上では、行分割処理は済んでいる。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#BidiOverrideArea">BidiOverrideArea</a> | <a href="#RubyArea">RubyArea</a> | <a href="#FormFieldArea">FormFieldArea</a>)*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="InlineArea" class="subsection">InlineArea
-</h3>
+<h3 id="InlineArea" class="subsection">
+InlineArea</h3>
 <div class="subsection-body">
-<p>An area of a line to which different properties are applied.
-</p>
+<p>
+行内領域。
+文字列の一部に異なるプロパティを持たせるなどして構造化した領域。</p>
 
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#RubyArea">RubyArea</a> | <a href="#FormFieldArea">FormFieldArea</a>)*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TextArea" class="subsection">TextArea
-</h3>
+<h3 id="TextArea" class="subsection">
+TextArea</h3>
 <div class="subsection-body">
-<p>A sequence of characters that all have the same traits.
-</p>
+<p>
+文字列領域。
+同一のTextArea中のテキストは、同一の特性を持つ文字の集まりである。</p>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -1342,78 +1368,78 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 <td id="text">text</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Original text.
-</td>
+<td>
+元テキスト。</td>
 </tr>
 <tr>
 <td id="finished-text">finished-text</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>A string in the reverse order of the writing direction from the original text. It may contain ligatures and substituted glyphs.  If this property is present, its text is rendered instead of the original text. 
-</td>
+<td>
+元テキストに対して、リガチャやグリフ置換などを行ない、書字方向によっては逆順にした文字列。このプロパティがあるときは、textに代わってレンダリングに用いる。</td>
 </tr>
 <tr>
 <td id="script">script</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Text script. Values defined by ISO 15924.
-</td>
+<td>
+テキストのスクリプト。値は、ISO15924 による。</td>
 </tr>
 <tr>
 <td id="text-width">text-width</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>Width of the text.
-</td>
+<td>
+テキストの幅。</td>
 </tr>
 <tr>
 <td id="underline-score">underline-score</td>
 <td>true | false</td>
 <td>false</td>
-<td>Whether the text has an underscore.
-</td>
+<td>
+下線。</td>
 </tr>
 <tr>
 <td id="underline-score-color">underline-score-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>Color of the underscore.
-</td>
+<td>
+下線の色。</td>
 </tr>
 <tr>
 <td id="overline-score">overline-score</td>
 <td>true | false</td>
 <td>false</td>
-<td>Whether the text has an overscore.
-</td>
+<td>
+上線。</td>
 </tr>
 <tr>
 <td id="overline-score-color">overline-score-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>Color of the overscore.
-</td>
+<td>
+上線の色。</td>
 </tr>
 <tr>
 <td id="through-score">through-score</td>
 <td>true | false</td>
 <td>false</td>
-<td>Whether the text is scored through.
-</td>
+<td>
+取消し線。</td>
 </tr>
 <tr>
 <td id="through-score-color">through-score-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>Color of the through-score.
-</td>
+<td>
+取消し線の色。</td>
 </tr>
 <tr>
 <td id="blink">blink</td>
 <td>true | false</td>
 <td>false</td>
-<td>Whether the text should blink.
-</td>
+<td>
+点滅。</td>
 </tr>
 </tbody>
 </table>
@@ -1423,15 +1449,19 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 </tbody></table>
 </div>
 
-<h3 id="GlyphArea" class="subsection">GlyphArea
-</h3>
+<h3 id="GlyphArea" class="subsection">
+GlyphArea</h3>
 <div class="subsection-body">
-<p>Lists glyph information for each character in the text. This is used instead of <a href="#finished-text">finished-text</a> in the <a href="#TextArea">TextArea</a> when rendering. <b class="product-name">AH Formatter V6.3</b> does not output glyph information for all text. It is output only for Arabic, Hebrew, and so on.  Glyph images are always rendered in the inline-progression-direction. The order remains the same for Arabic, etc. In other words, the glyph information for Arabic is arranged in the reverse order to the Arabic text.
-</p>
+<p>
+グリフ領域。
+テキストの各文字に対するグリフ情報が列挙されている。
+レンダリング時に<a href="#TextArea">TextArea</a>の<a href="#finished-text">finished-text</a>の代わりに用いる。
+<b class="product-name">AH Formatter V6.3</b> は、すべてのテキストに対してグリフ情報を出力するわけではない。Arabic や Hebrew などに対してのみ出力する。
+グリフの描画は常に行内進行方向に行なわれる。これは、Arabicなどでも同様である。すなわち、例えばArabicではグリフ情報はアラビア語として逆順に並んでいる。</p>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -1442,44 +1472,45 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 <td id="length">length</td>
 <td>&lt;number&gt;</td>
 <td>-</td>
-<td>Indicates whether this single glyph corresponds to multiple characters in the original text.
-</td>
+<td>
+元テキストに対して、この１グリフが何文字に対応しているのかを示す。</td>
 </tr>
 <tr>
 <td id="glyph">glyph</td>
 <td>&lt;number&gt;</td>
 <td>-</td>
-<td>A specified font glyph ID in the <a href="#TextArea">TextArea</a>.
-</td>
+<td>
+TextAreaで指定されているフォントのグリフID。</td>
 </tr>
 <tr>
 <td id="glyph-width">glyph-width</td>
 <td>&lt;number&gt;</td>
 <td>-</td>
-<td>Width of the glyph, where 2048 corresponds to the font size.
-</td>
+<td>
+グリフ幅。これは、フォントサイズを 2048としたときの値。</td>
 </tr>
 <tr>
 <td id="glyph-pos1">glyph-pos1</td>
 <td>&lt;number&gt;</td>
 <td>0</td>
-<td>Measure of movement before the glyph image. Units are the same as glyph-width.
-</td>
+<td>
+グリフ描画前の移動量。単位は glyph-width と同じ。</td>
 </tr>
 <tr>
 <td id="glyph-pos2">glyph-pos2</td>
 <td>&lt;number&gt;</td>
 <td>glyph-width</td>
-<td>Measure of movement after the glyph image. Units are the same as <a href="#glyph-width">glyph-width</a>. At Normal position, glyph-pos1=0 and glyph-pos2=glyph-width. When this is a negative number, the characters overlap.
-
-</td>
+<td>
+グリフ描画後の移動量。単位は <a href="#glyph-width">glyph-width</a> と同じ。
+通常は、glyph-pos1=0、glyph-pos2=glyph-width である。文字を重ねるときなど、負になることもある。</td>
 </tr>
 <tr>
 <td id="glyph-posy">glyph-posy</td>
 <td>&lt;number&gt;</td>
 <td>0</td>
-<td>Measure of the glyph vertical movement. +(glyph-posy) moves to a point before the glyph image and -(glyph-posy) moves to a point after the image.
-</td>
+<td>
+グリフの上下方向の移動量。
+グリフ描画前に +(glyph-posy) 移動し、描画後に -(glyph-posy) 移動する。</td>
 </tr>
 </tbody>
 </table>
@@ -1489,24 +1520,25 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 </tbody></table>
 </div>
 
-<h3 id="EmphasisArea" class="subsection">EmphasisArea
-</h3>
+<h3 id="EmphasisArea" class="subsection">
+EmphasisArea</h3>
 <div class="subsection-body">
-
+<p> area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>EMPTY</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="LeaderArea" class="subsection">LeaderArea
-</h3>
+<h3 id="LeaderArea" class="subsection">
+LeaderArea</h3>
 <div class="subsection-body">
-<p>Contents are used only when in leader-pattern="use-content" .
-</p>
+<p>
+リーダ領域。
+内容は、leader-pattern="use-content" のときに有効。</p>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -1517,8 +1549,8 @@ The AreaTree output of <b class="product-name">AH Formatter V6.3</b> contains 
 <td id="leader-pattern">leader-pattern</td>
 <td>space | rule | dots | use-content</td>
 <td>-</td>
-<td>Leader pattern.
-</td>
+<td>
+リーダの様式。</td>
 </tr>
 <tr>
 <td id="rule-style">rule-style</td>
@@ -1536,15 +1568,15 @@ double-wave |
 groove |
 ridge</td>
 <td>solid</td>
-<td>Leader style when leader-pattern="rule".
-</td>
+<td>
+leader-pattern="rule" のときのリーダのスタイル。</td>
 </tr>
 <tr>
 <td id="rule-thickness">rule-thickness</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>Leader thickness when leader-pattern="rule".
-</td>
+<td>
+leader-pattern="rule" のときのリーダの太さ。</td>
 </tr>
 </tbody>
 </table>
@@ -1554,15 +1586,17 @@ ridge</td>
 </tbody></table>
 </div>
 
-<h3 id="BidiOverrideArea" class="subsection">BidiOverrideArea
-</h3>
+<h3 id="BidiOverrideArea" class="subsection">
+BidiOverrideArea</h3>
 <div class="subsection-body">
-<p>Contains the result of bidirectional processing. The renderer treats BidiOverrideArea like an <a href="#InlineArea">InlineArea</a>.
-</p>
+<p>
+双方向上書き領域。
+この領域は複雑な双方向処理を行なうために用意される領域であるが、エリアツリー中では双方向処理は済んでいる。
+レンダラは、BidiOverrideAreaを<a href="#InlineArea">InlineArea</a>のように扱ってよい。</p>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -1573,15 +1607,17 @@ ridge</td>
 <td id="direction">direction</td>
 <td>ltr | rtl</td>
 <td>-</td>
-<td>Writing direction. If <a href="#finished-text">finished-text</a> and glyph information are being used, then this property does not affect rendering. 
-</td>
+<td>
+書字方向。
+<a href="#finished-text">finished-text</a>やグリフ情報を用いるならば、このプロパティはレンダリングには必要ない。</td>
 </tr>
 <tr>
 <td id="bidi-level">bidi-level</td>
 <td>&lt;digits&gt;</td>
 <td>-</td>
-<td>Bi-directionality level. Please refer to  <a href="http://www.unicode.org/reports/tr9/">UAX9</a> for more details. This property does not affect rendering.
-</td>
+<td>
+双方向レベル。詳しくは <a href="http://www.unicode.org/reports/tr9/">UAX9</a> を見よ。
+このプロパティはレンダリングには必要ない。</td>
 </tr>
 </tbody>
 </table>
@@ -1591,150 +1627,154 @@ ridge</td>
 </tbody></table>
 </div>
 
-<h3 id="BeforeFloatReferenceArea" class="subsection">BeforeFloatReferenceArea
-</h3>
+<h3 id="BeforeFloatReferenceArea" class="subsection">
+BeforeFloatReferenceArea</h3>
 <div class="subsection-body">
-<p>Reference area for areas floated to the top of the page.
-</p>
+<p>
+前浮動参照領域。
+ページ頭に置くような柱などのための領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#BeforeFloatArea">BeforeFloatArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="BeforeFloatArea" class="subsection">BeforeFloatArea
-</h3>
+<h3 id="BeforeFloatArea" class="subsection">
+BeforeFloatArea</h3>
 <div class="subsection-body">
-
+<p>前浮動領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="FootnoteReferenceArea" class="subsection">FootnoteReferenceArea
-</h3>
+<h3 id="FootnoteReferenceArea" class="subsection">
+FootnoteReferenceArea</h3>
 <div class="subsection-body">
-<p>Area for footnotes placed at the bottom of the page. When putting footnotes at the bottom of the page, they may be placed at the end of each column. In the former, theFootnoteReferenceArea is the child of a <a href="#RegionReferenceArea">RegionReferenceArea</a>, and in the latter, it is the child of a <a href="#ColumnReferenceArea">ColumnReferenceArea</a> or <a href="#SpanReferenceArea">SpanReferenceArea</a>.
-</p>
+<p>
+脚注参照領域。
+ページ末に置くような脚注などのための領域。
+脚注は、ページ末に置く場合と、各段末に置く場合がある。前者ではFootnoteReferenceAreaは<a href="#RegionReferenceArea">RegionReferenceArea</a>の子であり、後者では<a href="#ColumnReferenceArea">ColumnReferenceArea</a>または<a href="#SpanReferenceArea">SpanReferenceArea</a>の子である。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#FootnoteArea">FootnoteArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="FootnoteArea" class="subsection">FootnoteArea
-</h3>
+<h3 id="FootnoteArea" class="subsection">
+FootnoteArea</h3>
 <div class="subsection-body">
-<p>Footnote area.
-</p>
+<p>
+脚注領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>* | <a href="#ListBlockArea">ListBlockArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RubyArea" class="subsection">RubyArea
-</h3>
+<h3 id="RubyArea" class="subsection">
+RubyArea</h3>
 <div class="subsection-body">
-<p>Ruby area.
-</p>
+<p>
+Ruby area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#RubyContainerArea">RubyContainerArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RubyContainerArea" class="subsection">RubyContainerArea
-</h3>
+<h3 id="RubyContainerArea" class="subsection">
+RubyContainerArea</h3>
 <div class="subsection-body">
-
+<p>Ruby container area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RubyBaseArea" class="subsection">RubyBaseArea
-</h3>
+<h3 id="RubyBaseArea" class="subsection">
+RubyBaseArea</h3>
 <div class="subsection-body">
-
+<p>Ruby base area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RubyTextArea" class="subsection">RubyTextArea
-</h3>
+<h3 id="RubyTextArea" class="subsection">
+RubyTextArea</h3>
 <div class="subsection-body">
-
+<p>Ruby text area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="FormFieldArea" class="subsection">FormFieldArea
-</h3>
+<h3 id="FormFieldArea" class="subsection">
+FormFieldArea</h3>
 <div class="subsection-body">
-
+<p>Form field area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>EMPTY</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="FormArea" class="subsection">FormArea
-</h3>
+<h3 id="FormArea" class="subsection">
+FormArea</h3>
 <div class="subsection-body">
-<p>Form area.
-</p>
+<p>
+Form area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="BlockAnchorArea" class="subsection">BlockAnchorArea
-</h3>
+<h3 id="BlockAnchorArea" class="subsection">
+BlockAnchorArea</h3>
 <div class="subsection-body">
-<p>Block containing a footnote anchor. The renderer treats BlockAnchorArea like a <a href="#BlockArea">BlockArea</a>.
-</p>
+<p>
+ブロックアンカ領域。脚注のアンカとなるブロックが含まれている。
+レンダラは、BlockAnchorAreaを<a href="#BlockArea">BlockArea</a>のように扱ってよい。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="InlineAnchorArea" class="subsection">InlineAnchorArea
-</h3>
+<h3 id="InlineAnchorArea" class="subsection">
+InlineAnchorArea</h3>
 <div class="subsection-body">
-<p>Contains footnote anchor text. The renderer treats InlineAnchorArea like an <a href="#InlineArea">InlineArea</a>.
-</p>
+<p>
+行内アンカ領域。脚注のアンカとなるテキストが含まれている。
+レンダラは、InlineAnchorAreaを<a href="#InlineArea">InlineArea</a>のように扱ってよい。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a>)*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="GraphicViewportArea" class="subsection">GraphicViewportArea
-</h3>
+<h3 id="GraphicViewportArea" class="subsection">
+GraphicViewportArea</h3>
 <div class="subsection-body">
-
+<p>画像表示領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#GraphicArea">GraphicArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="GraphicArea" class="subsection">GraphicArea
-</h3>
+<h3 id="GraphicArea" class="subsection">
+GraphicArea</h3>
 <div class="subsection-body">
-<p>A header indicating the type of the graphic may be included before the Base64-encoded graphic.
-</p>
+<p>
+画像領域。画像の種類を直接示す情報は、Base64のヘッダ部分に含まれているか、または含まれていない。</p>
 <pre class="sample-code">graphic-image="data:image/svg+xml;base64,H4sIAAAAAAAAC31S3W7TMBS...
 graphic-image="H4sIAAAAAAAAC31S3W7TMBS...
 </pre>
 <p>
-If the header contains the media type, the image type has been predetermined. If it is not included, then the renderer must determine the image type.
-</p>
+ヘッダ部分にメディアタイプが含まれている場合は、画像種別は決定的である。含まれていない場合は、レンダラは画像種別を判定しなければならない。</p>
 
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">Property</th>
+<th nowrap="nowrap" scope="col">プロパティ</th>
 <th nowrap="nowrap" scope="col">Value</th>
 <th nowrap="nowrap" scope="col">Default</th>
 <th nowrap="nowrap" scope="col">Description</th>
@@ -1745,24 +1785,24 @@ If the header contains the media type, the image type has been predetermined. If
 <td id="src">src</td>
 <td>&lt;uri-specification&gt;</td>
 <td>-</td>
-<td>The URI of an external image.
-</td>
+<td>
+外部の画像のとき、そのURI。</td>
 </tr>
 <tr>
 <td id="base-uri">base-uri</td>
 <td>&lt;uri-specification&gt;</td>
 <td>-</td>
-<td>Base URI to apply to src.
-</td>
+<td>
+src に適用するベースURI。</td>
 </tr>
 <tr>
 <td id="graphic-image">graphic-image</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>Image data encoded in Base64. When the same original is included in different areas, the data is repeated each time.
+<td>
+画像データを Base64 でエンコードしたもの。元が同一の画像でも、異なる領域に同じ内容のデータが含まれる。
 
-After processing SVG in svgz, the data is transformed to Base64.
-
+SVGはsvgzに加工してからBase64化されている。
 </td>
 </tr>
 </tbody>
@@ -1773,60 +1813,61 @@ After processing SVG in svgz, the data is transformed to Base64.
 </tbody></table>
 </div>
 
-<h3 id="TableAndCaptionArea" class="subsection">TableAndCaptionArea
-</h3>
+<h3 id="TableAndCaptionArea" class="subsection">
+TableAndCaptionArea</h3>
 <div class="subsection-body">
-
+<p>表題付き表領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#TableCaptionViewportArea">TableCaptionViewportArea</a>?, <a href="#TableViewportArea">TableViewportArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableCaptionViewportArea" class="subsection">TableCaptionViewportArea
-</h3>
+<h3 id="TableCaptionViewportArea" class="subsection">
+TableCaptionViewportArea</h3>
 <div class="subsection-body">
-
+<p>表表示領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#TableCaptionArea">TableCaptionArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableCaptionArea" class="subsection">TableCaptionArea
-</h3>
+<h3 id="TableCaptionArea" class="subsection">
+TableCaptionArea</h3>
 <div class="subsection-body">
-
+<p>表題領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableViewportArea" class="subsection">TableViewportArea
-</h3>
+<h3 id="TableViewportArea" class="subsection">
+TableViewportArea</h3>
 <div class="subsection-body">
-
+<p>表表示領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#TableArea">TableArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableArea" class="subsection">TableArea
-</h3>
+<h3 id="TableArea" class="subsection">
+TableArea</h3>
 <div class="subsection-body">
-<p>The W3C table model divides a table into table-header, table-body, and table-footer, but the AreaTree does not preserve the distinction.  <b class="product-name">AH Formatter V6.3</b> resolves how to divide the table across pages or columns and repeats the table's header as necessary.
-</p>
+<p>
+表領域。
+W3Cの表モデルでは、表を table-header、table-body、table-footer に分けているが、エリアツリーでは論理的なそれらの区別はない。ページや段に分割された表のそれぞれに table-header を付けるかどうかなどは解決済みである。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#TableColumnGroupArea">TableColumnGroupArea</a>*, <a href="#TableColumnArea">TableColumnArea</a>*, <a href="#TableRowGroupArea">TableRowGroupArea</a>*, <a href="#TableRowArea">TableRowArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableColumnGroupArea" class="subsection">TableColumnGroupArea
-</h3>
+<h3 id="TableColumnGroupArea" class="subsection">
+TableColumnGroupArea</h3>
 <div class="subsection-body">
-<p>Table column-group area. Holds settings such as background color for groups of columns. <b class="product-name">AH Formatter V6.3</b> does not generate this area.
-</p>
+<p>
+表列グループ領域。列グループに対する背景色などの設定に利用される。現在 <b class="product-name">AH Formatter V6.3</b> ではこの領域は生成されない。</p>
 <table class="std">
 <tr><th>Contents</th><td><a href="#TableColumnArea">TableColumnArea</a>+</td></tr>
 </table>
@@ -1834,39 +1875,39 @@ After processing SVG in svgz, the data is transformed to Base64.
 
 </div>
 
-<h3 id="TableColumnArea" class="subsection">TableColumnArea
-</h3>
+<h3 id="TableColumnArea" class="subsection">
+TableColumnArea</h3>
 <div class="subsection-body">
-<p>Holds settings such as background color that are used when generating rows.
-</p>
+<p>
+表列領域。列に対する背景色などの設定に利用される。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>EMPTY</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableRowGroupArea" class="subsection">TableRowGroupArea
-</h3>
+<h3 id="TableRowGroupArea" class="subsection">
+TableRowGroupArea</h3>
 <div class="subsection-body">
-<p>TableRowGroupArea corresponds to table-header, table-body, and table-footer and holds settings such as background color.
-</p>
+<p>
+表行グループ領域。行グループ(table-header、table-body、table-footer)に対する背景色などの設定に利用される。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>EMPTY</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableRowArea" class="subsection">TableRowArea
-</h3>
+<h3 id="TableRowArea" class="subsection">
+TableRowArea</h3>
 <div class="subsection-body">
-
+<p>表行領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#TableCellArea">TableCellArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="TableCellArea" class="subsection">TableCellArea
-</h3>
+<h3 id="TableCellArea" class="subsection">
+TableCellArea</h3>
 <div class="subsection-body">
-
+<p>表セル領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
 <a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
@@ -1874,29 +1915,29 @@ After processing SVG in svgz, the data is transformed to Base64.
 </tbody></table>
 </div>
 
-<h3 id="ListBlockArea" class="subsection">ListBlockArea
-</h3>
+<h3 id="ListBlockArea" class="subsection">
+ListBlockArea</h3>
 <div class="subsection-body">
-
+<p>リストブロック領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#ListItemArea">ListItemArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="ListItemArea" class="subsection">ListItemArea
-</h3>
+<h3 id="ListItemArea" class="subsection">
+ListItemArea</h3>
 <div class="subsection-body">
-
+<p>リスト項目領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#ListItemLabelArea">ListItemLabelArea</a>?, <a href="#ListItemBodyArea">ListItemBodyArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="ListItemLabelArea" class="subsection">ListItemLabelArea
-</h3>
+<h3 id="ListItemLabelArea" class="subsection">
+ListItemLabelArea</h3>
 <div class="subsection-body">
-
+<p>リスト項目ラベル領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
 <a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
@@ -1904,10 +1945,10 @@ After processing SVG in svgz, the data is transformed to Base64.
 </tbody></table>
 </div>
 
-<h3 id="ListItemBodyArea" class="subsection">ListItemBodyArea
-</h3>
+<h3 id="ListItemBodyArea" class="subsection">
+ListItemBodyArea</h3>
 <div class="subsection-body">
-
+<p>リスト項目本体領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
 <a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
@@ -1915,20 +1956,20 @@ After processing SVG in svgz, the data is transformed to Base64.
 </tbody></table>
 </div>
 
-<h3 id="RelativeFloatArea" class="subsection">RelativeFloatArea
-</h3>
+<h3 id="RelativeFloatArea" class="subsection">
+RelativeFloatArea</h3>
 <div class="subsection-body">
-
+<p>Relative float area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
  <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#TableViewportArea">TableViewportArea</a>)*</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="SideFloatArea" class="subsection">SideFloatArea
-</h3>
+<h3 id="SideFloatArea" class="subsection">
+SideFloatArea</h3>
 <div class="subsection-body">
-
+<p>側浮動体領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
 <a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
@@ -1936,101 +1977,106 @@ After processing SVG in svgz, the data is transformed to Base64.
 </tbody></table>
 </div>
 
-<h3 id="SideNoteReferenceArea" class="subsection">SideNoteReferenceArea
-</h3>
+<h3 id="SideNoteReferenceArea" class="subsection">
+SideNoteReferenceArea</h3>
 <div class="subsection-body">
-
+<p>Side note reference area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#SideNoteArea">SideNoteArea</a>+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="SideNoteArea" class="subsection">SideNoteArea
-</h3>
+<h3 id="SideNoteArea" class="subsection">
+SideNoteArea</h3>
 <div class="subsection-body">
-
+<p>Side note area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
  <a href="#BlockViewportArea">BlockViewportArea</a>)</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="AbsoluteFloatArea" class="subsection">AbsoluteFloatArea
-</h3>
+<h3 id="AbsoluteFloatArea" class="subsection">
+AbsoluteFloatArea</h3>
 <div class="subsection-body">
-
+<p>Absolute float area。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
  <a href="#BlockViewportArea">BlockViewportArea</a>)+</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="BlockViewportArea" class="subsection">BlockViewportArea
-</h3>
+<h3 id="BlockViewportArea" class="subsection">
+BlockViewportArea</h3>
 <div class="subsection-body">
-<p>A viewport area that contains a reference area but that is not absolutely position within its containing reference area. However, since its position in AreaTree is fixed, there is no need to differentiate BlockViewportArea and <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a> from <a href="#FixedViewportArea">FixedViewportArea</a>.
-</p>
+<p>
+ブロック表示領域。
+外側の参照領域と独立な参照領域のための表示領域で、絶対的な位置決めされていない領域。
+しかし、エリアツリー上では位置は確定しているので、BlockViewportAreaと<a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>、<a href="#FixedViewportArea">FixedViewportArea</a>を区別する必要はない。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a> | <a href="#MultiColumnReferenceArea">MultiColumnReferenceArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="AbsoluteViewportArea" class="subsection">AbsoluteViewportArea
-</h3>
+<h3 id="AbsoluteViewportArea" class="subsection">
+AbsoluteViewportArea</h3>
 <div class="subsection-body">
-<p>A viewport area that contains a reference area and that is absolutely positioned within its containing reference area.
-</p>
+<p>
+絶対表示領域。
+外側の参照領域と独立な参照領域のための表示領域で、絶対的な位置決めがされている領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="FixedViewportArea" class="subsection">FixedViewportArea
-</h3>
+<h3 id="FixedViewportArea" class="subsection">
+FixedViewportArea</h3>
 <div class="subsection-body">
-<p>A viewport area whose fixed position on the page does not depend on the position of any other reference area.
-</p>
+<p>
+固定表示領域。
+他の参照領域に依存せず、ページに対して固定的な表示領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="InlineViewportArea" class="subsection">InlineViewportArea
-</h3>
+<h3 id="InlineViewportArea" class="subsection">
+InlineViewportArea</h3>
 <div class="subsection-body">
-<p>A viewport area within an inline area.
-</p>
+<p>
+行内表示領域。
+行進行方向内の独立な参照領域のための表示領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
 </td></tr>
 </tbody></table>
 </div>
 
-<h3 id="ColumnruleArea" class="subsection">ColumnruleArea
-</h3>
+<h3 id="ColumnruleArea" class="subsection">
+ColumnruleArea</h3>
 <div class="subsection-body">
-
+<p>段間罫領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>EMPTY</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="RevisionbarArea" class="subsection">RevisionbarArea
-</h3>
+<h3 id="RevisionbarArea" class="subsection">
+RevisionbarArea</h3>
 <div class="subsection-body">
-
+<p>改訂バー領域。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>EMPTY</td></tr>
 </tbody></table>
 </div>
 
-<h3 id="MultiColumnReferenceArea" class="subsection">MultiColumnReferenceArea
-</h3>
+<h3 id="MultiColumnReferenceArea" class="subsection">
+MultiColumnReferenceArea</h3>
 <div class="subsection-body">
-
+<p>Multi-column reference area</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#ColumnReferenceArea">ColumnReferenceArea</a> | <a href="#SpanReferenceArea">SpanReferenceArea</a> | <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>)+</td></tr>
 </tbody></table>
@@ -2038,7 +2084,7 @@ After processing SVG in svgz, the data is transformed to Base64.
 
 </div>
 
-<h2 id="license" class="section">License</h2>
+<h2 id="license" class="section">ライセンス</h2>
 <div class="section-body">
     
     <p>Copyright 2016 Antenna House, Inc.</p>
@@ -2060,7 +2106,7 @@ After processing SVG in svgz, the data is transformed to Base64.
 
 <hr />
 <div align="center" class="copyright">
-<address>Copyright © 1999-2016<a href="http://www.antennahouse.com/"> Antenna House, Inc.</a> All rights reserved.<br />Antenna House is a trademark of Antenna House, Inc.</address>
+<address>Copyright © 1999-2016<a href="http://www.antenna.co.jp/AHF/"> Antenna House, Inc.</a> All rights reserved.<br />Antenna House is a trademark of Antenna House, Inc.</address>
 </div>
 <hr />
 </body>
