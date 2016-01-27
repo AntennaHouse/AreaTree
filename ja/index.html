@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="ja" lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<link rev="made" href="mailto:xml-info@antenna.co.jp" />
+<link rel="stylesheet" href="ahfmain.css" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<script type="text/javascript" src="ahfmain.js"></script>
+<title>AH Formatter V6.3 -  エリアツリー</title>
+</head>
+<body onload="init(0)" id="ahf-at-single">
+
+
+<h1 class="chapter" id="AreaTree">
+<img src="img/ico6.png" alt="" class="chapttl single" />
+<span class="index"><!--AreaTree-->エリアツリー</span></h1>
+<div class="chapter-body">
+
+<h2 id="introduction" class="section">はじめに</h2>
+<div class="section-body">
+
+
+<p>
+
+<b class="product-name">AH Formatter V6.3</b>のエリアツリーは、<a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> の <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> を具現したものであるが、4.10 にあるサンプルを忠実に真似たものではない（非常に似てはいるが）。</p>
+
+<p>
+This specification is provided as-is, without any warranty expressed or implied.</p>
+
+<p>
+エリアツリーのXML表現に関するW3Cによる規定はない。
+ここに示すエリアツリーのXML表現は、<b class="product-name">AH Formatter V6.3</b> が生成するものであり、Antenna House 独自仕様のものである。
+</p>
+
+<p>
+「Hello World!」と出力するだけのエリアツリーは次のようなものである。
+ここには、紙面(A4)上のどこにどのフォントで何色で出力すればよいかなどの情報が含まれているのが見て取れるであろう。
+</p>
+
+<pre>&lt;?xml version="1.0"?&gt;
+&lt;AreaRoot is-first="true" is-last="true" version="602.2"
+    xmlns="http://www.antennahouse.com/names/XSL/AreaTree"&gt;
+    &lt;PageViewportArea output-volume-break="false" is-first="true" is-last="true"
+        width="595.276pt" height="841.89pt" abs-page-number="1" page-number="1" format="1"&gt;
+        &lt;PageReferenceArea is-first="true" is-last="true" width="595.276pt" height="841.89pt"
+            display-role="block"&gt;
+            &lt;RegionViewportArea is-first="true" is-last="true" width="595.276pt"
+                height="841.89pt" region-name="xsl-region-body"&gt;
+                &lt;RegionReferenceArea is-first="true" is-last="true" width="595.276pt"
+                    height="841.89pt" display-role="block"&gt;
+                    &lt;MainReferenceArea is-first="true" is-last="true" width="595.276pt"
+                        height="841.89pt"&gt;
+                        &lt;ColumnReferenceArea is-first="true" is-last="true" width="595.276pt"
+                            height="841.89pt"&gt;
+                            &lt;NormalFlowReferenceArea is-first="true" is-last="true"
+                                width="595.276pt" height="841.89pt"&gt;
+                                &lt;BlockArea is-first="true" is-last="true"
+                                    bottom-position="829.89pt" width="595.276pt" height="12pt"&gt;
+                                    &lt;LineArea is-first="true" is-last="true"
+                                        top-position="1pt" bottom-position="830.89pt"
+                                        width="595.276pt" height="10pt"
+                                        baseline-after="2.16309pt" space-before="1pt"
+                                        space-after="1pt"&gt;
+                                        &lt;TextArea color="#000000" is-first="true"
+                                            is-last="true" top-position="1pt"
+                                            bottom-position="830.89pt"
+                                            right-position="542.483pt" width="52.793pt"
+                                            height="10pt" baseline-after="2.16309pt"
+                                            script="Latn" font-size="10pt"
+                                            font-family="Times New Roman"
+                                            text-width="52.793pt" text="Hello World!"
+                                            kerning-mode="pair" /&gt;
+                                    &lt;/LineArea&gt;
+                                &lt;/BlockArea&gt;
+                            &lt;/NormalFlowReferenceArea&gt;
+                        &lt;/ColumnReferenceArea&gt;
+                    &lt;/MainReferenceArea&gt;
+                &lt;/RegionReferenceArea&gt;
+            &lt;/RegionViewportArea&gt;
+        &lt;/PageReferenceArea&gt;
+    &lt;/PageViewportArea&gt;
+&lt;/AreaRoot&gt;
+</pre>
+</div>
+
+<h2 id="area-model" class="section">
+<span class="index"><!--area-model-->領域モデル</span></h2>
+<div class="section-body">
+
+<p>
+XSLの 領域モデル(Area Model) は、領域(area) を入れ子構造の長方形で表現するモデルである。したがって、入れ子長方形構造で表現できない文書を扱うことはできない。
+ただし、入れ子構造は論理的な構造としての入れ子であり、実際の長方形が重なってレンダリングされることはあり得る。
+
+</p>
+
+<p>
+
+☞
+領域モデルの詳細については、<a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> の <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> を見よ。
+</p>
+
+<p>
+ルート要素以外のすべての要素は領域である。領域は、ブロック領域 (block-area) と 行内領域 (inline-area) の２種類に分類することができる。
+また、XSL仕様では、領域はスタックされて、ある進行方向(上から下とか)に積み重ねられるとあるが、エリアツリー中ではすべての領域の位置は決定済みであり、レンダラがスタックを意識する必要はない。
+ブロック領域か行内領域かを意識する必要はあまりないが、進行方向は意識する必要がある。それは、長方形の各辺(edge)の物理的な位置を把握するのに必要である。
+</p>
+
+<p>
+長方形の領域は、図のように内容長方形(Content Rectangle)、パディング長方形(Padding Rectangle)、境界長方形(Border Rectangle)で構成されている。
+</p>
+
+<pre class="figure">+----------------------------+
+| Border Rectangle           |
+| +------------------------+ |
+| | Padding Rectangle      | |
+| | +--------------------+ | |
+| | | Content Rectangle  | | |
+| | |                    | | |
+| | +--------------------+ | |
+| +------------------------+ |
++----------------------------+
+</pre>
+
+<p>
+この図で、普通の横書きの文章は、<span class="kw">ブロック進行方向</span>(block-progression-direction) は上から下であり、<span class="kw">行内進行方向</span>(inline-progression-direction) は左から右である。これは、lr-tb と略される。lr が行内進行方向(left to right)であり、 tb がブロック進行方向(top to bottom)である。
+このとき、各辺は次のように定義される。
+</p>
+
+<ul>
+<li>
+前辺(before-edge) は、ブロック進行方向で最初に現れる辺。lr-tb では上の辺。</li>
+<li>
+後辺(after-edge) は、前辺の反対の辺。lr-tb では下の辺。</li>
+<li>
+開始辺(start-edge) は、行内進行方向で最初に現れる辺。lr-tb では左の辺。</li>
+<li>
+終了辺(end-edge) は、開始辺の反対の辺。lr-tb では右の辺。</li>
+</ul>
+
+<p>
+
+また、領域自身が回転することがあり得る。その場合でも論理的な辺の定義は不変である。しかし、領域自体が回転しているので、紙面に対する物理的な位置も回転している。
+</p>
+
+<p>
+
+before や start ではなく、top や left など絶対的な位置指定が行なわれることがある。これらは、進行方向によって次のようにマップされる。
+</p>
+
+<table class="std">
+<col align="center" />
+<col align="center" span="4" />
+<tbody><tr><th></th><th>top</th><th>bottom</th><th>left</th><th>right</th></tr>
+<tr><th>lr-tb</th><td>before</td><td>after</td><td>start</td><td>end</td></tr>
+<tr><th>lr-bt</th><td>after</td><td>before</td><td>start</td><td>end</td></tr>
+<tr><th>rl-tb</th><td>before</td><td>after</td><td>end</td><td>start</td></tr>
+<tr><th>rl-bt</th><td>after</td><td>before</td><td>end</td><td>start</td></tr>
+<tr><th>tb-lr</th><td>start</td><td>end</td><td>before</td><td>after</td></tr>
+<tr><th>tb-rl</th><td>start</td><td>end</td><td>after</td><td>before</td></tr>
+<tr><th>bt-lr</th><td>end</td><td>start</td><td>before</td><td>after</td></tr>
+<tr><th>bt-rl</th><td>end</td><td>start</td><td>after</td><td>before</td></tr>
+</tbody></table>
+
+<p>
+
+領域には、<span class="kw">表示領域</span>(viewport-area) と呼ばれる領域と <span class="kw">参照領域</span>(reference-area) と呼ばれる領域がある。
+表示領域は、その領域に含まれる領域がレンダリングされるべき領域であることを示している。
+参照領域は、その領域が独自の座標系を持っており、含まれる子領域の座標は参照領域の座標となる。
+XSL仕様によれば、表示領域には参照領域が子として必ず含まれることになっているが、エリアツリーでは必ずしもそうではない。
+エリアツリーのXML表現では、表示領域要素名には ViewportArea が後行し、参照領域要素名には ReferenceArea が後行している。
+</p>
+</div>
+
+
+<h2 id="datatypes" class="section">
+Datatypes</h2>
+<div class="section-body">
+
+<p>
+
+&lt;digits&gt; は、数字列である。すなわち符号なし整数。
+</p>
+
+<p>
+
+&lt;integer&gt; は、(符号付きの)整数。
+</p>
+
+<p>
+
+&lt;number&gt; は、(符号付きの)数値。
+数値には小数点を含めてよい。小数点はピリオドであり、位取りのコンマなどは含まれない。
+</p>
+
+<p>
+
+&lt;length&gt; は、12pt のような、単位を持つ &lt;number&gt; である。
+利用できる単位は以下のとおり。
+</p>
+<table class="std">
+<tbody><tr><td>cm</td><td>centimeters</td></tr>
+<tr><td>mm</td><td>millimeters</td></tr>
+<tr><td>in</td><td>2.54cm</td></tr>
+<tr><td>pt</td><td>1/72in</td></tr>
+<tr><td>pc</td><td>12pt</td></tr>
+
+
+</tbody></table>
+<p>
+
+<b class="product-name">AH Formatter V6.3</b>は、すべて pt に換算してエリアツリーを出力する。それには、フォントサイズが pt であることから、誤差をなるべくなくそうという意図がある。
+</p>
+
+<p>
+
+&lt;percentage&gt; は、75% のような、%付きの値である。 これは、単に 0.75 と &lt;number&gt; を書いたのと等価。
+</p>
+
+<p>
+&lt;color&gt; は、次のいずれかの形式。値の大文字小文字は無視される。</p>
+<ul>
+<li>#RRGGBB</li>
+<li>transparent</li>
+<li>rgb(&lt;R&gt;,&lt;G&gt;,&lt;B&gt;)</li>
+<li>rgb-icc(&lt;R&gt;,&lt;G&gt;,&lt;B&gt;,#GRAYSCALE,&lt;S&gt;)</li>
+<li>rgb-icc(&lt;R&gt;,&lt;G&gt;,&lt;B&gt;,#CMYK,&lt;C&gt;,&lt;M&gt;,&lt;Y&gt;,&lt;K&gt;)</li>
+</ul>
+<table class="std">
+<tbody><tr><td>&lt;R&gt;,&lt;G&gt;,&lt;B&gt;</td><td>0–255</td></tr>
+<tr><td>&lt;S&gt;</td><td>0.0(black)–1.0(white)</td></tr>
+<tr><td>&lt;C&gt;,&lt;M&gt;,&lt;Y&gt;,&lt;K&gt;</td><td>0.0–1.0</td></tr>
+</tbody></table>
+
+</div>
+
+<h2 id="properties" class="section">
+<span class="index"><!--properties-->プロパティ</span></h2>
+<div class="section-body">
+
+<h3 id="common-properties" class="subsection">
+<span class="index"><!--common-properties-->共通プロパティ</span></h3>
+<div class="subsection-body">
+
+<p>
+
+エリアツリーの各要素に共通するプロパティを示す。すべての要素がこれらのプロパティを持つわけではないが、多くの要素は持っている。
+</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="is-first">is-first</td>
+<td>true | false</td>
+<td>false</td>
+<td rowspan="2">
+
+兄弟中の最初または最後の子であるかどうかを示す。</td>
+</tr>
+<tr>
+<td id="is-last">is-last</td>
+<td>true | false</td>
+<td>false</td>
+</tr>
+
+<tr>
+<td id="writing-mode">writing-mode</td>
+<td>lr-tb | rl-tb | tb-rl | lr-bt | rl-bt | tb-lr | bt-rl | br-lr
+
+</td>
+<td>lr-tb</td>
+<td>
+テキストなどの進行方向。</td>
+</tr>
+
+<tr>
+<td id="width">width</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td rowspan="2">
+
+内容長方形領域の大きさ。width は start辺とend辺の間隔、height は before辺とafter辺の間隔である。</td>
+</tr>
+<tr>
+<td id="height">height</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="top-position">top-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td rowspan="4">
+
+参照領域からの内容領域の位置。これは、参照エリアの各辺からの距離である。
+lr-tb の場合は次のようになる。
+<pre class="figure">|--&gt;left-position
++-------------------+ --
+|                   | ↓
+|   +-----------+   | top-position
+|   | Content   |   |
+|   | Rectangle |   |
+|   +-----------+   | bottom-position
+|                   | ↑
++-------------------+ --
+   right-position&lt;--|
+</pre>
+</td>
+</tr>
+<tr>
+<td id="bottom-position">bottom-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="left-position">left-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="right-position">right-position</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="space-before">space-before</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+<td rowspan="4">
+
+領域の前に空けるべき間隔。多くの領域の描画では意味がない。なぜならば、領域の位置は決定的である。
+TextArea での文字列の位置決めなどで効果が現れる。
+<pre class="figure">------------------------
+                        &lt;--space-before
++-----------------------
+| Border Rectangle
+| +---------------------
+| | Padding Rectangle
+| | +-------------------
+| | | Content Rectangle
+| | |
+</pre>
+</td>
+</tr>
+<tr>
+<td id="space-after">space-after</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="space-start">space-start</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="space-end">space-end</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="padding-before">padding-before</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+<td rowspan="6">
+
+パディングの幅。
+<pre class="figure">+-----------------------
+| Border Rectangle
+| +---------------------
+| | Padding Rectangle   &lt;--padding-before
+| | +-------------------
+| | | Content Rectangle
+| | |
+</pre>
+</td>
+</tr>
+<tr>
+<td id="padding-before.conditionality">padding-before.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="padding-before.length">padding-before.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="padding-after">padding-after</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="padding-start">padding-start</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="padding-end">padding-end</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="border-before-width">border-before-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+<td rowspan="15">
+
+境界の幅。
+<pre class="figure">+-----------------------
+| Border Rectangle      &lt;--border-before-width
+| +---------------------
+| | Padding Rectangle
+| | +-------------------
+| | | Content Rectangle
+| | |
+</pre>
+</td>
+</tr>
+<tr>
+<td id="border-before-width.length">border-before-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-before-width.conditionality">border-before-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-after-width">border-after-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-after-width.length">border-after-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-after-width.conditionality">border-after-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-start-width">border-start-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-start-width.length">border-start-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-start-width.conditionality">border-start-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-end-width">border-end-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-end-width.length">border-end-width.length</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-end-width.conditionality">border-end-width.conditionality</td>
+<td>discard | retain</td>
+<td>discard</td>
+</tr>
+<tr>
+<td id="border-double-thickness">border-double-thickness</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="diagonal-border-width">diagonal-border-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="reverse-diagonal-border-width">reverse-diagonal-border-width</td>
+<td>&lt;length&gt;</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="border-before-style">border-before-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+<td rowspan="6">
+
+境界のスタイル。XSL-FO仕様の値は <a href="http://www.w3.org/TR/REC-CSS2/box.html#border-style-properties">CSS2</a> だが、ここでの値は <a href="http://www.w3.org/TR/2002/WD-css3-border-20021107/">CSS3</a> による。<br />
+<br />none |
+hidden |
+dotted |
+dashed |
+solid |
+double |
+groove |
+ridge |
+dot-dash |
+dot-dot-dash |
+inset |
+outset |
+wave
+</td>
+</tr>
+<tr>
+<td id="border-after-style">border-after-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="border-start-style">border-start-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="border-end-style">border-end-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="diagonal-border-style">diagonal-border-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+<tr>
+<td id="reverse-diagonal-border-style">reverse-diagonal-border-style</td>
+<td>&lt;border-style&gt;</td>
+<td>none</td>
+</tr>
+
+<tr>
+<td id="border-before-color">border-before-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td rowspan="6">
+
+境界の色。</td>
+</tr>
+<tr>
+<td id="border-after-color">border-after-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="border-start-color">border-start-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="border-end-color">border-end-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="diagonal-border-color">diagonal-border-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="reverse-diagonal-border-color">reverse-diagonal-border-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="border-top-left-radius">border-top-left-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+<td rowspan="4">
+丸め罫の径を指定します。 <a href="http://www.w3.org/TR/2012/CR-css3-background-20120724/#the-border-radius">[CSS3-Background] Curve Radii: the ‘border-radius’ properties</a></td>
+</tr>
+<tr>
+<td id="border-top-right-radius">border-top-right-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-bottom-left-radius">border-bottom-left-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+<tr>
+<td id="border-bottom-right-radius">border-bottom-right-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+
+<tr>
+<td id="color">color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>
+</td>
+</tr>
+
+<tr>
+<td id="background-color">background-color</td>
+<td>&lt;color&gt;</td>
+<td>transparent</td>
+<td>
+
+背景の色。</td>
+</tr>
+
+<tr>
+<td id="font-family">font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+フォントファミリ名。</td>
+</tr>
+<tr>
+<td id="font-size">font-size</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+フォントサイズ。</td>
+</tr>
+<tr>
+<td id="font-weight">font-weight</td>
+<td>100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900</td>
+<td>400</td>
+<td>
+フォントの太さ。</td>
+</tr>
+<tr>
+<td id="font-style">font-style</td>
+<td>normal | italic | oblique | backslant</td>
+<td>normal</td>
+<td>
+フォントスタイル。</td>
+</tr>
+<tr>
+<td id="font-stretch">font-stretch</td>
+<td>&lt;number&gt; | &lt;percentage&gt;</td>
+<td>1.0</td>
+<td>
+フォントの進行方向への伸張。(1.0 = 100%)</td>
+</tr>
+
+<tr>
+<td id="baseline-after">baseline-after</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+
+フォントの高さのうち、ベースラインの下に出る高さ。</td>
+</tr>
+
+<tr>
+<td id="baseline-offset">baseline-offset</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+
+ベースラインのbefore方向への移動量。</td>
+</tr>
+
+<tr>
+<td id="reference-orientation">reference-orientation</td>
+<td>&lt;number&gt;</td>
+<td>0</td>
+<td>
+
+参照領域の回転。値の単位は度。
+reference-orientation="90" は、90°反時計回りに領域が回転していることを示す。
+<b class="product-name">AH Formatter V6.3</b> は、90°単位の直角な回転だけ許している。
+直角以外の回転に対して、次のように定義する。
+<ul>
+<li>
+領域の位置は、内容領域の外接長方形に対して行なわれる。
+すなわち、top-position、bottom-position、left-position、right-position は、外接長方形の位置を決定する。
+</li>
+<li>
+実際の内容領域は、指定角度回転した内接長方形である。</li>
+<li>
+widthやheightは、その内接長方形に対するものである。
+space-*、padding-*、border-*-width も同様。
+</li>
+</ul>
+
+ここで、内容領域の幅を w、高さを h、回転角を θ、図の左上を原点とした場合、<br />
+<br />
+<pre class="figure"> 0         X
+0+-----+---+
+ |   θ/ \  |
+ |  /     \|
+ |/        +
+ +        /|
+ |\     /  |
+ |  \ /    |
+Y+---+-----+
+</pre>
+<br />
+外接長方形の寸法は、<br />
+<table class="simple">
+<tbody><tr><td><span class="style-tt">X = abs(w*cos(θ))+abs(h*sin(θ))</span></td></tr>
+<tr><td><span class="style-tt">Y = abs(w*sin(θ))+abs(h*cos(θ))</span></td></tr>
+</tbody></table>
+are as above. The starting point moves to the next position.
+<table class="simple">
+<tbody><tr><td>0–90°</td><td>start-side</td><td><span class="style-tt">(0, w*sin(θ))</span></td></tr>
+<tr><td>90–180°</td><td>after-side</td><td><span class="style-tt">(w*sin(θ-90), Y)</span></td></tr>
+<tr><td>180–270°</td><td>end-side</td><td><span class="style-tt">(X, h*cos(θ-180))</span></td></tr>
+<tr><td>270–0°</td><td>before-side</td><td><span class="style-tt">(h*cos(θ-270), 0)</span></td></tr>
+</tbody></table>
+
+</td>
+</tr>
+
+<tr>
+<td id="z-index">z-index</td>
+<td>&lt;integer&gt;</td>
+<td>-</td>
+<td>
+
+領域の重なり方を規定する。大きい値の方が上に描画される。
+<a href="http://www.w3.org/TR/REC-CSS2/visuren.html#propdef-z-index" title="z-index">CSS2</a> による。
+エリアツリー上では解決されているので、レンダラは無視してよい。</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+<h3 id="annotation-properties" class="subsection">
+<span class="index"><!--common-properties-->Annotation properties</span></h3>
+<div class="subsection-body">
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="annotation-author">annotation-author</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="18">
+Properties related to <a>Annotation in PDF Output</a>.</td>
+</tr>
+<tr>
+<td id="annotation-color">annotation-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-contents">annotation-contents</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-file-attachment">annotation-file-attachment</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-family">annotation-font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-size">annotation-font-size</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-style">annotation-font-style</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-font-weight">annotation-font-weight</td>
+<td>&lt;font-weight&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-height">annotation-height</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-icon-name">annotation-icon-name</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-open">annotation-open</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-position-horizontal">annotation-position-horizontal</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-position-vertical">annotation-position-vertical</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-text-align">annotation-text-align</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-text-color">annotation-text-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-title">annotation-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-type">annotation-type</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="annotation-width">annotation-width</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+
+<h2 id="elements" class="section">
+<span class="index"><!--elements-->要素</span></h2>
+<div class="section-body">
+
+<h3 id="AreaRoot" class="subsection">
+AreaRoot</h3>
+<div class="subsection-body">
+
+<p>
+
+ルート要素。
+</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="bookmark-tree.child">bookmark-tree.child</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="7">
+Properties corresponding to XSL 1.1 <a href="http://www.w3.org/TR/xsl11/#d0e14206">Formatting Objects for Bookmarks</a>.</td>
+</tr>
+<tr>
+<td id="bookmark-tree.color">bookmark-tree.color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.font-weight">bookmark-tree.font-weight</td>
+<td>normal | bold</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.internal-destination">bookmark-tree.internal-destination</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.next">bookmark-tree.next</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="bookmark-tree.starting-state">bookmark-tree.starting-state</td>
+<td>show | hide</td>
+<td>show</td>
+</tr>
+<tr>
+<td id="bookmark-tree.title">bookmark-tree.title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="color-profile._CMYK">color-profile._CMYK</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="3">
+Color profile to use when "#CMYK", "#GRAYSCALE", or "#RGB" is used with "rgb-icc()".  See <a>PDF/X</a>.</td>
+</tr>
+<tr>
+<td id="color-profile._GRAYSCALE">color-profile._GRAYSCALE</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="color-profile._RGB">color-profile._RGB</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.author">document-info.author</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="10">
+Properties corresponding to <a>axf:document-info</a> "name" values.</td>
+</tr>
+<tr>
+<td id="document-info.author-title">document-info.author-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.copyright-info-url">document-info.copyright-info-url</td>
+<td>&lt;anyURI&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.copyright-notice">document-info.copyright-notice</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.copyright-status">document-info.copyright-status</td>
+<td>Unknown | Copyrighted | PublicDomain</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.description-writer">document-info.description-writer</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.document-title">document-info.document-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.keywords">document-info.keywords</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.pagemode">document-info.pagemode</td>
+<td>UseNone | UseOutline | UseThumbs | FullScreen | UseOC</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="document-info.subject">document-info.subject</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="generator">generator</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+Application that produced the AreaTree XML.</td>
+</tr>
+<tr>
+<td id="layer-settings">layer-settings</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+Corresponds to <a>axf:layer-settings</a>.</td>
+</tr>
+
+<tr>
+<td id="output-volume-info.bookmark-include">output-volume-info.bookmark-include</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="4">
+Properties corresponding to <a>axf:output-volume-info</a>.</td>
+</tr>
+<tr>
+<td id="output-volume-info.document-info-include">output-volume-info.document-info-include</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="output-volume-info.format">output-volume-info.format</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="output-volume-info.initial-volume-number">output-volume-info.initial-volume-number</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td id="version">version</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+このエリアツリーのバージョンを示す。</td>
+</tr>
+<tr>
+<td id="xmlns">xmlns</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+常に "http://www.antennahouse.com/names/XSL/AreaTree"</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#PageViewportArea">PageViewportArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="PageViewportArea" class="subsection">
+PageViewportArea</h3>
+<div class="subsection-body">
+
+<p>
+ページ表示領域。
+ページを示し、ページ数分だけ存在する。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#PageReferenceArea">PageReferenceArea</a>, <a href="#FixedViewportArea">FixedViewportArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="PageReferenceArea" class="subsection">
+PageReferenceArea</h3>
+<div class="subsection-body">
+<p>ページ参照領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#RegionViewportArea">RegionViewportArea</a>+|<a href="#PageRegionViewportArea">PageRegionViewportArea</a>+)</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RegionViewportArea" class="subsection">
+RegionViewportArea</h3>
+<div class="subsection-body">
+<p>
+区画表示領域。
+XSL-FO仕様では、ページは次の５つの区画(region)から成る。</p>
+<pre class="figure">          +-------------------+
+          |   region-before   |
+          +--+-------------+--+
+          |  |             |  |
+region-start | region-body | region-end
+          |  |             |  |
+          +--+-------------+--+
+          |   region-after    |
+          +-------------------+
+</pre>
+<p>
+
+<b class="product-name">AH Formatter V6.3</b> では、RegionViewportAreaは、これらの区画に対応しており、region-bodyは必ず存在するが、region-body以外は存在しなくてもよい。
+区画の出現順序は、XSL-FO仕様としての制約はあるが、<b class="product-name">AH Formatter V6.3</b> は出現順序違反を許容している。したがって、AreaTree上でも順序は不定である。
+また、AreaTreeではそれがどの区画か区別はつかない。</p>
+<p>
+
+<b class="product-name">AH Formatter V6.3</b> が出力するエリアツリーには、高々５つのRegionViewportAreaしか存在しない。しかし、エリアツリーとしては、もっと多数存在しても問題はない。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#RegionReferenceArea">RegionReferenceArea</a>, <a href="#SideNoteReferenceArea">SideNoteReferenceArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RegionReferenceArea" class="subsection">
+RegionReferenceArea</h3>
+<div class="subsection-body">
+<p>区画参照領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>((<a href="#BlockArea">BlockArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> | <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#TableAndCaptionArea">TableAndCaptionArea</a>)+ | <a href="#MainReferenceArea">MainReferenceArea</a>)?, <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#BeforeFloatReferenceArea">BeforeFloatReferenceArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="MainReferenceArea" class="subsection">
+MainReferenceArea</h3>
+<div class="subsection-body">
+<p>主要参照領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#ColumnReferenceArea">ColumnReferenceArea</a> | <a href="#SpanReferenceArea">SpanReferenceArea</a>)+, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ColumnReferenceArea" class="subsection">
+ColumnReferenceArea</h3>
+<div class="subsection-body">
+<p>
+段参照領域。
+１段以上の多段組で、内容の存在する各段に対応する。段抜きがあると、段の数以上にColumnReferenceAreaが存在することがある。</p>
+<pre class="figure">+---------------+---------------+
+| Column        | Column        |
+| ReferenceArea | ReferenceArea |
++---------------+---------------+
+|       SpanReferenceArea       |
++---------------+---------------+
+| Column        | Column        |
+| ReferenceArea | ReferenceArea |
++---------------+---------------+
+</pre>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#FlowReferenceArea">FlowReferenceArea</a> | <a href="#NormalFlowReferenceArea">NormalFlowReferenceArea</a>), <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*, <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#ColumnruleArea">ColumnruleArea</a>?, <a href="#RevisionbarArea">RevisionbarArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SpanReferenceArea" class="subsection">
+SpanReferenceArea</h3>
+<div class="subsection-body">
+<p>
+スパン参照領域。
+２段以上の多段組のときの段抜き領域に対応する。１段組のときには存在しない。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#NormalFlowReferenceArea">NormalFlowReferenceArea</a> | <a href="#FlowReferenceArea">FlowReferenceArea</a>), <a href="#FootnoteReferenceArea">FootnoteReferenceArea</a>?, <a href="#ColumnruleArea">ColumnruleArea</a>?, <a href="#RevisionbarArea">RevisionbarArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FlowReferenceArea" class="subsection">
+FlowReferenceArea</h3>
+<div class="subsection-body">
+<p>浮動参照領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+<p>
+Within <a href="#RubyContainerArea">RubyContainerArea</a> only:</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#RubyBaseArea">RubyBaseArea</a>, <a href="#RubyTextArea">RubyTextArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="NormalFlowReferenceArea" class="subsection">
+NormalFlowReferenceArea</h3>
+<div class="subsection-body">
+<p>正規流し込み参照領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BlockArea" class="subsection">
+BlockArea</h3>
+<div class="subsection-body">
+<p>
+ブロック領域。</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="line-continued-mark">line-continued-mark</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="8">
+Properties related to <a>行継続マーク</a>。</td>
+</tr>
+<tr>
+<td id="line-continued-mark-background-color">line-continued-mark-background-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-color">line-continued-mark-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-family">line-continued-mark-font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-size">line-continued-mark-font-size</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-style">line-continued-mark-font-style</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-font-weight">line-continued-mark-font-weight</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-continued-mark-offset">line-continued-mark-offset</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number">line-number</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td rowspan="15">
+Properties related to <a>行番号</a>。</td>
+</tr>
+<tr>
+<td id="line-number-background-color">line-number-background-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-color">line-number-color</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-family">line-number-font-family</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-size">line-number-font-size</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-style">line-number-font-style</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-font-weight">line-number-font-weight</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-initial">line-number-initial</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-interval">line-number-interval</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-offset">line-number-offset</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-position">line-number-position</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-reset">line-number-reset</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-start">line-number-start</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-text-align">line-number-text-align</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td id="line-number-text-decoration">line-number-text-decoration</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+      <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+      <a href="#BlockViewportArea">BlockViewportArea</a> |
+      <a href="#FormArea">FormArea</a> |
+      <a href="#LineArea">LineArea</a> |
+      <a href="#TableAndCaptionArea">TableAndCaptionArea</a> |
+      <a href="#TableViewportArea">TableViewportArea</a> |
+      <a href="#ListBlockArea">ListBlockArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="LineArea" class="subsection">
+LineArea</h3>
+<div class="subsection-body">
+<p>
+行領域。
+１行の情報である。エリアツリー上では、行分割処理は済んでいる。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#BidiOverrideArea">BidiOverrideArea</a> | <a href="#RubyArea">RubyArea</a> | <a href="#FormFieldArea">FormFieldArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="InlineArea" class="subsection">
+InlineArea</h3>
+<div class="subsection-body">
+<p>
+行内領域。
+文字列の一部に異なるプロパティを持たせるなどして構造化した領域。</p>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#RubyArea">RubyArea</a> | <a href="#FormFieldArea">FormFieldArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TextArea" class="subsection">
+TextArea</h3>
+<div class="subsection-body">
+<p>
+文字列領域。
+同一のTextArea中のテキストは、同一の特性を持つ文字の集まりである。</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="text">text</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+元テキスト。</td>
+</tr>
+<tr>
+<td id="finished-text">finished-text</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+元テキストに対して、リガチャやグリフ置換などを行ない、書字方向によっては逆順にした文字列。このプロパティがあるときは、textに代わってレンダリングに用いる。</td>
+</tr>
+<tr>
+<td id="script">script</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+テキストのスクリプト。値は、ISO15924 による。</td>
+</tr>
+<tr>
+<td id="text-width">text-width</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+テキストの幅。</td>
+</tr>
+<tr>
+<td id="underline-score">underline-score</td>
+<td>true | false</td>
+<td>false</td>
+<td>
+下線。</td>
+</tr>
+<tr>
+<td id="underline-score-color">underline-score-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>
+下線の色。</td>
+</tr>
+<tr>
+<td id="overline-score">overline-score</td>
+<td>true | false</td>
+<td>false</td>
+<td>
+上線。</td>
+</tr>
+<tr>
+<td id="overline-score-color">overline-score-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>
+上線の色。</td>
+</tr>
+<tr>
+<td id="through-score">through-score</td>
+<td>true | false</td>
+<td>false</td>
+<td>
+取消し線。</td>
+</tr>
+<tr>
+<td id="through-score-color">through-score-color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td>
+取消し線の色。</td>
+</tr>
+<tr>
+<td id="blink">blink</td>
+<td>true | false</td>
+<td>false</td>
+<td>
+点滅。</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#GlyphArea">GlyphArea</a>* | <a href="#EmphasisArea">EmphasisArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="GlyphArea" class="subsection">
+GlyphArea</h3>
+<div class="subsection-body">
+<p>
+グリフ領域。
+テキストの各文字に対するグリフ情報が列挙されている。
+レンダリング時に<a href="#TextArea">TextArea</a>の<a href="#finished-text">finished-text</a>の代わりに用いる。
+<b class="product-name">AH Formatter V6.3</b> は、すべてのテキストに対してグリフ情報を出力するわけではない。Arabic や Hebrew などに対してのみ出力する。
+グリフの描画は常に行内進行方向に行なわれる。これは、Arabicなどでも同様である。すなわち、例えばArabicではグリフ情報はアラビア語として逆順に並んでいる。</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="length">length</td>
+<td>&lt;number&gt;</td>
+<td>-</td>
+<td>
+元テキストに対して、この１グリフが何文字に対応しているのかを示す。</td>
+</tr>
+<tr>
+<td id="glyph">glyph</td>
+<td>&lt;number&gt;</td>
+<td>-</td>
+<td>
+TextAreaで指定されているフォントのグリフID。</td>
+</tr>
+<tr>
+<td id="glyph-width">glyph-width</td>
+<td>&lt;number&gt;</td>
+<td>-</td>
+<td>
+グリフ幅。これは、フォントサイズを 2048としたときの値。</td>
+</tr>
+<tr>
+<td id="glyph-pos1">glyph-pos1</td>
+<td>&lt;number&gt;</td>
+<td>0</td>
+<td>
+グリフ描画前の移動量。単位は glyph-width と同じ。</td>
+</tr>
+<tr>
+<td id="glyph-pos2">glyph-pos2</td>
+<td>&lt;number&gt;</td>
+<td>glyph-width</td>
+<td>
+グリフ描画後の移動量。単位は <a href="#glyph-width">glyph-width</a> と同じ。
+通常は、glyph-pos1=0、glyph-pos2=glyph-width である。文字を重ねるときなど、負になることもある。</td>
+</tr>
+<tr>
+<td id="glyph-posy">glyph-posy</td>
+<td>&lt;number&gt;</td>
+<td>0</td>
+<td>
+グリフの上下方向の移動量。
+グリフ描画前に +(glyph-posy) 移動し、描画後に -(glyph-posy) 移動する。</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="EmphasisArea" class="subsection">
+EmphasisArea</h3>
+<div class="subsection-body">
+<p> area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="LeaderArea" class="subsection">
+LeaderArea</h3>
+<div class="subsection-body">
+<p>
+リーダ領域。
+内容は、leader-pattern="use-content" のときに有効。</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="leader-pattern">leader-pattern</td>
+<td>space | rule | dots | use-content</td>
+<td>-</td>
+<td>
+リーダの様式。</td>
+</tr>
+<tr>
+<td id="rule-style">rule-style</td>
+<td>
+
+none |
+dotted |
+dashed |
+solid |
+double |
+dot-dash |
+dot-dot-dash |
+wave |
+double-wave |
+groove |
+ridge</td>
+<td>solid</td>
+<td>
+leader-pattern="rule" のときのリーダのスタイル。</td>
+</tr>
+<tr>
+<td id="rule-thickness">rule-thickness</td>
+<td>&lt;length&gt;</td>
+<td>-</td>
+<td>
+leader-pattern="rule" のときのリーダの太さ。</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BidiOverrideArea" class="subsection">
+BidiOverrideArea</h3>
+<div class="subsection-body">
+<p>
+双方向上書き領域。
+この領域は複雑な双方向処理を行なうために用意される領域であるが、エリアツリー中では双方向処理は済んでいる。
+レンダラは、BidiOverrideAreaを<a href="#InlineArea">InlineArea</a>のように扱ってよい。</p>
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="direction">direction</td>
+<td>ltr | rtl</td>
+<td>-</td>
+<td>
+書字方向。
+<a href="#finished-text">finished-text</a>やグリフ情報を用いるならば、このプロパティはレンダリングには必要ない。</td>
+</tr>
+<tr>
+<td id="bidi-level">bidi-level</td>
+<td>&lt;digits&gt;</td>
+<td>-</td>
+<td>
+双方向レベル。詳しくは <a href="http://www.unicode.org/reports/tr9/">UAX9</a> を見よ。
+このプロパティはレンダリングには必要ない。</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineAnchorArea">InlineAnchorArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a> | <a href="#BidiOverrideArea">BidiOverrideArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BeforeFloatReferenceArea" class="subsection">
+BeforeFloatReferenceArea</h3>
+<div class="subsection-body">
+<p>
+前浮動参照領域。
+ページ頭に置くような柱などのための領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BeforeFloatArea">BeforeFloatArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BeforeFloatArea" class="subsection">
+BeforeFloatArea</h3>
+<div class="subsection-body">
+<p>前浮動領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FootnoteReferenceArea" class="subsection">
+FootnoteReferenceArea</h3>
+<div class="subsection-body">
+<p>
+脚注参照領域。
+ページ末に置くような脚注などのための領域。
+脚注は、ページ末に置く場合と、各段末に置く場合がある。前者ではFootnoteReferenceAreaは<a href="#RegionReferenceArea">RegionReferenceArea</a>の子であり、後者では<a href="#ColumnReferenceArea">ColumnReferenceArea</a>または<a href="#SpanReferenceArea">SpanReferenceArea</a>の子である。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FootnoteArea">FootnoteArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FootnoteArea" class="subsection">
+FootnoteArea</h3>
+<div class="subsection-body">
+<p>
+脚注領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>* | <a href="#ListBlockArea">ListBlockArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyArea" class="subsection">
+RubyArea</h3>
+<div class="subsection-body">
+<p>
+Ruby area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#RubyContainerArea">RubyContainerArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyContainerArea" class="subsection">
+RubyContainerArea</h3>
+<div class="subsection-body">
+<p>Ruby container area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyBaseArea" class="subsection">
+RubyBaseArea</h3>
+<div class="subsection-body">
+<p>Ruby base area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RubyTextArea" class="subsection">
+RubyTextArea</h3>
+<div class="subsection-body">
+<p>Ruby text area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FormFieldArea" class="subsection">
+FormFieldArea</h3>
+<div class="subsection-body">
+<p>Form field area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FormArea" class="subsection">
+FormArea</h3>
+<div class="subsection-body">
+<p>
+Form area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BlockAnchorArea" class="subsection">
+BlockAnchorArea</h3>
+<div class="subsection-body">
+<p>
+ブロックアンカ領域。脚注のアンカとなるブロックが含まれている。
+レンダラは、BlockAnchorAreaを<a href="#BlockArea">BlockArea</a>のように扱ってよい。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="InlineAnchorArea" class="subsection">
+InlineAnchorArea</h3>
+<div class="subsection-body">
+<p>
+行内アンカ領域。脚注のアンカとなるテキストが含まれている。
+レンダラは、InlineAnchorAreaを<a href="#InlineArea">InlineArea</a>のように扱ってよい。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="GraphicViewportArea" class="subsection">
+GraphicViewportArea</h3>
+<div class="subsection-body">
+<p>画像表示領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#GraphicArea">GraphicArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="GraphicArea" class="subsection">
+GraphicArea</h3>
+<div class="subsection-body">
+<p>
+画像領域。画像の種類を直接示す情報は、Base64のヘッダ部分に含まれているか、または含まれていない。</p>
+<pre class="sample-code">graphic-image="data:image/svg+xml;base64,H4sIAAAAAAAAC31S3W7TMBS...
+graphic-image="H4sIAAAAAAAAC31S3W7TMBS...
+</pre>
+<p>
+ヘッダ部分にメディアタイプが含まれている場合は、画像種別は決定的である。含まれていない場合は、レンダラは画像種別を判定しなければならない。</p>
+
+<table class="std">
+<thead>
+<tr>
+<th nowrap="nowrap" scope="col">プロパティ</th>
+<th nowrap="nowrap" scope="col">Value</th>
+<th nowrap="nowrap" scope="col">Default</th>
+<th nowrap="nowrap" scope="col">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="src">src</td>
+<td>&lt;uri-specification&gt;</td>
+<td>-</td>
+<td>
+外部の画像のとき、そのURI。</td>
+</tr>
+<tr>
+<td id="base-uri">base-uri</td>
+<td>&lt;uri-specification&gt;</td>
+<td>-</td>
+<td>
+src に適用するベースURI。</td>
+</tr>
+<tr>
+<td id="graphic-image">graphic-image</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td>
+画像データを Base64 でエンコードしたもの。元が同一の画像でも、異なる領域に同じ内容のデータが含まれる。
+
+SVGはsvgzに加工してからBase64化されている。
+</td>
+</tr>
+</tbody>
+</table>
+
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableAndCaptionArea" class="subsection">
+TableAndCaptionArea</h3>
+<div class="subsection-body">
+<p>表題付き表領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableCaptionViewportArea">TableCaptionViewportArea</a>?, <a href="#TableViewportArea">TableViewportArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableCaptionViewportArea" class="subsection">
+TableCaptionViewportArea</h3>
+<div class="subsection-body">
+<p>表表示領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableCaptionArea">TableCaptionArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableCaptionArea" class="subsection">
+TableCaptionArea</h3>
+<div class="subsection-body">
+<p>表題領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#BlockArea">BlockArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableViewportArea" class="subsection">
+TableViewportArea</h3>
+<div class="subsection-body">
+<p>表表示領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableArea">TableArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableArea" class="subsection">
+TableArea</h3>
+<div class="subsection-body">
+<p>
+表領域。
+W3Cの表モデルでは、表を table-header、table-body、table-footer に分けているが、エリアツリーでは論理的なそれらの区別はない。ページや段に分割された表のそれぞれに table-header を付けるかどうかなどは解決済みである。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableColumnGroupArea">TableColumnGroupArea</a>*, <a href="#TableColumnArea">TableColumnArea</a>*, <a href="#TableRowGroupArea">TableRowGroupArea</a>*, <a href="#TableRowArea">TableRowArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableColumnGroupArea" class="subsection">
+TableColumnGroupArea</h3>
+<div class="subsection-body">
+<p>
+表列グループ領域。列グループに対する背景色などの設定に利用される。現在 <b class="product-name">AH Formatter V6.3</b> ではこの領域は生成されない。</p>
+<table class="std">
+<tr><th>Contents</th><td><a href="#TableColumnArea">TableColumnArea</a>+</td></tr>
+</table>
+
+
+</div>
+
+<h3 id="TableColumnArea" class="subsection">
+TableColumnArea</h3>
+<div class="subsection-body">
+<p>
+表列領域。列に対する背景色などの設定に利用される。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableRowGroupArea" class="subsection">
+TableRowGroupArea</h3>
+<div class="subsection-body">
+<p>
+表行グループ領域。行グループ(table-header、table-body、table-footer)に対する背景色などの設定に利用される。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableRowArea" class="subsection">
+TableRowArea</h3>
+<div class="subsection-body">
+<p>表行領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#TableCellArea">TableCellArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="TableCellArea" class="subsection">
+TableCellArea</h3>
+<div class="subsection-body">
+<p>表セル領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#RelativeFloatArea">RelativeFloatArea</a>*, <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListBlockArea" class="subsection">
+ListBlockArea</h3>
+<div class="subsection-body">
+<p>リストブロック領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#ListItemArea">ListItemArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListItemArea" class="subsection">
+ListItemArea</h3>
+<div class="subsection-body">
+<p>リスト項目領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#ListItemLabelArea">ListItemLabelArea</a>?, <a href="#ListItemBodyArea">ListItemBodyArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListItemLabelArea" class="subsection">
+ListItemLabelArea</h3>
+<div class="subsection-body">
+<p>リスト項目ラベル領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ListItemBodyArea" class="subsection">
+ListItemBodyArea</h3>
+<div class="subsection-body">
+<p>リスト項目本体領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)*, <a href="#SideFloatArea">SideFloatArea</a>?, <a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RelativeFloatArea" class="subsection">
+RelativeFloatArea</h3>
+<div class="subsection-body">
+<p>Relative float area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a> | <a href="#TableViewportArea">TableViewportArea</a>)*</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SideFloatArea" class="subsection">
+SideFloatArea</h3>
+<div class="subsection-body">
+<p>側浮動体領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> | <a href="#BlockAnchorArea">BlockAnchorArea</a> |
+<a href="#TableAndCaptionArea">TableAndCaptionArea</a> | <a href="#TableViewportArea">TableViewportArea</a> | <a href="#ListBlockArea">ListBlockArea</a> | <a href="#SideFloatArea">SideFloatArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SideNoteReferenceArea" class="subsection">
+SideNoteReferenceArea</h3>
+<div class="subsection-body">
+<p>Side note reference area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#SideNoteArea">SideNoteArea</a>+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="SideNoteArea" class="subsection">
+SideNoteArea</h3>
+<div class="subsection-body">
+<p>Side note area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="AbsoluteFloatArea" class="subsection">
+AbsoluteFloatArea</h3>
+<div class="subsection-body">
+<p>Absolute float area。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#BlockArea">BlockArea</a> |
+ <a href="#BlockViewportArea">BlockViewportArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="BlockViewportArea" class="subsection">
+BlockViewportArea</h3>
+<div class="subsection-body">
+<p>
+ブロック表示領域。
+外側の参照領域と独立な参照領域のための表示領域で、絶対的な位置決めされていない領域。
+しかし、エリアツリー上では位置は確定しているので、BlockViewportAreaと<a href="#AbsoluteViewportArea">AbsoluteViewportArea</a>、<a href="#FixedViewportArea">FixedViewportArea</a>を区別する必要はない。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a> | <a href="#MultiColumnReferenceArea">MultiColumnReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="AbsoluteViewportArea" class="subsection">
+AbsoluteViewportArea</h3>
+<div class="subsection-body">
+<p>
+絶対表示領域。
+外側の参照領域と独立な参照領域のための表示領域で、絶対的な位置決めがされている領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="FixedViewportArea" class="subsection">
+FixedViewportArea</h3>
+<div class="subsection-body">
+<p>
+固定表示領域。
+他の参照領域に依存せず、ページに対して固定的な表示領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="InlineViewportArea" class="subsection">
+InlineViewportArea</h3>
+<div class="subsection-body">
+<p>
+行内表示領域。
+行進行方向内の独立な参照領域のための表示領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td><a href="#FlowReferenceArea">FlowReferenceArea</a>
+</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="ColumnruleArea" class="subsection">
+ColumnruleArea</h3>
+<div class="subsection-body">
+<p>段間罫領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="RevisionbarArea" class="subsection">
+RevisionbarArea</h3>
+<div class="subsection-body">
+<p>改訂バー領域。</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>EMPTY</td></tr>
+</tbody></table>
+</div>
+
+<h3 id="MultiColumnReferenceArea" class="subsection">
+MultiColumnReferenceArea</h3>
+<div class="subsection-body">
+<p>Multi-column reference area</p>
+<table class="std">
+<tbody><tr><th>Contents</th><td>(<a href="#ColumnReferenceArea">ColumnReferenceArea</a> | <a href="#SpanReferenceArea">SpanReferenceArea</a> | <a href="#AbsoluteFloatArea">AbsoluteFloatArea</a>)+</td></tr>
+</tbody></table>
+</div>
+
+</div>
+
+<h2 id="license" class="section">ライセンス</h2>
+<div class="section-body">
+    
+    <p>Copyright 2016 Antenna House, Inc.</p>
+    
+    <p>Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at</p>
+    
+    <p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+    
+    <p>Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.</p>
+    
+</div>
+</div>
+
+<hr />
+<div align="center" class="copyright">
+<address>Copyright © 1999-2016<a href="http://www.antenna.co.jp/AHF/"> Antenna House, Inc.</a> All rights reserved.<br />Antenna House is a trademark of Antenna House, Inc.</address>
+</div>
+<hr />
+</body>
+</html>
