@@ -80,6 +80,7 @@ common.properties.attlist =
    attribute reverse-diagonal-border-color { text }?,
    attribute reverse-diagonal-border-style { border.style }?,
    attribute reverse-diagonal-border-width { length }?,
+   attribute reverse-page-number { true-or-false }?,
    attribute right-position { xsd:NMTOKEN }?,
    attribute space-after { xsd:NMTOKEN }?,
    attribute space-before { xsd:NMTOKEN }?,
@@ -121,6 +122,7 @@ AreaRoot.attlist =
    attribute document-info.copyright-status { xsd:NCName }?,
    attribute document-info.description-writer { text }?,
    attribute document-info.document-title { text }?,
+   attribute document-info.fitwindow { true-or-false }?,
    attribute document-info.keywords { text }?,
    attribute document-info.pagelayout { xsd:NCName }?,
    attribute document-info.pagemode { xsd:NCName }?,
@@ -128,7 +130,7 @@ AreaRoot.attlist =
    attribute document-info.xmp { text }?,
    attribute id { xsd:NMTOKEN }?,
    attribute is-CSS { true-or-false }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute language { xsd:NCName }?,
    attribute layer-settings { text }?,
    attribute output-volume-info.bookmark-include { xsd:NCName }?,
@@ -175,7 +177,7 @@ PageViewportArea.attlist =
    attribute display-role { xsd:NCName }?,
    attribute format { text },
    attribute id { xsd:NMTOKEN }?,
-      common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute language { xsd:NCName }?,
    attribute output-volume-break { true-or-false }?,
@@ -204,7 +206,7 @@ PageReferenceArea.model =
 PageReferenceArea.attlist =
    attribute display-role { xsd:NCName },
    attribute id { xsd:NMTOKEN }?,
-        common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?
 
 PageRegionViewportArea =
@@ -263,7 +265,7 @@ FlowReferenceArea.model =
 
 FlowReferenceArea.attlist =
    attribute display-role { xsd:NCName }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute text-align { xsd:NCName }?
 
 RegionViewportArea =
@@ -328,7 +330,7 @@ BeforeFloatReferenceArea.model =
    BeforeFloatArea+
 
 BeforeFloatReferenceArea.attlist =
-               common.properties.attlist
+   common.properties.attlist
 
 BeforeFloatArea =
   element BeforeFloatArea {
@@ -340,7 +342,7 @@ BeforeFloatArea.model =
    BlockArea+
 
 BeforeFloatArea.attlist =
-                 common.properties.attlist
+   common.properties.attlist
 
 SideNoteReferenceArea =
   element SideNoteReferenceArea {
@@ -353,7 +355,7 @@ SideNoteReferenceArea.model =
 
 SideNoteReferenceArea.attlist =
    attribute display-role { xsd:NCName },
-            common.properties.attlist
+   common.properties.attlist
 
 SideNoteArea =
   element SideNoteArea {
@@ -365,7 +367,7 @@ SideNoteArea.model =
    (BlockArea | BlockViewportArea)
 
 SideNoteArea.attlist =
-              common.properties.attlist
+   common.properties.attlist
 
 ColumnReferenceArea =
   element ColumnReferenceArea {
@@ -377,7 +379,7 @@ ColumnReferenceArea.model =
    (FlowReferenceArea | NormalFlowReferenceArea), AbsoluteFloatArea*, FootnoteReferenceArea?, ColumnruleArea*, RevisionbarArea*
 
 ColumnReferenceArea.attlist =
-    common.properties.attlist,
+   common.properties.attlist,
    attribute text-align { xsd:NCName }?
 
 TableAndCaptionArea =
@@ -399,7 +401,7 @@ TableAndCaptionArea.attlist =
       xsd:NMTOKEN
     }?,
    attribute id { xsd:NMTOKEN }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute text-align { xsd:NCName }?
 
@@ -413,7 +415,7 @@ TableCaptionViewportArea.model =
    TableCaptionArea
 
 TableCaptionViewportArea.attlist =
-         common.properties.attlist,
+   common.properties.attlist,
    attribute keep-with-next { xsd:NCName },
    attribute text-align { xsd:NCName }?
 
@@ -428,7 +430,7 @@ TableCaptionArea.model =
 
 TableCaptionArea.attlist =
    attribute display-role { xsd:NCName },
-           common.properties.attlist
+   common.properties.attlist
 
 BlockAnchorArea =
   element BlockAnchorArea {
@@ -440,7 +442,7 @@ BlockAnchorArea.model =
    LineArea*
 
 BlockAnchorArea.attlist =
-    common.properties.attlist,
+   common.properties.attlist,
    attribute keep-with-next { xsd:NCName }?
 
 
@@ -451,10 +453,10 @@ RelativeFloatArea =
 }
 
 RelativeFloatArea.model =
-   (BlockArea | BlockViewportArea | TableViewportArea)*
+   (BlockArea | BlockViewportArea | TableAndCaptionArea | TableViewportArea)*
 
 RelativeFloatArea.attlist =
-    common.properties.attlist
+   common.properties.attlist
 
 BlockViewportArea =
   element BlockViewportArea {
@@ -476,7 +478,7 @@ BlockViewportArea.attlist =
    attribute color { text }?,
    attribute graphic-image { xsd:anyURI }?,
    attribute id { xsd:NMTOKEN }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute language { xsd:NCName }?,
    attribute layer { xsd:NCName }?,
@@ -507,7 +509,7 @@ MultiColumnReferenceArea.model =
 
 MultiColumnReferenceArea.attlist =
    attribute display-role { xsd:NCName },
-      common.properties.attlist
+   common.properties.attlist
 
 TableViewportArea =
   element TableViewportArea {
@@ -531,7 +533,7 @@ TableViewportArea.attlist =
     }?,
    attribute external-destination { text }?,
    attribute id { xsd:NMTOKEN }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link { true-or-false }?,
    attribute is-link-destination { true-or-false }?,
    attribute language { xsd:NCName }?,
@@ -557,7 +559,7 @@ TableArea.attlist =
     }?,
    attribute display-role { xsd:NCName },
    attribute id { xsd:NMTOKEN }?,
-      common.properties.attlist,
+   common.properties.attlist,
    attribute language { xsd:NCName }?,
    attribute role { xsd:NMTOKEN }?,
    attribute text-align { xsd:NCName }?
@@ -582,7 +584,7 @@ TableColumnArea.model =
 TableColumnArea.attlist =
    attribute background-color { text },
    attribute background-setup { xsd:NCName },
-        common.properties.attlist,
+   common.properties.attlist,
    attribute text-align { xsd:NCName }
 
 TableRowGroupArea =
@@ -597,7 +599,7 @@ TableRowGroupArea.model =
 TableRowGroupArea.attlist =
    attribute background-color { text },
    attribute background-setup { xsd:NCName },
-        common.properties.attlist
+   common.properties.attlist
 
 TableRowArea =
   element TableRowArea {
@@ -613,7 +615,7 @@ TableRowArea.attlist =
    attribute background-setup { xsd:NCName }?,
    attribute color { text }?,
    attribute id { xsd:NMTOKEN }?,
-        common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute language { xsd:NCName }?,
    attribute role { xsd:NMTOKEN }?,
@@ -636,9 +638,10 @@ TableCellArea.attlist =
    attribute colspan { xsd:integer }?,
    attribute column-number { xsd:integer },
    attribute id { xsd:NMTOKEN }?,
-          common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute language { xsd:NCName }?,
+   attribute repeat-cell-content-at-break { true-or-false }?,
    attribute role { xsd:NMTOKEN }?,
    attribute row-number { xsd:integer },
    attribute rowspan { xsd:integer }?,
@@ -764,13 +767,13 @@ ListBlockArea =
 }
 
 ListBlockArea.model =
-   ListItemArea+
+   ListItemArea*
 
 ListBlockArea.attlist =
    attribute color { text }?,
    attribute id { xsd:NMTOKEN }?,
    attribute internal-destination { text }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link { true-or-false }?,
    attribute is-link-destination { true-or-false }?,
    attribute outline-expand { true-or-false }?,
@@ -789,7 +792,7 @@ ListItemArea.model =
 
 ListItemArea.attlist =
    attribute id { xsd:NMTOKEN }?,
-      common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?
 
 ListItemLabelArea =
@@ -802,7 +805,7 @@ ListItemLabelArea.model =
    (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | SideFloatArea | BlockViewportArea | AbsoluteViewportArea)+
 
 ListItemLabelArea.attlist =
-           common.properties.attlist,
+   common.properties.attlist,
    attribute text-align { xsd:NCName }?
 
 ListItemBodyArea =
@@ -816,7 +819,7 @@ ListItemBodyArea.model =
 
 ListItemBodyArea.attlist =
    attribute id { xsd:NMTOKEN }?,
-         common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute text-align { xsd:NCName }?
 
@@ -839,7 +842,7 @@ AbsoluteViewportArea.attlist =
    attribute base-uri { xsd:anyURI }?,
    attribute color { text }?,
    attribute id { xsd:NMTOKEN }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute layer { xsd:NCName }?,
    attribute overflow { xsd:NCName }?,
@@ -858,7 +861,7 @@ RevisionbarArea.model =
    empty
 
 RevisionbarArea.attlist =
-         common.properties.attlist
+   common.properties.attlist
 
 ColumnruleArea =
   element ColumnruleArea {
@@ -870,7 +873,7 @@ ColumnruleArea.model =
    empty
 
 ColumnruleArea.attlist =
-      common.properties.attlist
+   common.properties.attlist
 
 SpanReferenceArea =
   element SpanReferenceArea {
@@ -882,7 +885,7 @@ SpanReferenceArea.model =
    (NormalFlowReferenceArea | FlowReferenceArea), FootnoteReferenceArea?, ColumnruleArea?, RevisionbarArea*, AbsoluteFloatArea*
 
 SpanReferenceArea.attlist =
-    common.properties.attlist,
+   common.properties.attlist,
    attribute text-align { xsd:NCName }?
 
 AbsoluteFloatArea =
@@ -895,7 +898,7 @@ AbsoluteFloatArea.model =
    (BlockArea | BlockViewportArea)+
 
 AbsoluteFloatArea.attlist =
-    common.properties.attlist
+   common.properties.attlist
 
 FootnoteReferenceArea =
   element FootnoteReferenceArea {
@@ -904,11 +907,11 @@ FootnoteReferenceArea =
 }
 
 FootnoteReferenceArea.model =
-   FootnoteArea*
+   FootnoteArea*, RelativeFloatArea?
 
 FootnoteReferenceArea.attlist =
    attribute display-align { xsd:NCName },
-    common.properties.attlist
+   common.properties.attlist
 
 FootnoteArea =
   element FootnoteArea {
@@ -920,7 +923,7 @@ FootnoteArea.model =
    BlockArea* | ListBlockArea*
 
 FootnoteArea.attlist =
-      common.properties.attlist,
+   common.properties.attlist,
    attribute keep-with-next { xsd:NCName }?,
    attribute text-align { xsd:NCName }?,
    attribute text-align-last { xsd:NCName }?,
@@ -937,6 +940,8 @@ RubyArea.model =
 
 RubyArea.attlist =
    common.properties.attlist,
+   attribute id { xsd:NMTOKEN }?,
+   attribute is-link-destination { true-or-false }?,
    attribute text-altitude { text }?,
    attribute text-depth { text }?
 
@@ -973,7 +978,7 @@ RubyBaseArea.model =
    LineArea
 
 RubyBaseArea.attlist =
-      common.properties.attlist
+   common.properties.attlist
 
 RubyTextArea =
   element RubyTextArea {
@@ -986,7 +991,7 @@ RubyTextArea.model =
 
 RubyTextArea.attlist =
    attribute color { text }?,
-      common.properties.attlist
+   common.properties.attlist
 
 LineArea =
   element LineArea {
@@ -1012,7 +1017,7 @@ FormFieldArea =
 }
 
 FormFieldArea.model =
-   empty
+   TextArea*
 
 FormFieldArea.attlist =
    attribute action-type { xsd:NCName }?,
@@ -1027,12 +1032,16 @@ FormFieldArea.attlist =
    attribute field-button-face { text }?,
    attribute field-button-face-down { text }?,
    attribute field-button-face-rollover { text }?,
+   attribute field-button-icon { text }?,
+   attribute field-button-icon-down { text }?,
+   attribute field-button-icon-rollover { text }?,
    attribute field-button-layout { xsd:NCName }?,
    attribute field-checked { true-or-false }?,
    attribute field-checked-style { xsd:NCName }?,
    attribute field-default-text { text }?,
    attribute field-description { text }?,
    attribute field-editable { true-or-false }?,
+   attribute field-font-size { text }?,
    attribute field-maxlen { xsd:integer }?,
    attribute field-multiline { true-or-false }?,
    attribute field-multiple { true-or-false }?,
@@ -1040,6 +1049,7 @@ FormFieldArea.attlist =
    attribute field-password { true-or-false }?,
    attribute field-required { true-or-false }?,
    attribute field-scroll { true-or-false }?,
+   attribute field-text-align { xsd:NCName }?,
    attribute field-top-index { xsd:integer }?,
    attribute field-type { xsd:NCName },
    attribute field-value { xsd:NCName }?,
@@ -1059,11 +1069,11 @@ FormArea.model =
    BlockArea+
 
 FormArea.attlist =
-   attribute base-uri { xsd:anyURI },
-   attribute external-destination { text },
-   attribute field-submit-coordinates { true-or-false },
-   attribute field-submit-method { xsd:NCName },
-    common.properties.attlist
+   attribute base-uri { xsd:anyURI }?,
+   attribute external-destination { text }?,
+   attribute field-submit-coordinates { true-or-false }?,
+   attribute field-submit-method { xsd:NCName }?,
+   common.properties.attlist
 
 InlineAnchorArea =
   element InlineAnchorArea {
@@ -1090,7 +1100,7 @@ NormalFlowReferenceArea.model =
    (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | BlockViewportArea | AbsoluteViewportArea | FormArea)*, SideFloatArea?, RelativeFloatArea*, AbsoluteFloatArea*
 
 NormalFlowReferenceArea.attlist =
-    common.properties.attlist
+   common.properties.attlist
 
 TextArea =
   element TextArea {
@@ -1109,7 +1119,7 @@ TextArea.attlist =
    attribute finished-text { text }?,
    attribute glyph-orientation { xsd:integer }?,
    attribute id { xsd:NMTOKEN }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute kerning-mode { xsd:NCName }?,
    attribute overline-score { true-or-false }?,
@@ -1148,7 +1158,7 @@ GlyphArea.model =
 GlyphArea.attlist =
    attribute glyph { xsd:integer },
    attribute glyph-width { xsd:integer },
-         common.properties.attlist,
+   common.properties.attlist,
    attribute length { xsd:integer }
 
 EmphasisArea =
@@ -1163,7 +1173,7 @@ EmphasisArea.model =
 EmphasisArea.attlist =
    attribute color { text },
    attribute glyph-orientation { xsd:integer }?,
-       common.properties.attlist,
+   common.properties.attlist,
    attribute kerning-mode { xsd:NCName },
    attribute script { text },
    attribute text { text },
@@ -1241,7 +1251,7 @@ InlineViewportArea.attlist =
    attribute background-color { text }?,
    attribute background-setup { xsd:NCName }?,
    attribute color { text }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute language { xsd:NCName }?,
    attribute number-transform { text }?,
    attribute overflow { xsd:NCName }?,
@@ -1269,7 +1279,7 @@ GraphicViewportArea.attlist =
    attribute id { xsd:NMTOKEN }?,
    attribute index-class { xsd:NCName }?,
    attribute index-key { text }?,
-    common.properties.attlist,
+   common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute media-play-mode { xsd:integer }?,
    attribute media-volume { text }?,
