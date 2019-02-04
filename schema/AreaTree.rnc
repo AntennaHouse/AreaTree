@@ -30,6 +30,7 @@ true-or-false = 'true' | 'false'
 common.properties.attlist =
    attribute baseline-after { xsd:NMTOKEN }?,
    attribute baseline-offset { xsd:NMTOKEN }?,
+   attribute bidi-level { xsd:integer }?,
    attribute border-after-color { text }?,
    attribute border-after-style { border.style }?,
    attribute border-after-width { length }?,
@@ -64,6 +65,7 @@ common.properties.attlist =
    attribute font-style { 'normal' | 'italic' | 'oblique' | 'backslant' }?,
    attribute font-variant { text }?,
    attribute font-weight { '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' }?,
+   attribute generated-by { xsd:NMTOKEN }?,
    attribute height { text }?,
    attribute is-first { true-or-false }?,
    attribute is-last { true-or-false }?,
@@ -89,6 +91,186 @@ common.properties.attlist =
    attribute width { length }?,
    attribute writing-mode { xsd:NCName }?,
    attribute z-index { xsd:integer }?
+
+# List of annotation-related properties common to block-level and
+# inline-level formatting objects
+annotation.attlist =
+   annotation-author,
+   annotation-border-color,
+   annotation-border-style,
+   annotation-border-width,
+   annotation-color,
+   annotation-contents,
+   annotation-file-attachment,
+   annotation-flags,
+   annotation-font-family,
+   annotation-font-size,
+   annotation-font-style,
+   annotation-font-weight,
+   annotation-height,
+   annotation-icon-name,
+   annotation-open,
+   annotation-position-horizontal,
+   annotation-position-vertical,
+   annotation-text-align,
+   annotation-text-color,
+   annotation-title,
+   annotation-type,
+   annotation-width
+
+# @annotation-author
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-author
+annotation-author =
+   ## Author of the annotation: <string>
+   attribute annotation-author { text }?
+
+# @annotation-border-color
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-border-color
+annotation-border-color =
+   ## Border color of the free text annotation: <color>
+   attribute annotation-border-color { text }?
+
+# @annotation-border-style
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-border-style
+annotation-border-style =
+   ## Border style of the free text annotation: solid | dotted | dashed | dot-dash | dot-dot-dash
+   attribute annotation-border-style { 'solid' | 'dotted' | 'dashed' | 'dot-dash' | 'dot-dot-dash' }?
+
+# @annotation-border-width
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-border-width
+annotation-border-width =
+   ## Border width of the free text annotation: <border-width>
+   attribute annotation-border-width { text }?
+
+# @annotation-color
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-color
+annotation-color =
+   ## Color used for the background of the annotation: <color> | none
+   attribute annotation-color { text }?
+
+# @annotation-contents
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-contents
+annotation-contents =
+   ## Content of the annotation: <string>
+   attribute annotation-contents { text }?
+
+# @annotation-file-attachment
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-file-attachment
+annotation-file-attachment =
+   ## File with which file attachment annotation is related: <uri-specification>
+   attribute annotation-file-attachment { xsd:anyURI }?
+
+# @annotation-flags
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-flags
+annotation-flags =
+   ## Characteristics of the annotation: Invisible | Hidden | Print | NoZoom | NoRotate | NoView | ReadOnly | Locked | ToggleNoView | LockedContents
+   attribute annotation-flags { 'Invisible' | 'Hidden' | 'Print' | 'NoZoom' | 'NoRotate' | 'NoView' | 'ReadOnly' | 'Locked' | 'ToggleNoView' | 'LockedContents' }?
+
+# @annotation-font-family
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-family
+annotation-font-family =
+   ## Font family of the free text annotation: <string>
+   attribute annotation-font-family { text }?
+
+# @annotation-font-size
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-size
+annotation-font-size =
+   ## Font size of the free text annotation: <string>
+   attribute annotation-font-size { text }?
+
+# @annotation-font-style
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-style
+annotation-font-style =
+   ## Font style of the free text annotation: <string>
+   attribute annotation-font-style { text }?
+
+# @annotation-font-weight
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-weight
+annotation-font-weight =
+   ## Font weight of the free text annotation: <string>
+   attribute annotation-font-weight { text }?
+
+# @annotation-height
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-height
+annotation-height =
+   ## Height of the annotation: <length>
+   attribute annotation-height { text }?
+
+# @annotation-icon-name
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-icon-name
+annotation-icon-name =
+   ## Name of the icon used for displaying the annotation: <string>
+   attribute annotation-icon-name { text }?
+
+# @annotation-open
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-open
+annotation-open =
+   ## Initial state of the annotation: true | false
+   attribute annotation-open { 'true' | 'false' }?
+
+# @annotation-position-horizontal
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-position-horizontal
+annotation-position-horizontal =
+   ## Horizontal position of the annotation: <length>
+   attribute annotation-position-horizontal { text }?
+
+# @annotation-position-vertical
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-position-vertical
+annotation-position-vertical =
+   ## Vertical position of the annotation: <length>
+   attribute annotation-position-vertical { text }?
+
+# @annotation-text-align
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-text-align
+annotation-text-align =
+   ## Alignment of the free text annotation: <string>
+   attribute annotation-text-align { 'left' | 'center' | 'right' }?
+
+# @annotation-text-color
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-text-color
+annotation-text-color =
+   ## Color of the free text annotation: <string>
+   attribute annotation-text-color { text }?
+
+# @annotation-title
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-title
+annotation-title =
+   ## Title of the annotation: <string>
+   attribute annotation-title { text }?
+
+# @annotation-type
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-type
+annotation-type =
+   ## Type of the annotation: Empty string | Text | FreeText | Stamp | FileAttachment
+   attribute annotation-type { ('Text' | 'FreeText' | 'Stamp' | 'FileAttachment')? }?
+
+# @annotation-width
+#
+# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-width
+annotation-width =
+   ## Width of the annotation: <length>
+   attribute annotation-width { text }?
 
 AreaRoot =
   element AreaRoot {
@@ -839,13 +1021,14 @@ AbsoluteViewportArea.attlist =
    attribute base-uri { xsd:anyURI }?,
    attribute color { text }?,
    attribute id { xsd:NMTOKEN }?,
-    common.properties.attlist,
    attribute is-link-destination { true-or-false }?,
    attribute layer { xsd:NCName }?,
    attribute overflow { xsd:NCName }?,
    attribute overprint { text }?,
    attribute text-align { xsd:NCName }?,
-   attribute text-align-last { xsd:NCName }?
+   attribute text-align-last { xsd:NCName }?,
+   annotation.attlist,
+   common.properties.attlist
 
 
 RevisionbarArea =
@@ -1330,7 +1513,6 @@ BidiOverrideArea.model =
    (TextArea | LeaderArea | InlineArea | InlineAnchorArea | InlineViewportArea | GraphicViewportArea | BidiOverrideArea)*
 
 BidiOverrideArea.attlist =
-   attribute bidi-level { text },
    attribute direction { 'ltr' | 'rtl' },
    common.properties.attlist,
    attribute poster-image { text }?,
