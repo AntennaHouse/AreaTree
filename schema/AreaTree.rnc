@@ -14,6 +14,8 @@ border.style =
    'double-wave' | 'thick-thin' | 'thin-thick' | 'thin-thick-thin' |
    'emboss' | 'imprint'
 
+background-origin.style = 'border-box' | 'padding-box' | 'content-box'
+
 length = xsd:NMTOKEN { pattern = "-?[0-9]+(\.[0-9]+)?(e-?[0-9]+)?(pt|in|mm|cm)" }
 percent = xsd:string { pattern = "-?[0-9]+(\.[0-9]+)?%" }
 length-or-auto = length | 'auto'
@@ -25,12 +27,14 @@ true-or-false = 'true' | 'false'
 # HTML/CSS may use more of these properties.
 background.properties.attlist =
    attribute background-attachment { xsd:NCName }?,
-   attribute background-clip { text }?,
+   attribute background-clip { background-origin.style }?,
    attribute background-color { text }?,
    attribute background-content-height { length }?,
    attribute background-content-type { xsd:anyURI }?,
    attribute background-content-width { length }?,
    attribute background-image { text }?,
+   attribute background-image-resolution { text }?,
+   attribute background-origin { background-origin.style }?,
    attribute background-position-horizontal { length-or-percent }?,
    attribute background-position-vertical { length-or-percent }?,
    attribute background-repeat { xsd:NCName }?,
