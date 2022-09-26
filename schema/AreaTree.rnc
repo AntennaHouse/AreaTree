@@ -1,4 +1,4 @@
-# Copyright 2016-2021 Antenna House, Inc. All rights reserved.
+# Copyright 2016-2022 Antenna House, Inc. All rights reserved.
 
 default namespace = "http://www.antennahouse.com/names/XSL/AreaTree"
 
@@ -399,12 +399,22 @@ annotation-width =
    ## Width of the annotation: <length>
    attribute annotation-width { text }?
 
+# @absolute-or-fixed
+absolute-or-fixed =
+   attribute absolute-or-fixed { true-or-false }?
+
 # @base-uri
 #
 # https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.base-uri
 base-uri =
    ## Location which becomes the base of relative URI: <uri-specification>
    attribute base-uri { text }?
+
+# @printer-duplex
+#
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.printer-duplex
+printer-duplex =
+     attribute printer-duplex { 'auto' | xsd:positiveInteger }?
 
 AreaRoot =
   element AreaRoot {
@@ -457,6 +467,7 @@ AreaRoot.attlist =
    attribute output-volume-info.document-info-include { xsd:NCName }?,
    attribute output-volume-info.format { xsd:integer }?,
    attribute output-volume-info.initial-volume-number { xsd:integer }?,
+   printer-duplex,
    attribute role { xsd:NMTOKEN }?,
    attribute text-align { text }?,
    attribute text-align-last { xsd:NCName }?,
@@ -493,6 +504,7 @@ PageViewportArea.attlist =
    attribute page-number { xsd:integer },
    attribute page-number-prefix { xsd:NCName }?,
    attribute page-number-suffix { xsd:NMTOKEN }?,
+   printer-duplex,
    attribute stacking-context { xsd:NCName }?,
    attribute title { xsd:anyURI }?,
    background.properties.attlist,
@@ -634,7 +646,7 @@ FixedViewportArea.model =
    FlowReferenceArea
 
 FixedViewportArea.attlist =
-   attribute absolute-or-fixed { true-or-false }?,
+   absolute-or-fixed,
    attribute color { text }?, # For HTML/CSS
    attribute text-align { text }?,
    background.properties.attlist,
@@ -862,6 +874,7 @@ BlockAnchorArea.model =
    LineArea*
 
 BlockAnchorArea.attlist =
+   absolute-or-fixed,
    attribute id { xsd:NMTOKEN }?, # For HTML/CSS
    attribute is-link-destination { true-or-false }?, # For HTML/CSS
    attribute keep-with-next { xsd:NCName }?,
@@ -1230,14 +1243,7 @@ AbsoluteViewportArea.model =
    GraphicArea # For HTML/CSS
 
 AbsoluteViewportArea.attlist =
-   attribute absolute-or-fixed { true-or-false }?,
-   attribute background-attachment { xsd:NCName }?,
-   attribute background-color { text }?,
-   attribute background-content-height { xsd:NMTOKEN }?,
-   attribute background-content-width { length }?,
-   attribute background-image { text }?,
-   attribute background-repeat { xsd:NCName }?,
-   attribute background-setup { xsd:NCName }?,
+   absolute-or-fixed,
    base-uri,
    attribute color { text }?,
    attribute content { text }?,
@@ -1251,6 +1257,7 @@ AbsoluteViewportArea.attlist =
    attribute text-align-last { xsd:NCName }?,
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    annotation.attlist,
+   background.properties.attlist,
    border-separation.properties.attlist, # For HTML/CSS
    common.properties.attlist,
    display.properties.attlist
