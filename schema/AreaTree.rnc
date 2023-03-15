@@ -42,6 +42,12 @@ background.properties.attlist =
    attribute background-setup { xsd:NCName }?,
    attribute background-size { text }?
 
+bleed.properties.attlist =
+   attribute bleed-bottom { xsd:NMTOKEN }?,
+   attribute bleed-left { xsd:NMTOKEN }?,
+   attribute bleed-right { xsd:NMTOKEN }?,
+   attribute bleed-top { xsd:NMTOKEN }?
+
 border.properties.attlist =
    attribute border-after-color { text }?,
    attribute border-after-style { border.style }?,
@@ -86,12 +92,20 @@ border-separation.properties.attlist =
    attribute border-separation.block-progression-direction { length }?,
    attribute border-separation.inline-progression-direction { length }?
 
+dev.properties.attlist =
+   attribute area-dev-flags { xsd:NMTOKEN }?,
+   attribute area-id { xsd:NMTOKEN }?
+
+dev.text.properties.attlist =
+   attribute text-dev-flags { xsd:NMTOKEN }?
+   
 common.properties.attlist =
+   attribute area-flags { xsd:NMTOKEN }?,
    attribute baseline-after { xsd:NMTOKEN }?,
    attribute baseline-offset { xsd:NMTOKEN }?,
    attribute bidi-level { xsd:integer }?,
    attribute bottom-position { length }?,
-   attribute generated-by { text }?,
+   generated-by,
    attribute height { length }?,
    attribute is-first { true-or-false }?,
    attribute is-last { true-or-false }?,
@@ -110,6 +124,7 @@ common.properties.attlist =
    attribute writing-mode { xsd:NCName }?,
    attribute z-index { xsd:integer }?,
    border.properties.attlist,
+   dev.properties.attlist,
    font.properties.attlist,
    padding.properties.attlist
 
@@ -247,154 +262,154 @@ annotation.attlist =
 
 # @annotation-author
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-author
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-author
 annotation-author =
    ## Author of the annotation: <string>
    attribute annotation-author { text }?
 
 # @annotation-border-color
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-border-color
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-border-color
 annotation-border-color =
    ## Border color of the free text annotation: <color>
    attribute annotation-border-color { text }?
 
 # @annotation-border-style
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-border-style
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-border-style
 annotation-border-style =
    ## Border style of the free text annotation: solid | dotted | dashed | dot-dash | dot-dot-dash
    attribute annotation-border-style { 'solid' | 'dotted' | 'dashed' | 'dot-dash' | 'dot-dot-dash' }?
 
 # @annotation-border-width
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-border-width
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-border-width
 annotation-border-width =
    ## Border width of the free text annotation: <border-width>
    attribute annotation-border-width { text }?
 
 # @annotation-color
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-color
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-color
 annotation-color =
    ## Color used for the background of the annotation: <color> | none
    attribute annotation-color { text }?
 
 # @annotation-contents
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-contents
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-contents
 annotation-contents =
    ## Content of the annotation: <string>
    attribute annotation-contents { text }?
 
 # @annotation-file-attachment
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-file-attachment
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-file-attachment
 annotation-file-attachment =
    ## File with which file attachment annotation is related: <uri-specification>
    attribute annotation-file-attachment { xsd:anyURI }?
 
 # @annotation-flags
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-flags
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-flags
 annotation-flags =
    ## Characteristics of the annotation: Invisible | Hidden | Print | NoZoom | NoRotate | NoView | ReadOnly | Locked | ToggleNoView | LockedContents
    attribute annotation-flags { 'Invisible' | 'Hidden' | 'Print' | 'NoZoom' | 'NoRotate' | 'NoView' | 'ReadOnly' | 'Locked' | 'ToggleNoView' | 'LockedContents' }?
 
 # @annotation-font-family
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-family
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-font-family
 annotation-font-family =
    ## Font family of the free text annotation: <string>
    attribute annotation-font-family { text }?
 
 # @annotation-font-size
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-size
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-font-size
 annotation-font-size =
    ## Font size of the free text annotation: <string>
    attribute annotation-font-size { text }?
 
 # @annotation-font-style
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-style
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-font-style
 annotation-font-style =
    ## Font style of the free text annotation: <string>
    attribute annotation-font-style { text }?
 
 # @annotation-font-weight
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-font-weight
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-font-weight
 annotation-font-weight =
    ## Font weight of the free text annotation: <string>
    attribute annotation-font-weight { text }?
 
 # @annotation-height
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-height
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-height
 annotation-height =
    ## Height of the annotation: <length>
    attribute annotation-height { text }?
 
 # @annotation-icon-name
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-icon-name
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-icon-name
 annotation-icon-name =
    ## Name of the icon used for displaying the annotation: <string>
    attribute annotation-icon-name { text }?
 
 # @annotation-open
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-open
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-open
 annotation-open =
    ## Initial state of the annotation: true | false
    attribute annotation-open { 'true' | 'false' }?
 
 # @annotation-position-horizontal
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-position-horizontal
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-position-horizontal
 annotation-position-horizontal =
    ## Horizontal position of the annotation: <length>
    attribute annotation-position-horizontal { text }?
 
 # @annotation-position-vertical
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-position-vertical
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-position-vertical
 annotation-position-vertical =
    ## Vertical position of the annotation: <length>
    attribute annotation-position-vertical { text }?
 
 # @annotation-text-align
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-text-align
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-text-align
 annotation-text-align =
    ## Alignment of the free text annotation: <string>
    attribute annotation-text-align { 'left' | 'center' | 'right' }?
 
 # @annotation-text-color
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-text-color
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-text-color
 annotation-text-color =
    ## Color of the free text annotation: <string>
    attribute annotation-text-color { text }?
 
 # @annotation-title
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-title
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-title
 annotation-title =
    ## Title of the annotation: <string>
    attribute annotation-title { text }?
 
 # @annotation-type
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-type
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-type
 annotation-type =
    ## Type of the annotation: Empty string | Text | FreeText | Stamp | FileAttachment
    attribute annotation-type { ('Text' | 'FreeText' | 'Stamp' | 'FileAttachment')? }?
 
 # @annotation-width
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.annotation-width
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-width
 annotation-width =
    ## Width of the annotation: <length>
    attribute annotation-width { text }?
@@ -405,16 +420,22 @@ absolute-or-fixed =
 
 # @base-uri
 #
-# https://www.antennahouse.com/product/ahf65/ahf-ext.html#axf.base-uri
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.base-uri
 base-uri =
    ## Location which becomes the base of relative URI: <uri-specification>
    attribute base-uri { text }?
+
+# @generated-by
+generated-by =
+   ## Identifier of element that created this area
+   attribute generated-by { text }?
 
 # @printer-duplex
 #
 # https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.printer-duplex
 printer-duplex =
-     attribute printer-duplex { 'auto' | xsd:positiveInteger }?
+   ## Duplex printing mode
+   attribute printer-duplex { 'auto' | xsd:positiveInteger }?
 
 AreaRoot =
   element AreaRoot {
@@ -488,10 +509,6 @@ PageViewportArea.model =
 PageViewportArea.attlist =
    attribute abs-page-number { xsd:integer },
    base-uri,
-   attribute bleed-bottom { xsd:NMTOKEN }?,
-   attribute bleed-left { xsd:NMTOKEN }?,
-   attribute bleed-right { xsd:NMTOKEN }?,
-   attribute bleed-top { xsd:NMTOKEN }?,
    attribute color { text }?, # For HTML/CSS
    attribute counter-increment { text }?, # For HTML/CSS
    attribute counter-reset { text }?, # For HTML/CSS
@@ -508,6 +525,7 @@ PageViewportArea.attlist =
    attribute stacking-context { xsd:NCName }?,
    attribute title { xsd:anyURI }?,
    background.properties.attlist,
+   bleed.properties.attlist,
    common.properties.attlist,
    crop.properties.attlist,
    display.properties.attlist,
@@ -541,15 +559,12 @@ PageRegionViewportArea.model =
 
 PageRegionViewportArea.attlist =
    base-uri, # For HTML/CSS
-   attribute bleed-bottom { length }?, # For HTML/CSS
-   attribute bleed-left { length }?, # For HTML/CSS
-   attribute bleed-right { length }?, # For HTML/CSS
-   attribute bleed-top { length }?, # For HTML/CSS
    attribute bottom-position { length }?, # '?' for HTML/CSS
    attribute color { text }?, # For HTML/CSS
    attribute counter-increment { text }?, # For HTML/CSS
    attribute counter-reset { text }?, # For HTML/CSS
    attribute display-role { xsd:NCName },
+   generated-by,
    attribute height { xsd:NMTOKEN },
    attribute is-first { true-or-false },
    attribute is-last { true-or-false },
@@ -561,11 +576,13 @@ PageRegionViewportArea.attlist =
    attribute top-position { length }?, # '?' for HTML/CSS
    attribute width { length },
    attribute writing-mode { text }?, # For HTML/CSS
-   background.properties.attlist, # For HTML/CSS,
-   border.properties.attlist, # For HTML/CSS,
-   crop.properties.attlist, # For HTML/CSS,
+   dev.properties.attlist,
+   background.properties.attlist, # For HTML/CSS
+   bleed.properties.attlist, # For HTML/CSS
+   border.properties.attlist, # For HTML/CSS
+   crop.properties.attlist, # For HTML/CSS
    font.properties.attlist, # For HTML/CSS
-   padding.properties.attlist, # For HTML/CSS,
+   padding.properties.attlist, # For HTML/CSS
    printer-marks.properties.attlist # For HTML/CSS
 
 PageRegionReferenceArea =
@@ -581,11 +598,13 @@ PageRegionReferenceArea.model =
     )+
 
 PageRegionReferenceArea.attlist =
-   attribute height { xsd:NMTOKEN },
+   generated-by,
+   attribute height { length },
    attribute is-first { true-or-false }?,
    attribute is-last { true-or-false }?,
    attribute width { length },
    attribute writing-mode { text }?, # For HTML/CSS
+   dev.properties.attlist,
    display.properties.attlist
 
 MarginRegionViewportArea =
@@ -922,8 +941,8 @@ BlockViewportArea.attlist =
    attribute color { text }?,
    attribute content { text }?,
    attribute counter-reset { text }?, # For HTML/CSS
-   attribute display { xsd:NCName },
-   attribute display-role { xsd:NCName },
+   attribute display { xsd:NCName }?,
+   attribute display-role { xsd:NCName }?,
    attribute graphic-image { text }?,
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
@@ -1438,6 +1457,9 @@ LineArea.attlist =
    attribute display { xsd:NCName }?,
    attribute display-role { xsd:NCName }?,
    attribute keep-together-within-dimension { text }?,
+   attribute line-count { xsd:positiveInteger }?,
+   attribute next-continued { xsd:positiveInteger }?,
+   attribute prev-continued { xsd:positiveInteger }?,
    attribute text-align { text }?,
    attribute text-altitude { text }?,
    attribute text-depth { text }?,
@@ -1558,11 +1580,13 @@ TextArea.attlist =
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
    attribute kerning-mode { xsd:NCName }?,
+   attribute next-continued { xsd:positiveInteger }?,
    attribute origin-id { xsd:NMTOKEN }?,
    attribute overline-score { true-or-false }?,
    attribute overline-score-color { text }?,
    attribute overline-score-style { xsd:NCName }?,
    attribute overline-score-width { xsd:NCName }?,
+   attribute prev-continued { xsd:positiveInteger }?,
    attribute ref-id { xsd:NCName }?,
    attribute ref-index-key { text }?,
    attribute scale-option { xsd:NCName }?,
@@ -1583,6 +1607,7 @@ TextArea.attlist =
    attribute underline-score-width { length-or-auto }?,
    attribute vertical-underline-side { xsd:NCName }?,
    attribute visibility { xsd:NCName }?, # For HTML/CSS
+   dev.text.properties.attlist,
    common.properties.attlist,
    relative-position.properties.attlist
 
