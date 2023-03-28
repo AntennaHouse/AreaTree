@@ -1,0 +1,4 @@
+[submodule "AreaTree"]
+	path = gh-pages
+	url = https://github.com/AntennaHouse/AreaTree.git
+	branch = gh-pages

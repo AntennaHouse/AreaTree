@@ -2,7 +2,7 @@
 <project name="AreaTree" basedir="." default="release">
 <description>Antenna House AH Formatter AreaTree XML.</description>
 <!--
-     Copyright 2016 Antenna House, Inc.
+     Copyright 2016-2023 Antenna House, Inc.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -69,8 +69,14 @@
        basedir="${AreaTree.basedir.converted}"
        excludes="**"
        update="true">
-    <zipfileset dir="Help/en"
+    <zipfileset dir="gh-pages/en"
 		includes="**"
+		prefix="${ant.project.name}" />
+    <zipfileset dir="schema"
+		includes="**"
+		prefix="${ant.project.name}/schema" />
+    <zipfileset dir="."
+		includes="AreaTree.framework, README.md"
 		prefix="${ant.project.name}" />
   </zip>
 </target>
@@ -82,8 +88,14 @@
        basedir="${AreaTree.basedir.converted}"
        excludes="**"
        update="true">
-    <zipfileset dir="Help/ja"
+    <zipfileset dir="gh-pages/ja"
 		includes="**"
+		prefix="${ant.project.name}" />
+    <zipfileset dir="schema"
+		includes="**"
+		prefix="${ant.project.name}/schema" />
+    <zipfileset dir="."
+		includes="AreaTree.framework, README.md"
 		prefix="${ant.project.name}" />
   </zip>
 </target>
