@@ -4,21 +4,21 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta http-equiv="content-style-type" content="text/css" />
-<meta name="product-version" content="6.3" />
-<link rev="made" href="mailto:xml-info@antenna.co.jp" />
+<meta name="product-name" content="Antenna House Formatter" />
+<meta name="product-version" content="7.3" />
+<link rel="author" href="mailto:xml-info@antenna.co.jp" />
 <link rel="start" href="index.html" />
 <link rel="contents" href="index.html" />
-<link rel="stylesheet" href="ahfmain.css" />
+<link rel="stylesheet" href="ahfmain7.css" />
 <meta http-equiv="content-script-type" content="text/javascript" />
-<script type="text/javascript" src="ahfmain.js"></script>
-<title>AH Formatter V6.3 -  エリアツリー</title>
+<script type="text/javascript" src="ahfmain7.js"></script>
+<title>Antenna House Formatter V7.3 -  エリアツリー</title>
 </head>
 <body onload="init(0)" id="ahf-at-single">
 
 
 <h1 class="chapter" id="AreaTree">
-<img src="img/ico6.png" alt="" class="chapttl single" />
-<span class="index"><!--AreaTree-->エリアツリー</span></h1>
+<img src="img/ico7.png" alt="" class="chapttl single" /> <span class="index"><!--AreaTree-->エリアツリー</span></h1>
 <div class="chapter-body">
 
 <h2 id="introduction" class="section">はじめに</h2>
@@ -27,14 +27,14 @@
 
 <p>
 
-<b class="product-name">AH Formatter V6.3</b>のエリアツリーは、<a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> の <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> を具現したものであるが、4.10 にあるサンプルを忠実に真似たものではない（非常に似てはいるが）。</p>
+<b class="product-name">Antenna House Formatter V7.3</b>のエリアツリーは、<a>XSL 1.1</a> の <a>4. Area Model</a> を具現したものであるが、4.10 にあるサンプルを忠実に真似たものではない（非常に似てはいるが）。</p>
 
 <p>
 This specification is provided as-is, without any warranty expressed or implied.</p>
 
 <p>
 エリアツリーのXML表現に関するW3Cによる規定はない。
-ここに示すエリアツリーのXML表現は、<b class="product-name">AH Formatter V6.3</b> が生成するものであり、Antenna House 独自仕様のものである。
+ここに示すエリアツリーのXML表現は、<b class="product-name">Antenna House Formatter V7.3</b> が生成するものであり、Antenna House 独自仕様のものである。
 </p>
 
 <p>
@@ -88,8 +88,7 @@ This specification is provided as-is, without any warranty expressed or implied.
 </pre>
 </div>
 
-<h2 id="area-model" class="section">
-<span class="index"><!--area-model-->領域モデル</span></h2>
+<h2 id="area-model" class="section"><span class="index"><!--area-model-->領域モデル</span></h2>
 <div class="section-body">
 
 <p>
@@ -100,8 +99,8 @@ XSLの 領域モデル(Area Model) は、領域(area) を入れ子構造の長�
 
 <p>
 
-☞
-領域モデルの詳細については、<a href="http://www.w3.org/TR/xsl/">XSL 1.1</a> の <a href="http://www.w3.org/TR/xsl/#area_model">4. Area Model</a> を見よ。
+<span class="r-pointing">☞</span> 
+領域モデルの詳細については、<a>XSL 1.1</a> の <a>4. Area Model</a> を見よ。
 </p>
 
 <p>
@@ -149,7 +148,7 @@ XSLの 領域モデル(Area Model) は、領域(area) を入れ子構造の長�
 
 <p>
 
-before や start ではなく、top や left など絶対的な位置指定が行なわれることがある。これらは、進行方向によって次のようにマップされる。
+before や start ではなく、top や left など絶対的な位置指定が行われることがある。これらは、進行方向によって次のようにマップされる。
 </p>
 
 <table class="std">
@@ -194,7 +193,7 @@ Datatypes</h2>
 <p>
 
 &lt;number&gt; は、(符号付きの)数値。
-数値には小数点を含めてよい。小数点はピリオドであり、位取りのコンマなどは含まれない。
+数値には小数点を含めてよい。小数点はピリオドであり、位取りのカンマなどは含まれない。
 </p>
 
 <p>
@@ -206,19 +205,19 @@ Datatypes</h2>
 <tbody><tr><td>cm</td><td>centimeters</td></tr>
 <tr><td>mm</td><td>millimeters</td></tr>
 <tr><td>in</td><td>2.54cm</td></tr>
-<tr><td>pt</td><td>1/72in</td></tr>
+<tr><td>pt</td><td>1in/72</td></tr>
 <tr><td>pc</td><td>12pt</td></tr>
 
 
 </tbody></table>
 <p>
 
-<b class="product-name">AH Formatter V6.3</b>は、すべて pt に換算してエリアツリーを出力する。それには、フォントサイズが pt であることから、誤差をなるべくなくそうという意図がある。
+<b class="product-name">Antenna House Formatter V7.3</b>は、すべて pt に換算してエリアツリーを出力する。それには、フォントサイズが pt であることから、誤差をなるべくなくそうという意図がある。
 </p>
 
 <p>
 
-&lt;percentage&gt; は、75% のような、%付きの値である。 これは、単に 0.75 と &lt;number&gt; を書いたのと等価。
+&lt;percentage&gt; は、75% のような、%付きの値である。これは、単に 0.75 と &lt;number&gt; を書いたのと等価。
 </p>
 
 <p>
@@ -238,12 +237,10 @@ Datatypes</h2>
 
 </div>
 
-<h2 id="properties" class="section">
-<span class="index"><!--properties-->プロパティ</span></h2>
+<h2 id="properties" class="section"><span class="index"><!--properties-->プロパティ</span></h2>
 <div class="section-body">
 
-<h3 id="common-properties" class="subsection">
-<span class="index"><!--common-properties-->共通プロパティ</span></h3>
+<h3 id="common-properties" class="subsection"><span class="index"><!--common-properties-->共通プロパティ</span></h3>
 <div class="subsection-body">
 
 <p>
@@ -254,59 +251,66 @@ Datatypes</h2>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="is-first">is-first</td>
+<td>is-first</td>
 <td>true | false</td>
 <td>false</td>
-<td rowspan="2">
+<td class="description" rowspan="2">
+<p>
 
-兄弟中の最初または最後の子であるかどうかを示す。</td>
+兄弟中の最初または最後の子であるかどうかを示す。
+</p></td>
 </tr>
 <tr>
-<td id="is-last">is-last</td>
-<td>true | false</td>
+<td>is-last</td>
+<td class="nowrap">true | false</td>
 <td>false</td>
 </tr>
 
 <tr>
-<td id="writing-mode">writing-mode</td>
+<td>writing-mode</td>
 <td>lr-tb | rl-tb | tb-rl | lr-bt | rl-bt | tb-lr | bt-rl | br-lr
 
 </td>
 <td>lr-tb</td>
-<td>
-テキストなどの進行方向。</td>
+<td class="description"><p>
+テキストなどの進行方向。
+</p></td>
 </tr>
 
 <tr>
-<td id="width">width</td>
+<td>width</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td rowspan="2">
+<td class="description" rowspan="2">
+<p>
 
-内容長方形領域の大きさ。width は start辺とend辺の間隔、height は before辺とafter辺の間隔である。</td>
+内容長方形領域の大きさ。width は start辺とend辺の間隔、height は before辺とafter辺の間隔である。
+</p></td>
 </tr>
 <tr>
-<td id="height">height</td>
+<td>height</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 
 <tr>
-<td id="top-position">top-position</td>
+<td>top-position</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td rowspan="4">
+<td class="description" rowspan="4">
+<p>
 
 参照領域からの内容領域の位置。これは、参照エリアの各辺からの距離である。
 lr-tb の場合は次のようになる。
+</p>
 <pre class="figure">|--&gt;left-position
 +-------------------+ --
 |                   | ↓
@@ -321,29 +325,31 @@ lr-tb の場合は次のようになる。
 </td>
 </tr>
 <tr>
-<td id="bottom-position">bottom-position</td>
+<td>bottom-position</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="left-position">left-position</td>
+<td>left-position</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="right-position">right-position</td>
+<td>right-position</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 
 <tr>
-<td id="space-before">space-before</td>
+<td>space-before</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
-<td rowspan="4">
+<td class="description" rowspan="4">
+<p>
 
 領域の前に空けるべき間隔。多くの領域の描画では意味がない。なぜならば、領域の位置は決定的である。
 TextArea での文字列の位置決めなどで効果が現れる。
+</p>
 <pre class="figure">------------------------
                         &lt;--space-before
 +-----------------------
@@ -357,28 +363,30 @@ TextArea での文字列の位置決めなどで効果が現れる。
 </td>
 </tr>
 <tr>
-<td id="space-after">space-after</td>
+<td>space-after</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="space-start">space-start</td>
+<td>space-start</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="space-end">space-end</td>
+<td>space-end</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 
 <tr>
-<td id="padding-before">padding-before</td>
+<td>padding-before</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
-<td rowspan="6">
+<td class="description" rowspan="6">
+<p>
 
 パディングの幅。
+</p>
 <pre class="figure">+-----------------------
 | Border Rectangle
 | +---------------------
@@ -390,38 +398,40 @@ TextArea での文字列の位置決めなどで効果が現れる。
 </td>
 </tr>
 <tr>
-<td id="padding-before.conditionality">padding-before.conditionality</td>
+<td>padding-before.conditionality</td>
 <td>discard | retain</td>
 <td>discard</td>
 </tr>
 <tr>
-<td id="padding-before.length">padding-before.length</td>
+<td>padding-before.length</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="padding-after">padding-after</td>
+<td>padding-after</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="padding-start">padding-start</td>
+<td>padding-start</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="padding-end">padding-end</td>
+<td>padding-end</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 
 <tr>
-<td id="border-before-width">border-before-width</td>
+<td>border-before-width</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
-<td rowspan="15">
+<td class="description" rowspan="15">
+<p>
 
 境界の幅。
+</p>
 <pre class="figure">+-----------------------
 | Border Rectangle      &lt;--border-before-width
 | +---------------------
@@ -433,84 +443,87 @@ TextArea での文字列の位置決めなどで効果が現れる。
 </td>
 </tr>
 <tr>
-<td id="border-before-width.length">border-before-width.length</td>
+<td>border-before-width.length</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-before-width.conditionality">border-before-width.conditionality</td>
+<td>border-before-width.conditionality</td>
 <td>discard | retain</td>
 <td>discard</td>
 </tr>
 <tr>
-<td id="border-after-width">border-after-width</td>
+<td>border-after-width</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-after-width.length">border-after-width.length</td>
+<td>border-after-width.length</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-after-width.conditionality">border-after-width.conditionality</td>
+<td>border-after-width.conditionality</td>
 <td>discard | retain</td>
 <td>discard</td>
 </tr>
 <tr>
-<td id="border-start-width">border-start-width</td>
+<td>border-start-width</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-start-width.length">border-start-width.length</td>
+<td>border-start-width.length</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-start-width.conditionality">border-start-width.conditionality</td>
+<td>border-start-width.conditionality</td>
 <td>discard | retain</td>
 <td>discard</td>
 </tr>
 <tr>
-<td id="border-end-width">border-end-width</td>
+<td>border-end-width</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-end-width.length">border-end-width.length</td>
+<td>border-end-width.length</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="border-end-width.conditionality">border-end-width.conditionality</td>
+<td>border-end-width.conditionality</td>
 <td>discard | retain</td>
 <td>discard</td>
 </tr>
 <tr>
-<td id="border-double-thickness">border-double-thickness</td>
+<td>border-double-thickness</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="diagonal-border-width">diagonal-border-width</td>
+<td>diagonal-border-width</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 <tr>
-<td id="reverse-diagonal-border-width">reverse-diagonal-border-width</td>
+<td>reverse-diagonal-border-width</td>
 <td>&lt;length&gt;</td>
 <td>0</td>
 </tr>
 
 <tr>
-<td id="border-before-style">border-before-style</td>
+<td>border-before-style</td>
 <td>&lt;border-style&gt;</td>
 <td>none</td>
-<td rowspan="6">
+<td class="description" rowspan="6">
+<p>
 
-境界のスタイル。XSL-FO仕様の値は <a href="http://www.w3.org/TR/REC-CSS2/box.html#border-style-properties">CSS2</a> だが、ここでの値は <a href="http://www.w3.org/TR/2002/WD-css3-border-20021107/">CSS3</a> による。<br />
-<br />none |
+境界のスタイル。XSL-FO仕様の値は <a>CSS2</a> だが、ここでの値は <a>CSS3</a> による。
+</p>
+<p>
+none |
 hidden |
 dotted |
 dashed |
@@ -523,175 +536,197 @@ dot-dot-dash |
 inset |
 outset |
 wave
-</td>
+</p></td>
 </tr>
 <tr>
-<td id="border-after-style">border-after-style</td>
+<td>border-after-style</td>
 <td>&lt;border-style&gt;</td>
 <td>none</td>
 </tr>
 <tr>
-<td id="border-start-style">border-start-style</td>
+<td>border-start-style</td>
 <td>&lt;border-style&gt;</td>
 <td>none</td>
 </tr>
 <tr>
-<td id="border-end-style">border-end-style</td>
+<td>border-end-style</td>
 <td>&lt;border-style&gt;</td>
 <td>none</td>
 </tr>
 <tr>
-<td id="diagonal-border-style">diagonal-border-style</td>
+<td>diagonal-border-style</td>
 <td>&lt;border-style&gt;</td>
 <td>none</td>
 </tr>
 <tr>
-<td id="reverse-diagonal-border-style">reverse-diagonal-border-style</td>
+<td>reverse-diagonal-border-style</td>
 <td>&lt;border-style&gt;</td>
 <td>none</td>
 </tr>
 
 <tr>
-<td id="border-before-color">border-before-color</td>
+<td>border-before-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td rowspan="6">
+<td class="description" rowspan="6">
+<p>
 
-境界の色。</td>
+境界の色。
+</p></td>
 </tr>
 <tr>
-<td id="border-after-color">border-after-color</td>
+<td>border-after-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="border-start-color">border-start-color</td>
+<td>border-start-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="border-end-color">border-end-color</td>
+<td>border-end-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="diagonal-border-color">diagonal-border-color</td>
+<td>diagonal-border-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="reverse-diagonal-border-color">reverse-diagonal-border-color</td>
+<td>reverse-diagonal-border-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 
 <tr>
-<td id="border-top-left-radius">border-top-left-radius</td>
+<td>border-top-left-radius</td>
 <td>&lt;length&gt; &lt;length&gt;?</td>
 <td>0</td>
-<td rowspan="4">
-丸め罫の径を指定します。 <a href="http://www.w3.org/TR/2012/CR-css3-background-20120724/#the-border-radius">[CSS3-Background] Curve Radii: the ‘border-radius’ properties</a></td>
+<td class="description" rowspan="4">
+<p>
+
+丸め罫の径を指定します。
+<a>[CSS3-Background] Curve Radii: the ‘border-radius’ properties</a>
+</p></td>
 </tr>
 <tr>
-<td id="border-top-right-radius">border-top-right-radius</td>
-<td>&lt;length&gt; &lt;length&gt;?</td>
-<td>0</td>
-</tr>
-<tr>
-<td id="border-bottom-left-radius">border-bottom-left-radius</td>
-<td>&lt;length&gt; &lt;length&gt;?</td>
-<td>0</td>
-</tr>
-<tr>
-<td id="border-bottom-right-radius">border-bottom-right-radius</td>
+<td>border-top-right-radius</td>
 <td>&lt;length&gt; &lt;length&gt;?</td>
 <td>0</td>
 </tr>
-
 <tr>
-<td id="color">color</td>
-<td>&lt;color&gt;</td>
-<td>-</td>
-<td>
-</td>
+<td>border-bottom-left-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
+</tr>
+<tr>
+<td>border-bottom-right-radius</td>
+<td>&lt;length&gt; &lt;length&gt;?</td>
+<td>0</td>
 </tr>
 
 <tr>
-<td id="background-color">background-color</td>
+<td>color</td>
+<td>&lt;color&gt;</td>
+<td>-</td>
+<td class="description"><p>
+
+
+</p></td>
+</tr>
+
+<tr>
+<td>background-color</td>
 <td>&lt;color&gt;</td>
 <td>transparent</td>
-<td>
+<td class="description"><p>
 
-背景の色。</td>
+背景の色。
+</p></td>
 </tr>
 
 <tr>
-<td id="font-family">font-family</td>
+<td>font-family</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-フォントファミリ名。</td>
+<td class="description"><p>
+
+フォントファミリ名。
+</p></td>
 </tr>
 <tr>
-<td id="font-size">font-size</td>
+<td>font-size</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>
-フォントサイズ。</td>
+<td class="description"><p>
+
+フォントサイズ。
+</p></td>
 </tr>
 <tr>
-<td id="font-weight">font-weight</td>
+<td>font-weight</td>
 <td>100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900</td>
 <td>400</td>
-<td>
-フォントの太さ。</td>
+<td class="description"><p>
+
+フォントの太さ。
+</p></td>
 </tr>
 <tr>
-<td id="font-style">font-style</td>
+<td>font-style</td>
 <td>normal | italic | oblique | backslant</td>
 <td>normal</td>
-<td>
-フォントスタイル。</td>
+<td class="description"><p>
+
+フォントスタイル。
+</p></td>
 </tr>
 <tr>
-<td id="font-stretch">font-stretch</td>
+<td>font-stretch</td>
 <td>&lt;number&gt; | &lt;percentage&gt;</td>
 <td>1.0</td>
-<td>
-フォントの進行方向への伸張。(1.0 = 100%)</td>
+<td class="description"><p>
+
+フォントの進行方向への伸張。(1.0 = 100%)
+</p></td>
 </tr>
 
 <tr>
-<td id="baseline-after">baseline-after</td>
+<td>baseline-after</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>
+<td class="description"><p>
 
-フォントの高さのうち、ベースラインの下に出る高さ。</td>
+フォントの高さのうち、ベースラインの下に出る高さ。
+</p></td>
 </tr>
 
 <tr>
-<td id="baseline-offset">baseline-offset</td>
+<td>baseline-offset</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>
+<td class="description"><p>
 
-ベースラインのbefore方向への移動量。</td>
+ベースラインのbefore方向への移動量。
+</p></td>
 </tr>
 
 <tr>
-<td id="reference-orientation">reference-orientation</td>
+<td>reference-orientation</td>
 <td>&lt;number&gt;</td>
 <td>0</td>
-<td>
+<td class="description"><p>
 
 参照領域の回転。値の単位は度。
 reference-orientation="90" は、90°反時計回りに領域が回転していることを示す。
-<b class="product-name">AH Formatter V6.3</b> は、90°単位の直角な回転だけ許している。
+<b class="product-name">Antenna House Formatter V7.3</b> は、90°単位の直角な回転だけ許している。
 直角以外の回転に対して、次のように定義する。
+</p>
 <ul>
 <li>
-領域の位置は、内容領域の外接長方形に対して行なわれる。
+領域の位置は、内容領域の外接長方形に対して行われる。
 すなわち、top-position、bottom-position、left-position、right-position は、外接長方形の位置を決定する。
 </li>
 <li>
@@ -701,9 +736,10 @@ widthやheightは、その内接長方形に対するものである。
 space-*、padding-*、border-*-width も同様。
 </li>
 </ul>
+<p>
 
-ここで、内容領域の幅を w、高さを h、回転角を θ、図の左上を原点とした場合、<br />
-<br />
+ここで、内容領域の幅を w、高さを h、回転角を θ、図の左上を原点とした場合、
+</p>
 <pre class="figure"> 0         X
 0+-----+---+
  |   θ/ \  |
@@ -714,32 +750,35 @@ space-*、padding-*、border-*-width も同様。
  |  \ /    |
 Y+---+-----+
 </pre>
-<br />
-外接長方形の寸法は、<br />
+<p>
+
+外接長方形の寸法は、
+</p>
 <table class="simple">
-<tbody><tr><td><span class="style-tt">X = abs(w*cos(θ))+abs(h*sin(θ))</span></td></tr>
-<tr><td><span class="style-tt">Y = abs(w*sin(θ))+abs(h*cos(θ))</span></td></tr>
+<tbody><tr><td><span class="style-code">X = abs(w*cos(θ))+abs(h*sin(θ))</span></td></tr>
+<tr><td><span class="style-code">Y = abs(w*sin(θ))+abs(h*cos(θ))</span></td></tr>
 </tbody></table>
 are as above. The starting point moves to the next position.
 <table class="simple">
-<tbody><tr><td>0–90°</td><td>start-side</td><td><span class="style-tt">(0, w*sin(θ))</span></td></tr>
-<tr><td>90–180°</td><td>after-side</td><td><span class="style-tt">(w*sin(θ-90), Y)</span></td></tr>
-<tr><td>180–270°</td><td>end-side</td><td><span class="style-tt">(X, h*cos(θ-180))</span></td></tr>
-<tr><td>270–0°</td><td>before-side</td><td><span class="style-tt">(h*cos(θ-270), 0)</span></td></tr>
+<tbody><tr><td>0–90°</td><td>start-side</td><td><span class="style-code">(0, w*sin(θ))</span></td></tr>
+<tr><td>90–180°</td><td>after-side</td><td><span class="style-code">(w*sin(θ-90), Y)</span></td></tr>
+<tr><td>180–270°</td><td>end-side</td><td><span class="style-code">(X, h*cos(θ-180))</span></td></tr>
+<tr><td>270–0°</td><td>before-side</td><td><span class="style-code">(h*cos(θ-270), 0)</span></td></tr>
 </tbody></table>
 
 </td>
 </tr>
 
 <tr>
-<td id="z-index">z-index</td>
+<td>z-index</td>
 <td>&lt;integer&gt;</td>
 <td>-</td>
-<td>
+<td class="description"><p>
 
 領域の重なり方を規定する。大きい値の方が上に描画される。
-<a href="http://www.w3.org/TR/REC-CSS2/visuren.html#propdef-z-index" title="z-index">CSS2</a> による。
-エリアツリー上では解決されているので、レンダラは無視してよい。</td>
+<a title="z-index">CSS2</a> による。
+エリアツリー上では解決されているので、レンダラは無視してよい。
+</p></td>
 </tr>
 
 </tbody>
@@ -747,109 +786,111 @@ are as above. The starting point moves to the next position.
 
 </div>
 
-<h3 id="annotation-properties" class="subsection">
-<span class="index"><!--common-properties-->Annotation properties</span></h3>
+<h3 id="annotation-properties" class="subsection"><span class="index"><!--common-properties-->Annotation properties</span></h3>
 <div class="subsection-body">
 
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="annotation-author">annotation-author</td>
+<td>annotation-author</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="18">
-Properties related to <a>Annotation in PDF Output</a>.</td>
+<td class="description" rowspan="18">
+<p>
+
+Properties related to <a>Annotation</a>.
+</p></td>
 </tr>
 <tr>
-<td id="annotation-color">annotation-color</td>
+<td>annotation-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-contents">annotation-contents</td>
+<td>annotation-contents</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-file-attachment">annotation-file-attachment</td>
+<td>annotation-file-attachment</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-font-family">annotation-font-family</td>
+<td>annotation-font-family</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-font-size">annotation-font-size</td>
+<td>annotation-font-size</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-font-style">annotation-font-style</td>
+<td>annotation-font-style</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-font-weight">annotation-font-weight</td>
+<td>annotation-font-weight</td>
 <td>&lt;font-weight&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-height">annotation-height</td>
+<td>annotation-height</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-icon-name">annotation-icon-name</td>
+<td>annotation-icon-name</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-open">annotation-open</td>
+<td>annotation-open</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-position-horizontal">annotation-position-horizontal</td>
+<td>annotation-position-horizontal</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-position-vertical">annotation-position-vertical</td>
+<td>annotation-position-vertical</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-text-align">annotation-text-align</td>
+<td>annotation-text-align</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-text-color">annotation-text-color</td>
+<td>annotation-text-color</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-title">annotation-title</td>
+<td>annotation-title</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-type">annotation-type</td>
+<td>annotation-type</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="annotation-width">annotation-width</td>
+<td>annotation-width</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
 </tr>
@@ -860,8 +901,7 @@ Properties related to <a>Annotation in PDF Output</a>.</td>
 </div>
 
 
-<h2 id="elements" class="section">
-<span class="index"><!--elements-->要素</span></h2>
+<h2 id="elements" class="section"><span class="index"><!--elements-->要素</span></h2>
 <div class="section-body">
 
 <h3 id="AreaRoot" class="subsection">
@@ -876,170 +916,190 @@ AreaRoot</h3>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="bookmark-tree.child">bookmark-tree.child</td>
+<td>bookmark-tree.child</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="7">
-Properties corresponding to XSL 1.1 <a href="http://www.w3.org/TR/xsl11/#d0e14206">Formatting Objects for Bookmarks</a>.</td>
+<td class="description" rowspan="7">
+<p>
+
+Properties corresponding to XSL 1.1 <a>Formatting Objects for Bookmarks</a>.
+</p></td>
 </tr>
 <tr>
-<td id="bookmark-tree.color">bookmark-tree.color</td>
+<td>bookmark-tree.color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="bookmark-tree.font-weight">bookmark-tree.font-weight</td>
+<td>bookmark-tree.font-weight</td>
 <td>normal | bold</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="bookmark-tree.internal-destination">bookmark-tree.internal-destination</td>
+<td>bookmark-tree.internal-destination</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="bookmark-tree.next">bookmark-tree.next</td>
+<td>bookmark-tree.next</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="bookmark-tree.starting-state">bookmark-tree.starting-state</td>
+<td>bookmark-tree.starting-state</td>
 <td>show | hide</td>
 <td>show</td>
 </tr>
 <tr>
-<td id="bookmark-tree.title">bookmark-tree.title</td>
+<td>bookmark-tree.title</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="color-profile._CMYK">color-profile._CMYK</td>
+<td>color-profile._CMYK</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="3">
-Color profile to use when "#CMYK", "#GRAYSCALE", or "#RGB" is used with "rgb-icc()".  See <a>PDF/X</a>.</td>
+<td class="description" rowspan="3">
+<p>
+
+Color profile to use when "#CMYK", "#GRAYSCALE", or "#RGB" is used with "rgb-icc()".  See <a>PDF/X</a>.
+</p></td>
 </tr>
 <tr>
-<td id="color-profile._GRAYSCALE">color-profile._GRAYSCALE</td>
-<td>&lt;string&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td id="color-profile._RGB">color-profile._RGB</td>
-<td>&lt;string&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td id="document-info.author">document-info.author</td>
-<td>&lt;string&gt;</td>
-<td>-</td>
-<td rowspan="10">
-Properties corresponding to <a>axf:document-info</a> "name" values.</td>
-</tr>
-<tr>
-<td id="document-info.author-title">document-info.author-title</td>
+<td>color-profile._GRAYSCALE</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.copyright-info-url">document-info.copyright-info-url</td>
+<td>color-profile._RGB</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td>document-info.author</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td class="description" rowspan="10">
+<p>
+
+Properties corresponding to <a>axf:document-info</a> "name" values.
+</p></td>
+</tr>
+<tr>
+<td>document-info.author-title</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td>document-info.copyright-info-url</td>
 <td>&lt;anyURI&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.copyright-notice">document-info.copyright-notice</td>
+<td>document-info.copyright-notice</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.copyright-status">document-info.copyright-status</td>
+<td>document-info.copyright-status</td>
 <td>Unknown | Copyrighted | PublicDomain</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.description-writer">document-info.description-writer</td>
+<td>document-info.description-writer</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.document-title">document-info.document-title</td>
+<td>document-info.document-title</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.keywords">document-info.keywords</td>
+<td>document-info.keywords</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.pagemode">document-info.pagemode</td>
+<td>document-info.pagemode</td>
 <td>UseNone | UseOutline | UseThumbs | FullScreen | UseOC</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="document-info.subject">document-info.subject</td>
+<td>document-info.subject</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="generator">generator</td>
+<td>generator</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-Application that produced the AreaTree XML.</td>
+<td class="description"><p>
+
+Application that produced the AreaTree XML.
+</p></td>
 </tr>
 <tr>
-<td id="layer-settings">layer-settings</td>
+<td>layer-settings</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-Corresponds to <a>axf:layer-settings</a>.</td>
+<td class="description"><p>
+
+Corresponds to <a>axf:layer-settings</a>.
+</p></td>
 </tr>
 
 <tr>
-<td id="output-volume-info.bookmark-include">output-volume-info.bookmark-include</td>
+<td>output-volume-info.bookmark-include</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="4">
-Properties corresponding to <a>axf:output-volume-info</a>.</td>
+<td class="description" rowspan="4">
+<p>
+
+Properties corresponding to <a>axf:output-volume-info</a>.
+</p></td>
 </tr>
 <tr>
-<td id="output-volume-info.document-info-include">output-volume-info.document-info-include</td>
+<td>output-volume-info.document-info-include</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="output-volume-info.format">output-volume-info.format</td>
+<td>output-volume-info.format</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="output-volume-info.initial-volume-number">output-volume-info.initial-volume-number</td>
+<td>output-volume-info.initial-volume-number</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 
 <tr>
-<td id="version">version</td>
+<td>version</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-このエリアツリーのバージョンを示す。</td>
+<td class="description"><p>
+
+このエリアツリーのバージョンを示す。
+</p></td>
 </tr>
 <tr>
-<td id="xmlns">xmlns</td>
+<td>xmlns</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-常に "http://www.antennahouse.com/names/XSL/AreaTree"</td>
+<td class="description"><p>
+
+常に "http://www.antennahouse.com/names/XSL/AreaTree"
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -1088,12 +1148,12 @@ region-start | region-body | region-end
 </pre>
 <p>
 
-<b class="product-name">AH Formatter V6.3</b> では、RegionViewportAreaは、これらの区画に対応しており、region-bodyは必ず存在するが、region-body以外は存在しなくてもよい。
-区画の出現順序は、XSL-FO仕様としての制約はあるが、<b class="product-name">AH Formatter V6.3</b> は出現順序違反を許容している。したがって、AreaTree上でも順序は不定である。
+<b class="product-name">Antenna House Formatter V7.3</b> では、RegionViewportAreaは、これらの区画に対応しており、region-bodyは必ず存在するが、region-body以外は存在しなくてもよい。
+区画の出現順序は、XSL-FO仕様としての制約はあるが、<b class="product-name">Antenna House Formatter V7.3</b> は出現順序違反を許容している。したがって、AreaTree上でも順序は不定である。
 また、AreaTreeではそれがどの区画か区別はつかない。</p>
 <p>
 
-<b class="product-name">AH Formatter V6.3</b> が出力するエリアツリーには、高々５つのRegionViewportAreaしか存在しない。しかし、エリアツリーとしては、もっと多数存在しても問題はない。</p>
+<b class="product-name">Antenna House Formatter V7.3</b> が出力するエリアツリーには、高々５つのRegionViewportAreaしか存在しない。しかし、エリアツリーとしては、もっと多数存在しても問題はない。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#RegionReferenceArea">RegionReferenceArea</a>, <a href="#SideNoteReferenceArea">SideNoteReferenceArea</a>*</td></tr>
 </tbody></table>
@@ -1207,129 +1267,135 @@ BlockArea</h3>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="line-continued-mark">line-continued-mark</td>
+<td>line-continued-mark</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td rowspan="8">
-Properties related to <a>行継続マーク</a>。</td>
+<td class="description" rowspan="8">
+<p>
+
+Properties related to <a>行継続マーク</a>。
+</p></td>
 </tr>
 <tr>
-<td id="line-continued-mark-background-color">line-continued-mark-background-color</td>
-<td>&lt;string&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td id="line-continued-mark-color">line-continued-mark-color</td>
-<td>&lt;string&gt;</td>
-<td>-</td>
-</tr>
-<tr>
-<td id="line-continued-mark-font-family">line-continued-mark-font-family</td>
+<td>line-continued-mark-background-color</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-continued-mark-font-size">line-continued-mark-font-size</td>
+<td>line-continued-mark-color</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-continued-mark-font-style">line-continued-mark-font-style</td>
+<td>line-continued-mark-font-family</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-continued-mark-font-weight">line-continued-mark-font-weight</td>
+<td>line-continued-mark-font-size</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-continued-mark-offset">line-continued-mark-offset</td>
+<td>line-continued-mark-font-style</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number">line-number</td>
-<td>&lt;string&gt;</td>
-<td>-</td>
-<td rowspan="15">
-Properties related to <a>行番号</a>。</td>
-</tr>
-<tr>
-<td id="line-number-background-color">line-number-background-color</td>
+<td>line-continued-mark-font-weight</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-color">line-number-color</td>
+<td>line-continued-mark-offset</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-font-family">line-number-font-family</td>
+<td>line-number</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+<td class="description" rowspan="15">
+<p>
+
+Properties related to <a>行番号</a>。
+</p></td>
+</tr>
+<tr>
+<td>line-number-background-color</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-font-size">line-number-font-size</td>
+<td>line-number-color</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-font-style">line-number-font-style</td>
+<td>line-number-font-family</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-font-weight">line-number-font-weight</td>
+<td>line-number-font-size</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-initial">line-number-initial</td>
+<td>line-number-font-style</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-interval">line-number-interval</td>
+<td>line-number-font-weight</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-offset">line-number-offset</td>
+<td>line-number-initial</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-position">line-number-position</td>
+<td>line-number-interval</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-reset">line-number-reset</td>
+<td>line-number-offset</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-start">line-number-start</td>
+<td>line-number-position</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-text-align">line-number-text-align</td>
+<td>line-number-reset</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
 <tr>
-<td id="line-number-text-decoration">line-number-text-decoration</td>
+<td>line-number-start</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td>line-number-text-align</td>
+<td>&lt;string&gt;</td>
+<td>-</td>
+</tr>
+<tr>
+<td>line-number-text-decoration</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
 </tr>
@@ -1381,89 +1447,111 @@ TextArea</h3>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="text">text</td>
+<td>text</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-元テキスト。</td>
+<td class="description"><p>
+
+元テキスト。
+</p></td>
 </tr>
-<tr>
-<td id="finished-text">finished-text</td>
+<tr id="finished-text">
+<td>finished-text</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-元テキストに対して、リガチャやグリフ置換などを行ない、書字方向によっては逆順にした文字列。このプロパティがあるときは、textに代わってレンダリングに用いる。</td>
+<td class="description"><p>
+
+元テキストに対して、リガチャやグリフ置換などを行い、書字方向によっては逆順にした文字列。このプロパティがあるときは、textに代わってレンダリングに用いる。
+</p></td>
 </tr>
 <tr>
-<td id="script">script</td>
+<td>script</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
-テキストのスクリプト。値は、ISO15924 による。</td>
+<td class="description"><p>
+
+テキストのスクリプト。値は、ISO15924 による。
+</p></td>
 </tr>
 <tr>
-<td id="text-width">text-width</td>
+<td>text-width</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>
-テキストの幅。</td>
+<td class="description"><p>
+
+テキストの幅。
+</p></td>
 </tr>
 <tr>
-<td id="underline-score">underline-score</td>
+<td>underline-score</td>
 <td>true | false</td>
 <td>false</td>
-<td>
-下線。</td>
+<td class="description"><p>
+
+下線。
+</p></td>
 </tr>
 <tr>
-<td id="underline-score-color">underline-score-color</td>
+<td>underline-score-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>
-下線の色。</td>
+<td class="description"><p>
+
+下線の色。
+</p></td>
 </tr>
 <tr>
-<td id="overline-score">overline-score</td>
+<td>overline-score</td>
 <td>true | false</td>
 <td>false</td>
-<td>
-上線。</td>
+<td class="description"><p>
+
+上線。
+</p></td>
 </tr>
 <tr>
-<td id="overline-score-color">overline-score-color</td>
+<td>overline-score-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>
-上線の色。</td>
+<td class="description"><p>
+
+上線の色。
+</p></td>
 </tr>
 <tr>
-<td id="through-score">through-score</td>
+<td>through-score</td>
 <td>true | false</td>
 <td>false</td>
-<td>
-取消し線。</td>
+<td class="description"><p>
+
+取消し線。
+</p></td>
 </tr>
 <tr>
-<td id="through-score-color">through-score-color</td>
+<td>through-score-color</td>
 <td>&lt;color&gt;</td>
 <td>-</td>
-<td>
-取消し線の色。</td>
+<td class="description"><p>
+
+取消し線の色。
+</p></td>
 </tr>
 <tr>
-<td id="blink">blink</td>
+<td>blink</td>
 <td>true | false</td>
 <td>false</td>
-<td>
-点滅。</td>
+<td class="description"><p>
+
+点滅。
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -1480,61 +1568,73 @@ GlyphArea</h3>
 グリフ領域。
 テキストの各文字に対するグリフ情報が列挙されている。
 レンダリング時に<a href="#TextArea">TextArea</a>の<a href="#finished-text">finished-text</a>の代わりに用いる。
-<b class="product-name">AH Formatter V6.3</b> は、すべてのテキストに対してグリフ情報を出力するわけではない。Arabic や Hebrew などに対してのみ出力する。
-グリフの描画は常に行内進行方向に行なわれる。これは、Arabicなどでも同様である。すなわち、例えばArabicではグリフ情報はアラビア語として逆順に並んでいる。</p>
+<b class="product-name">Antenna House Formatter V7.3</b> は、すべてのテキストに対してグリフ情報を出力するわけではない。Arabic や Hebrew などに対してのみ出力する。
+グリフの描画は常に行内進行方向に行われる。これは、Arabicなどでも同様である。すなわち、例えばArabicではグリフ情報はアラビア語として逆順に並んでいる。</p>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="length">length</td>
+<td>length</td>
 <td>&lt;number&gt;</td>
 <td>-</td>
-<td>
-元テキストに対して、この１グリフが何文字に対応しているのかを示す。</td>
+<td class="description"><p>
+
+元テキストに対して、この１グリフが何文字に対応しているのかを示す。
+</p></td>
 </tr>
 <tr>
-<td id="glyph">glyph</td>
+<td>glyph</td>
 <td>&lt;number&gt;</td>
 <td>-</td>
-<td>
-TextAreaで指定されているフォントのグリフID。</td>
+<td class="description"><p>
+
+TextAreaで指定されているフォントのグリフID。
+</p></td>
 </tr>
-<tr>
-<td id="glyph-width">glyph-width</td>
+<tr id="glyph-width">
+<td>glyph-width</td>
 <td>&lt;number&gt;</td>
 <td>-</td>
-<td>
-グリフ幅。これは、フォントサイズを 2048としたときの値。</td>
+<td class="description"><p>
+
+グリフ幅。これは、フォントサイズを 2048としたときの値。
+</p></td>
 </tr>
 <tr>
-<td id="glyph-pos1">glyph-pos1</td>
+<td>glyph-pos1</td>
 <td>&lt;number&gt;</td>
 <td>0</td>
-<td>
-グリフ描画前の移動量。単位は glyph-width と同じ。</td>
+<td class="description"><p>
+
+グリフ描画前の移動量。単位は glyph-width と同じ。
+</p></td>
 </tr>
 <tr>
-<td id="glyph-pos2">glyph-pos2</td>
+<td>glyph-pos2</td>
 <td>&lt;number&gt;</td>
 <td>glyph-width</td>
-<td>
+<td class="description"><p>
+
 グリフ描画後の移動量。単位は <a href="#glyph-width">glyph-width</a> と同じ。
-通常は、glyph-pos1=0、glyph-pos2=glyph-width である。文字を重ねるときなど、負になることもある。</td>
+通常は、glyph-pos1=0、glyph-pos2=glyph-width である。文字を重ねるときなど、負になることもある。
+</p></td>
 </tr>
 <tr>
-<td id="glyph-posy">glyph-posy</td>
+<td>glyph-posy</td>
 <td>&lt;number&gt;</td>
 <td>0</td>
-<td>
+<td class="description"><p>
+
 グリフの上下方向の移動量。
-グリフ描画前に +(glyph-posy) 移動し、描画後に -(glyph-posy) 移動する。</td>
+グリフ描画前に +(glyph-posy) 移動し、描画後に -(glyph-posy) 移動する。
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -1562,24 +1662,25 @@ LeaderArea</h3>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="leader-pattern">leader-pattern</td>
+<td>leader-pattern</td>
 <td>space | rule | dots | use-content</td>
 <td>-</td>
-<td>
-リーダの様式。</td>
+<td class="description"><p>
+
+リーダの様式。
+</p></td>
 </tr>
 <tr>
-<td id="rule-style">rule-style</td>
+<td>rule-style</td>
 <td>
-
 none |
 dotted |
 dashed |
@@ -1592,15 +1693,19 @@ double-wave |
 groove |
 ridge</td>
 <td>solid</td>
-<td>
-leader-pattern="rule" のときのリーダのスタイル。</td>
+<td class="description"><p>
+
+leader-pattern="rule" のときのリーダのスタイル。
+</p></td>
 </tr>
 <tr>
-<td id="rule-thickness">rule-thickness</td>
+<td>rule-thickness</td>
 <td>&lt;length&gt;</td>
 <td>-</td>
-<td>
-leader-pattern="rule" のときのリーダの太さ。</td>
+<td class="description"><p>
+
+leader-pattern="rule" のときのリーダの太さ。
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -1615,33 +1720,37 @@ BidiOverrideArea</h3>
 <div class="subsection-body">
 <p>
 双方向上書き領域。
-この領域は複雑な双方向処理を行なうために用意される領域であるが、エリアツリー中では双方向処理は済んでいる。
+この領域は複雑な双方向処理を行うために用意される領域であるが、エリアツリー中では双方向処理は済んでいる。
 レンダラは、BidiOverrideAreaを<a href="#InlineArea">InlineArea</a>のように扱ってよい。</p>
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="direction">direction</td>
+<td>direction</td>
 <td>ltr | rtl</td>
 <td>-</td>
-<td>
+<td class="description"><p>
+
 書字方向。
-<a href="#finished-text">finished-text</a>やグリフ情報を用いるならば、このプロパティはレンダリングには必要ない。</td>
+<a href="#finished-text">finished-text</a>やグリフ情報を用いるならば、このプロパティはレンダリングには必要ない。
+</p></td>
 </tr>
 <tr>
-<td id="bidi-level">bidi-level</td>
+<td>bidi-level</td>
 <td>&lt;digits&gt;</td>
 <td>-</td>
-<td>
-双方向レベル。詳しくは <a href="http://www.unicode.org/reports/tr9/">UAX9</a> を見よ。
-このプロパティはレンダリングには必要ない。</td>
+<td class="description"><p>
+
+双方向レベル。詳しくは <a>UAX9</a> を見よ。
+このプロパティはレンダリングには必要ない。
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -1756,7 +1865,7 @@ Form area。</p>
 BlockAnchorArea</h3>
 <div class="subsection-body">
 <p>
-ブロックアンカ領域。脚注のアンカとなるブロックが含まれている。
+ブロックアンカー領域。脚注のアンカーとなるブロックが含まれている。
 レンダラは、BlockAnchorAreaを<a href="#BlockArea">BlockArea</a>のように扱ってよい。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td><a href="#LineArea">LineArea</a>*</td></tr>
@@ -1767,7 +1876,7 @@ BlockAnchorArea</h3>
 InlineAnchorArea</h3>
 <div class="subsection-body">
 <p>
-行内アンカ領域。脚注のアンカとなるテキストが含まれている。
+行内アンカー領域。脚注のアンカーとなるテキストが含まれている。
 レンダラは、InlineAnchorAreaを<a href="#InlineArea">InlineArea</a>のように扱ってよい。</p>
 <table class="std">
 <tbody><tr><th>Contents</th><td>(<a href="#TextArea">TextArea</a> | <a href="#LeaderArea">LeaderArea</a> | <a href="#InlineArea">InlineArea</a> | <a href="#InlineViewportArea">InlineViewportArea</a> | <a href="#GraphicViewportArea">GraphicViewportArea</a>)*</td></tr>
@@ -1798,36 +1907,41 @@ graphic-image="H4sIAAAAAAAAC31S3W7TMBS...
 <table class="std">
 <thead>
 <tr>
-<th nowrap="nowrap" scope="col">プロパティ</th>
-<th nowrap="nowrap" scope="col">Value</th>
-<th nowrap="nowrap" scope="col">Default</th>
-<th nowrap="nowrap" scope="col">Description</th>
+<th scope="col" class="nowrap">プロパティ</th>
+<th scope="col" class="nowrap">Value</th>
+<th scope="col" class="nowrap">Default</th>
+<th scope="col" class="nowrap">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="src">src</td>
+<td class="aname">src</td>
 <td>&lt;uri-specification&gt;</td>
 <td>-</td>
-<td>
-外部の画像のとき、そのURI。</td>
+<td class="description"><p>
+
+外部の画像のとき、そのURI。
+</p></td>
 </tr>
 <tr>
-<td id="base-uri">base-uri</td>
-<td>&lt;uri-specification&gt;</td>
+<td class="aname">base-uri</td>
+<td class="nowrap">&lt;uri-specification&gt;</td>
 <td>-</td>
-<td>
-src に適用するベースURI。</td>
+<td class="description"><p>
+
+src に適用するベースURI。
+</p></td>
 </tr>
 <tr>
-<td id="graphic-image">graphic-image</td>
+<td class="aname">graphic-image</td>
 <td>&lt;string&gt;</td>
 <td>-</td>
-<td>
+<td class="description"><p>
+
 画像データを Base64 でエンコードしたもの。元が同一の画像でも、異なる領域に同じ内容のデータが含まれる。
 
 SVGはsvgzに加工してからBase64化されている。
-</td>
+</p></td>
 </tr>
 </tbody>
 </table>
@@ -1891,7 +2005,7 @@ W3Cの表モデルでは、表を table-header、table-body、table-footer に�
 TableColumnGroupArea</h3>
 <div class="subsection-body">
 <p>
-表列グループ領域。列グループに対する背景色などの設定に利用される。現在 <b class="product-name">AH Formatter V6.3</b> ではこの領域は生成されない。</p>
+表列グループ領域。列グループに対する背景色などの設定に利用される。現在 <b class="product-name">Antenna House Formatter V7.3</b> ではこの領域は生成されない。</p>
 <table class="std">
 <tr><th>Contents</th><td><a href="#TableColumnArea">TableColumnArea</a>+</td></tr>
 </table>
@@ -2112,8 +2226,9 @@ MultiColumnReferenceArea</h3>
 
 <hr />
 <div align="center" class="copyright">
-<address>Copyright © 1999-2016<a href="http://www.antenna.co.jp/AHF/"> Antenna House, Inc.</a> All rights reserved.<br />Antenna House is a trademark of Antenna House, Inc.</address>
+<address>Copyright © 1999-2023 <a href="https://www.antenna.co.jp/">Antenna House, Inc.</a> All rights reserved.<br />Antenna House is a trademark of Antenna House, Inc.</address>
 </div>
 <hr />
+<p id="PageTopBtn"><a href="#">▲</a></p>
 </body>
 </html>
