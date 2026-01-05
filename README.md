@@ -16,4 +16,4 @@ Pull requests and new issues are welcome.
 
 ## License
 
-Copyright 2016-2023 Antenna House, Inc. All rights reserved.
+Copyright 2016-2026 Antenna House, Inc. All rights reserved.
