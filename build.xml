@@ -58,12 +58,78 @@
 
 <tstamp>
   <format property="timestamp" pattern="yyyy-MM-dd"/>
+  <format property="year" pattern="yyyy" />
 </tstamp>
 
-<!-- Targets -->
+<!-- Release targets -->
+
+
+<macrodef name="update-copyright">
+  <attribute name="file" />
+  <attribute name="flags" default="g" />
+  <sequential>
+    <replaceregexp file="@{file}"
+		   flags="@{flags}"
+		   encoding="UTF-8">
+      <regexp pattern='Copyright ([0-9]+)-[0-9]+' />
+      <substitution
+	  expression="Copyright \1-${year}"/>
+    </replaceregexp>
+  </sequential>
+</macrodef>
+
+<target name="add-on.xml.uptodate">
+  <condition property="add-on.xml.uptodate">
+    <and>
+      <uptodate targetfile="${AreaTree.basedir.converted}/add-on.xml">
+	<srcfiles
+	    dir="${AreaTree.basedir.converted}"
+	    includes="build.properties, add-on.xml.in, ChangeLog.md" />
+      </uptodate>
+      <isfalse value="${force}" />
+    </and>
+  </condition>
+</target>
+
+<target name="add-on.xml" depends="add-on.xml.uptodate"
+	unless="add-on.xml.uptodate"
+	description="Update the version information in 'add-on.xml'.">
+  <update-copyright file="${AreaTree.basedir.converted}/add-on.xml.in" />
+  <!--<update-copyright file="${AreaTree.basedir.converted}/LICENSE.md" />-->
+  <delete file="add-on.xml" />
+  <copy file="add-on.xml.in" tofile="add-on.xml" force="true" />
+  <replaceregexp file="${AreaTree.basedir.converted}/add-on.xml"
+		 encoding="UTF-8">
+    <regexp pattern="&lt;xt:version>[^&lt;]+&lt;/xt:version>" />
+    <substitution expression="&lt;xt:version>${version}&lt;/xt:version>"/>
+  </replaceregexp>
+  <replaceregexp file="${AreaTree.basedir.converted}/add-on.xml"
+		 encoding="UTF-8">
+    <regexp pattern='releases/download/[^"]+' />
+    <substitution
+	expression="releases/download/v${version}/${ant.project.name}-framework-${version}.zip"/>
+  </replaceregexp>
+  <loadfile srcfile="ChangeLog.md" property="changelog" />
+  <replaceregexp file="${AreaTree.basedir.converted}/add-on.xml"
+		 encoding="UTF-8">
+    <regexp pattern="@@ChangeLog@@" />
+    <substitution expression="${changelog}"/>
+  </replaceregexp>
+  <!--<loadfile srcfile="LICENSE.md" property="license" />
+  <replaceregexp file="${AreaTree.basedir.converted}/add-on.xml"
+		 encoding="UTF-8">
+    <regexp pattern="@@LICENSE@@" />
+    <substitution expression="${license}"/>
+  </replaceregexp>-->
+</target>
+
+<target name="README.md"> 
+  <update-copyright file="${AreaTree.basedir.converted}/README.md" />
+</target>
 
 <target name="en.zip"
-	description="Make a Zip archive of just the English documentation.">
+	depends="add-on.xml, README.md"
+	description="Make a Zip archive of the English documentation.">
   <mkdir dir="${AreaTree.basedir.converted}/releases" />
   <zip destfile="${AreaTree.basedir.converted}/releases/${ant.project.name}-en-${version}.zip"
        basedir="${AreaTree.basedir.converted}"
@@ -76,7 +142,7 @@
 		includes="**"
 		prefix="${ant.project.name}/schema" />
     <zipfileset dir="."
-		includes="AreaTree.framework, README.md"
+		includes="ChangeLog.md, AreaTree.framework, README.md"
 		prefix="${ant.project.name}" />
   </zip>
 </target>
@@ -95,7 +161,7 @@
 		includes="**"
 		prefix="${ant.project.name}/schema" />
     <zipfileset dir="."
-		includes="AreaTree.framework, README.md"
+		includes="ChangeLog.md, AreaTree.framework, README.md"
 		prefix="${ant.project.name}" />
   </zip>
 </target>
