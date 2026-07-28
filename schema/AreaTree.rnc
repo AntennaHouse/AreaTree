@@ -1,4 +1,9 @@
 # Copyright 2016-2026 Antenna House, Inc. All rights reserved.
+#
+# Area (element) names are in CamelCase.
+# Property (attribute) names are in kebab-case.
+# Pattern names are dotted, including as .suffix after an Area name.
+# Patterns for attribute values are in kebab-case.
 
 default namespace = "http://www.antennahouse.com/names/XSL/AreaTree"
 
@@ -7,7 +12,8 @@ start =
 
 leader.rule.style =
    'none' | 'dotted' | 'dashed' | 'solid' | 'double' | 'groove' |
-   'ridge' | 'dot-dash' | 'dot-dot-dash' | 'wave'
+   'ridge' | 'dot-dash' | 'dot-dot-dash' | 'wave' | 'wavy' |
+   'double-wave' | 'double-wavy'
 
 border.style =
    leader.rule.style | 'hidden' | 'outset' | 'inset' | 'triple' |
@@ -95,25 +101,36 @@ border-separation.properties.attlist =
 
 dev.properties.attlist =
    attribute area-dev-flags { xsd:NMTOKEN }?,
-   attribute area-id { xsd:NMTOKEN }?
+   attribute area-id { xsd:NMTOKEN }?,
+   attribute BUG { text }?
 
 dev.text.properties.attlist =
    attribute text-dev-flags { xsd:NMTOKEN }?
    
+common.inline.properties.attlist =
+   attribute text-treat-as { text }?
+
+common.block.properties.attlist =
+   attribute text-overflow { text }?,
+   attribute keep-together-within-inline-dimension { text }?
+
 common.properties.attlist =
    attribute area-flags { xsd:NMTOKEN }?,
    attribute baseline-after { xsd:NMTOKEN }?,
    attribute baseline-offset { xsd:NMTOKEN }?,
    attribute bidi-level { xsd:integer }?,
    attribute bottom-position { length }?,
-   attribute expansion-text { text }?,
+   border-connection-form,
+   attribute font-feature-settings { text }?,
    generated-by,
    attribute height { length }?,
    attribute is-first { true-or-false }?,
    attribute is-last { true-or-false }?,
-   attribute language { xsd:NCName }?,
+   attribute language { text }?,
+   attribute layer { text }?,
    attribute left-position { length }?,
-   attribute pdftag { xsd:NMTOKEN? }?,
+   # 'pdftag' may contain '&quot;&quot;' instead of a token.
+   attribute pdftag { text }?,
    attribute reference-orientation { xsd:integer }?,
    attribute reverse-page-number { true-or-false }?,
    attribute right-position { length }?,
@@ -181,6 +198,7 @@ line-number.properties.attlist =
 
 outline.properties.attlist =
    attribute outline-expand { true-or-false }?,
+   attribute outline-external-destination { text }?,
    attribute outline-group { xsd:NCName }?,
    attribute outline-level { xsd:integer }?,
    attribute outline-title { text }?
@@ -204,9 +222,10 @@ previous-next.properties.attlist =
 printer-marks.properties.attlist =
    attribute marks { text }?, # For HTML/CSS
    attribute printer-marks { text }?,
-   attribute printer-marks-line-color { xsd:NCName }?,
-   attribute printer-marks-line-length { length-or-auto }?,
+   attribute printer-marks-line-color { text }?,
+   attribute printer-marks-line-length { text }?,
    attribute printer-marks-line-width { length-or-auto }?,
+   attribute printer-marks-over-content { true-or-false }?,
    attribute printer-marks-spine-width { length }?,
    attribute printer-marks-zero-margin { xsd:NCName }?
 
@@ -225,6 +244,8 @@ text.properties.attlist =
    attribute text-line-style { xsd:NCName }?,
    attribute text-line-width { length }?,
    attribute text-shadow { text }?,
+   attribute text-stroke-color { text }?,
+   attribute text-stroke-width { length }?,
    attribute text-transform { xsd:NCName }?,
    attribute text-underline-position { text }?,
    text-decoration.properties.attlist
@@ -413,7 +434,7 @@ annotation-title =
 # https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.annotation-type
 annotation-type =
    ## Type of the annotation: Empty string | Text | FreeText | Stamp | FileAttachment
-   attribute annotation-type { ('Text' | 'FreeText' | 'Stamp' | 'FileAttachment')? }?
+   attribute annotation-type { ('Text' | 'FreeText' | 'Stamp' | 'FileAttachment' | 'Highlight' | 'StrikeOut' | 'Underline' | 'Squiggly')? }?
 
 # @annotation-width
 #
@@ -440,6 +461,13 @@ base-uri =
    ## Location which becomes the base of relative URI: <uri-specification>
    attribute base-uri { text }?
 
+# @border-connection-form
+#
+# https://www.antenna.co.jp/AHF/help/en/ahf-ext.html#axf.border-connection-form
+border-connection-form =
+   ## Shape where borders connect: wedge | mixed | precedence
+   attribute border-connection-form { 'wedge' | 'mixed' | 'precedence' }?
+
 # @generated-by
 generated-by =
    ## Identifier of element that created this area
@@ -463,6 +491,7 @@ AreaRoot.model =
 
 AreaRoot.attlist =
    base-uri,
+   attribute bookmark-tree.base-uri { xsd:anyURI }?,
    attribute bookmark-tree.child { text }?,
    attribute bookmark-tree.color { text }?,
    attribute bookmark-tree.font-weight { xsd:NCName }?,
@@ -479,17 +508,24 @@ AreaRoot.attlist =
    attribute document-info.assert { text }?, # For HTML/CSS
    attribute document-info.author { text }?,
    attribute document-info.author-title { text }?,
+   attribute document-info.centerwindow { true-or-false }?,
    attribute document-info.copyright-info-url { text }?,
    attribute document-info.copyright-notice { text }?,
    attribute document-info.copyright-status { xsd:NCName }?,
+   attribute document-info.createdate { text }?,
    attribute document-info.description { text }?, # For HTML/CSS
    attribute document-info.description-writer { text }?,
    attribute document-info.displaydoctitle { true-or-false }?,
    attribute document-info.document-title { text }?,
    attribute document-info.fitwindow { true-or-false }?,
    attribute document-info.flags { text }?, # For HTML/CSS
+   attribute document-info.hidemenubar { true-or-false }?,
+   attribute document-info.hidetoolbar { true-or-false }?,
+   attribute document-info.hidewindowui { true-or-false }?,
    attribute document-info.generator { text }?, # For HTML/CSS
    attribute document-info.keywords { text }?,
+   attribute document-info.modifydate { text }?,
+   attribute document-info.openaction { text }?,
    attribute document-info.pagelayout { xsd:NCName }?,
    attribute document-info.pagemode { xsd:NCName }?,
    attribute document-info.subject { text }?,
@@ -499,6 +535,7 @@ AreaRoot.attlist =
    attribute id { xsd:NMTOKENS }?, # 'S' for HTML/CSS
    attribute is-CSS { true-or-false }?,
    attribute layer-settings { text }?,
+   attribute new-tagging-mode { true-or-false }?,
    attribute output-volume-info.bookmark-include { xsd:NCName }?,
    attribute output-volume-info.document-info-include { xsd:NCName }?,
    attribute output-volume-info.format { xsd:integer }?,
@@ -519,10 +556,11 @@ PageViewportArea =
 }
 
 PageViewportArea.model =
-  (PageReferenceArea, FixedViewportArea*)
+  (PageReferenceArea | FixedViewportArea)*
 
 PageViewportArea.attlist =
    attribute abs-page-number { xsd:integer },
+   attribute abs-volume-number { xsd:integer }?,
    base-uri,
    attribute color { text }?, # For HTML/CSS
    attribute counter-increment { text }?, # For HTML/CSS
@@ -534,8 +572,8 @@ PageViewportArea.attlist =
    attribute output-volume-filename { xsd:NMTOKEN }?,
    attribute page-master { text }?,
    attribute page-number { xsd:integer },
-   attribute page-number-prefix { xsd:NCName }?,
-   attribute page-number-suffix { xsd:NMTOKEN }?,
+   attribute page-number-prefix { text }?,
+   attribute page-number-suffix { text }?,
    printer-duplex,
    attribute stacking-context { xsd:NCName }?,
    background.properties.attlist,
@@ -559,6 +597,7 @@ PageReferenceArea.attlist =
    attribute display-role { xsd:NCName },
    attribute id { xsd:NMTOKENS }?, # 'S' for HTML/CSS, e.g., 'id="OBJECT tag"'
    attribute is-link-destination { true-or-false }?,
+   attribute region-alternative { xsd:decimal }?,
    common.properties.attlist,
    crop.properties.attlist # For HTML/CSS
 
@@ -641,7 +680,7 @@ MarginRegionViewportArea.attlist =
    attribute left-position { xsd:NMTOKEN }?,
    attribute list-style-type { text }?, # For HTML/CSS
    attribute region { xsd:NCName },
-   attribute region-name { xsd:NCName },
+   attribute region-name { text },
    attribute right-position { xsd:NMTOKEN }?,
    attribute top-position { xsd:NMTOKEN }?,
    attribute width { xsd:NMTOKEN },
@@ -715,7 +754,8 @@ FlowReferenceArea.attlist =
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    common.properties.attlist,
    display.properties.attlist,
-   line-continued-mark.properties.attlist # For HTML/CSS
+   line-continued-mark.properties.attlist, # For HTML/CSS
+   previous-next.properties.attlist
 
 RegionViewportArea =
   element RegionViewportArea {
@@ -727,18 +767,14 @@ RegionViewportArea.model =
    RegionReferenceArea, SideNoteReferenceArea*
 
 RegionViewportArea.attlist =
-   attribute background-color { text }?,
-   attribute background-content-height { xsd:NMTOKEN }?,
-   attribute background-content-width { length }?,
-   attribute background-image { text }?,
-   attribute background-position-horizontal { text }?,
-   attribute background-setup { xsd:NCName }?,
    base-uri,
    attribute flow { xsd:NCName }?,
    attribute overflow { xsd:NCName }?,
    attribute region { xsd:NCName },
-   attribute region-name { xsd:NCName },
+   attribute region-condition { text }?,
+   attribute region-name { text },
    attribute text-align { text }?,
+   background.properties.attlist,
    common.properties.attlist,
    display.properties.attlist
 
@@ -819,6 +855,7 @@ SideNoteArea.model =
    (BlockArea | BlockViewportArea)
 
 SideNoteArea.attlist =
+   attribute anchor-area { xsd:positiveInteger },
    base-uri, # For HTML/CSS
    attribute content { text }?, # For HTML/CSS
    common.properties.attlist,
@@ -837,7 +874,9 @@ ColumnReferenceArea.attlist =
    base-uri, # For HTML/CSS
    attribute counter-increment { text }?, # For HTML/CSS
    attribute counter-reset { text }?, # For HTML/CSS
+   attribute id { xsd:NMTOKENS }?, # 'S' for HTML/CSS
    attribute text-align { text }?,
+   attribute visibility { xsd:NCName }?,
    common.properties.attlist,
    display.properties.attlist,
    line-continued-mark.properties.attlist, # For HTML/CSS
@@ -862,7 +901,8 @@ TableAndCaptionArea.attlist =
    attribute text-align { text }?,
    common.properties.attlist,
    border-separation.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 TableCaptionViewportArea =
   element TableCaptionViewportArea {
@@ -938,6 +978,7 @@ RelativeFloatArea.attlist =
    common.properties.attlist,
    display.properties.attlist,
    outline.properties.attlist, # For HTML/CSS
+   previous-next.properties.attlist,
    text-decoration.properties.attlist # For HTML/CSS
 
 BlockViewportArea =
@@ -960,7 +1001,6 @@ BlockViewportArea.attlist =
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
    attribute keep-together-within-dimension { text }?,
-   attribute layer { xsd:NCName }?,
    attribute overflow { xsd:NCName }?,
    attribute overprint { text }?,
    attribute role { xsd:NMTOKEN }?,
@@ -975,6 +1015,7 @@ BlockViewportArea.attlist =
    display.properties.attlist,
    line-continued-mark.properties.attlist, # For HTML/CSS
    line-number.properties.attlist,
+   previous-next.properties.attlist,
    relative-position.properties.attlist,
    text-decoration.properties.attlist # For HTML/CSS
 
@@ -989,6 +1030,7 @@ MultiColumnReferenceArea.model =
 
 MultiColumnReferenceArea.attlist =
    attribute display-role { xsd:NCName },
+   attribute id { xsd:NMTOKENS }?, # 'S' for HTML/CSS
    common.properties.attlist
 
 TableViewportArea =
@@ -1018,7 +1060,8 @@ TableViewportArea.attlist =
    background.properties.attlist, # For HTML/CSS
    border-separation.properties.attlist,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 TableArea =
   element TableArea {
@@ -1037,7 +1080,8 @@ TableArea.attlist =
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    border-separation.properties.attlist,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 TableColumnGroupArea =
   element TableColumnGroupArea {
@@ -1072,12 +1116,12 @@ TableRowGroupArea.model =
    empty
 
 TableRowGroupArea.attlist =
-   attribute background-color { text }?,
-   attribute background-setup { xsd:NCName }?,
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
+   background.properties.attlist,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 TableRowArea =
   element TableRowArea {
@@ -1086,7 +1130,7 @@ TableRowArea =
 }
 
 TableRowArea.model =
-   TableCellArea+
+   TableCellArea*
 
 TableRowArea.attlist =
    attribute background-color { text }?,
@@ -1102,7 +1146,8 @@ TableRowArea.attlist =
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    border-separation.properties.attlist, # For HTML/CSS
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 TableCellArea =
   element TableCellArea {
@@ -1135,7 +1180,8 @@ TableCellArea.attlist =
    background.properties.attlist,
    border-separation.properties.attlist,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 BlockArea =
   element BlockArea {
@@ -1147,6 +1193,7 @@ BlockArea.model =
    (BlockArea |
       BlockAnchorArea |
       BlockViewportArea |
+      EllipsingTextArea |
       FormArea |
       LineArea |
       TableAndCaptionArea |
@@ -1170,29 +1217,46 @@ BlockArea.attlist =
    attribute is-link { true-or-false }?,
    attribute is-link-destination { true-or-false }?,
    attribute keep-with-next { xsd:NCName }?,
-   attribute layer { text }?,
    attribute layer-settings { text }?, # For HTML/CSS
    attribute line-height { length }?,
    attribute list-style-image { text }?,
    attribute list-style-type { text }?,
+   attribute marker-by { text }?,
    attribute number-transform { text }?,
    attribute overprint { text }?,
    attribute page-number-treatment { xsd:NMTOKEN }?,
    attribute role { xsd:NMTOKEN }?,
    attribute rule-thickness { xsd:NMTOKEN }?,
    attribute stacking-context { xsd:NCName }?, # For HTML/CSS
+   attribute suppressed { true-or-false }?,
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    annotation.attlist,
    background.properties.attlist,
    border-separation.properties.attlist, # For HTML/CSS
+   common.block.properties.attlist,
    common.properties.attlist,
    display.properties.attlist,
    line-continued-mark.properties.attlist,
    line-number.properties.attlist,
    outline.properties.attlist,
+   previous-next.properties.attlist,
    relative-position.properties.attlist,
    text.properties.attlist,
    transform.properties.attlist
+
+EllipsingTextArea =
+  element EllipsingTextArea {
+   EllipsingTextArea.attlist,
+   EllipsingTextArea.model
+}
+
+EllipsingTextArea.model =
+   (InlineArea+)
+
+EllipsingTextArea.attlist =
+   attribute visibility { xsd:NCName }?,
+   common.properties.attlist,
+   text.properties.attlist
 
  SideFloatArea =
   element SideFloatArea {
@@ -1219,7 +1283,8 @@ ListBlockArea.attlist =
    attribute is-link-destination { true-or-false }?,
    attribute text-align { text }?,
    common.properties.attlist,
-   outline.properties.attlist
+   outline.properties.attlist,
+   previous-next.properties.attlist
 
 ListItemArea =
   element ListItemArea {
@@ -1228,12 +1293,13 @@ ListItemArea =
 }
 
 ListItemArea.model =
-   (ListItemLabelArea?, ListItemBodyArea)
+   (ListItemLabelArea?, ListItemBodyArea?)
 
 ListItemArea.attlist =
    attribute id { xsd:NMTOKEN }?,
+   attribute is-link-destination { true-or-false }?,
    common.properties.attlist,
-   attribute is-link-destination { true-or-false }?
+   previous-next.properties.attlist
 
 ListItemLabelArea =
   element ListItemLabelArea {
@@ -1242,7 +1308,7 @@ ListItemLabelArea =
 }
 
 ListItemLabelArea.model =
-   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | SideFloatArea | BlockViewportArea | AbsoluteViewportArea)+
+   (BlockArea | BlockAnchorArea | TableAndCaptionArea | TableViewportArea | ListBlockArea | SideFloatArea | BlockViewportArea | AbsoluteViewportArea)*
 
 ListItemLabelArea.attlist =
    common.properties.attlist,
@@ -1261,7 +1327,8 @@ ListItemBodyArea.attlist =
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
    attribute text-align { text }?,
-   common.properties.attlist
+   common.properties.attlist,
+   previous-next.properties.attlist
 
 AbsoluteViewportArea =
   element AbsoluteViewportArea {
@@ -1280,7 +1347,6 @@ AbsoluteViewportArea.attlist =
    attribute content { text }?,
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
-   attribute layer { xsd:NCName }?,
    attribute overflow { xsd:NCName }?,
    attribute overprint { text }?,
    attribute stacking-context { xsd:NCName }?, # For HTML/CSS
@@ -1334,7 +1400,8 @@ SpanReferenceArea.attlist =
    attribute counter-reset { text }?, # For HTML/CSS
    attribute text-align { text }?,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 AbsoluteFloatArea =
   element AbsoluteFloatArea {
@@ -1346,12 +1413,16 @@ AbsoluteFloatArea.model =
    (BlockArea | BlockViewportArea | FootnoteArea)+
 
 AbsoluteFloatArea.attlist =
+   attribute anchor-area { xsd:positiveInteger },
    attribute background-color { text }?, # For HTML/CSS
    attribute background-setup { xsd:NCName }?, # For HTML/CSS
    base-uri, # For HTML/CSS
+   attribute color { text }?,
    attribute content { text }?, # For HTML/CSS
    attribute counter-increment { text }?, # For HTML/CSS
    attribute counter-reset { text }?, # For HTML/CSS
+   attribute id { xsd:NMTOKENS }?, # 'S' for HTML/CSS
+   attribute is-link-destination { true-or-false }?,
    common.properties.attlist,
    text.properties.attlist,
    display.properties.attlist
@@ -1367,7 +1438,8 @@ FootnoteReferenceArea.model =
 
 FootnoteReferenceArea.attlist =
    attribute display-align { xsd:NCName },
-   common.properties.attlist
+   common.properties.attlist,
+   previous-next.properties.attlist
 
 FootnoteArea =
   element FootnoteArea {
@@ -1376,15 +1448,36 @@ FootnoteArea =
 }
 
 FootnoteArea.model =
-   BlockArea* | ListBlockArea*
+   BlockArea* | ListBlockArea* | BlockViewportArea
 
 FootnoteArea.attlist =
+   attribute anchor-area { xsd:positiveInteger }?,
    attribute keep-with-next { xsd:NCName }?,
    attribute text-align { text }?,
    attribute text-align-last { text }?,
    attribute visibility { xsd:NCName }?,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
+
+FootnoteNumberArea =
+  element FootnoteNumberArea {
+   FootnoteNumberArea.attlist,
+   FootnoteNumberArea.model
+}
+
+FootnoteNumberArea.model =
+   TextArea
+
+FootnoteNumberArea.attlist =
+   attribute display-role { xsd:NCName }?,
+   attribute id { xsd:NMTOKEN }?,
+   attribute keep-with-next { xsd:NCName }?,
+   attribute ref-id { xsd:NCName }?,
+   attribute text-altitude { text }?,
+   attribute text-depth { text }?,
+   common.inline.properties.attlist,
+   common.properties.attlist
 
 RubyArea =
   element RubyArea {
@@ -1400,8 +1493,10 @@ RubyArea.attlist =
    attribute is-link-destination { true-or-false }?,
    attribute text-altitude { text }?,
    attribute text-depth { text }?,
+   common.inline.properties.attlist,
    common.properties.attlist,
-   display.properties.attlist
+   display.properties.attlist,
+   previous-next.properties.attlist
 
 RubyContainerArea =
   element RubyContainerArea {
@@ -1464,7 +1559,6 @@ LineArea.model =
    (TextArea | LeaderArea | InlineArea | InlineAnchorArea | InlineViewportArea | GraphicViewportArea | BidiOverrideArea | RubyArea | FormFieldArea)*
 
 LineArea.attlist =
-   attribute background-setup { text }?,
    attribute id { xsd:NMTOKEN }?,
    attribute keep-together-within-dimension { text }?,
    attribute line-count { xsd:positiveInteger }?,
@@ -1473,6 +1567,7 @@ LineArea.attlist =
    attribute text-altitude { text }?,
    attribute text-depth { text }?,
    attribute visibility { xsd:NCName }?, # For HTML/CSS
+   background.properties.attlist,
    common.properties.attlist,
    display.properties.attlist,
    relative-position.properties.attlist,
@@ -1489,8 +1584,6 @@ FormFieldArea.model =
 
 FormFieldArea.attlist =
    attribute action-type { xsd:NCName }?,
-   attribute background-color { text }?,
-   attribute background-setup { xsd:NCName }?,
    base-uri,
    attribute color { text }?,
    attribute content-height { xsd:NMTOKEN }?,
@@ -1523,9 +1616,12 @@ FormFieldArea.attlist =
    attribute field-value { xsd:NCName }?,
    attribute form-field-event { text }?,
    attribute form-field-option { text }?,
+   attribute image-orientation { text }?,
    attribute is-link { true-or-false }?,
    attribute text-altitude { text }?,
    attribute text-depth { text }?,
+   background.properties.attlist,
+   common.inline.properties.attlist,
    common.properties.attlist,
    display.properties.attlist
 
@@ -1552,14 +1648,15 @@ InlineAnchorArea =
 }
 
 InlineAnchorArea.model =
-   (TextArea | LeaderArea | InlineArea | InlineViewportArea | GraphicViewportArea)*
+   (FootnoteNumberArea?, (TextArea | LeaderArea | InlineArea | InlineViewportArea | GraphicViewportArea)*)
 
 InlineAnchorArea.attlist =
-   common.properties.attlist,
-   attribute display-role { xsd:NCName },
+   attribute display-role { xsd:NCName }?,
    attribute keep-with-next { xsd:NCName }?,
    attribute text-altitude { text }?,
-   attribute text-depth { text }?
+   attribute text-depth { text }?,
+   common.inline.properties.attlist,
+   common.properties.attlist
 
 NormalFlowReferenceArea =
   element NormalFlowReferenceArea {
@@ -1593,11 +1690,13 @@ TextArea.attlist =
    attribute id { xsd:NMTOKEN }?,
    attribute is-link-destination { true-or-false }?,
    attribute kerning-mode { xsd:NCName }?,
+   attribute marker-by { text }?,
    attribute origin-id { xsd:NMTOKEN }?,
    attribute overline-score { true-or-false }?,
    attribute overline-score-color { text }?,
    attribute overline-score-style { xsd:NCName }?,
    attribute overline-score-width { xsd:NCName }?,
+   attribute quotetype { 'qu' | 'op' | 'cl' }?,
    attribute ref-id { xsd:NCName }?,
    attribute ref-index-key { text }?,
    attribute scale-option { xsd:NCName }?,
@@ -1606,6 +1705,9 @@ TextArea.attlist =
    attribute text { text },
    attribute text-align-first { xsd:NCName }?,
    attribute text-align-last { xsd:NCName }?,
+   attribute text-overflow { text }?,
+   attribute text-stroke-color { text }?,
+   attribute text-stroke-width { length-or-auto }?,
    attribute text-width { length },
    attribute through-score { true-or-false }?,
    attribute through-score-color { text }?,
@@ -1619,7 +1721,9 @@ TextArea.attlist =
    attribute vertical-underline-side { xsd:NCName }?,
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    dev.text.properties.attlist,
+   common.inline.properties.attlist,
    common.properties.attlist,
+   line-number.properties.attlist,
    relative-position.properties.attlist,
    previous-next.properties.attlist
 
@@ -1634,9 +1738,12 @@ GlyphArea.model =
 
 GlyphArea.attlist =
    attribute glyph { xsd:integer },
+   attribute glyph-dt { xsd:positiveInteger }?,
+   attribute glyph-flag { xsd:positiveInteger }?,
    attribute glyph-width { xsd:integer },
+   attribute length { xsd:integer },
    common.properties.attlist,
-   attribute length { xsd:integer }
+   previous-next.properties.attlist
 
 EmphasisArea =
   element EmphasisArea {
@@ -1650,11 +1757,12 @@ EmphasisArea.model =
 EmphasisArea.attlist =
    attribute color { text },
    attribute glyph-orientation { xsd:integer }?,
-   common.properties.attlist,
    attribute kerning-mode { xsd:NCName },
    attribute script { text },
    attribute text { text },
-   attribute text-width { length }
+   attribute text-width { length },
+   common.properties.attlist,
+   dev.text.properties.attlist
 
 InlineArea =
   element InlineArea {
@@ -1663,10 +1771,19 @@ InlineArea =
 }
 
 InlineArea.model =
-   (TextArea | LeaderArea | InlineArea | InlineAnchorArea | InlineViewportArea | GraphicViewportArea | RubyArea | BidiOverrideArea)*
+   (TextArea |
+    LeaderArea |
+    InlineArea |
+    InlineAnchorArea |
+    InlineViewportArea |
+    GraphicViewportArea |
+    RubyArea |
+    BidiOverrideArea |
+    FootnoteNumberArea)*
 
 InlineArea.attlist =
    attribute action-type { xsd:NCName }?,
+   alttext,
    base-uri,
    attribute color { text }?,
    attribute content { text }?,
@@ -1690,12 +1807,16 @@ InlineArea.attlist =
    attribute role { xsd:NMTOKEN }?,
    attribute scale-option { xsd:NCName }?,
    attribute show-destination { xsd:NCName }?,
+   attribute text-overflow { text }?,
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    annotation.attlist,
    background.properties.attlist, # For HTML/CSS
    border-separation.properties.attlist, # For HTML/CSS
+   common.inline.properties.attlist,
    common.properties.attlist,
    display.properties.attlist,
+   line-number.properties.attlist,
+   previous-next.properties.attlist,
    text.properties.attlist
 
 InlineViewportArea =
@@ -1723,6 +1844,7 @@ InlineViewportArea.attlist =
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    background.properties.attlist, # For HTML/CSS,
    border-separation.properties.attlist, # For HTML/CSS
+   common.inline.properties.attlist,
    common.properties.attlist,
    display.properties.attlist
 
@@ -1751,9 +1873,12 @@ GraphicViewportArea.attlist =
    attribute index-class { xsd:NCName }?,
    attribute index-key { text }?,
    attribute is-link-destination { true-or-false }?,
+   attribute media-skin-color { text }?,
+   attribute media-skin-control { text }?,
    attribute media-play-mode { xsd:integer }?,
    attribute media-volume { text }?,
    attribute multimedia-treatment { text }?,
+   attribute overprint { text }?,
    attribute poster-image { text }?,
    attribute role { text }?,
    attribute show-controls { true-or-false }?,
@@ -1761,9 +1886,11 @@ GraphicViewportArea.attlist =
    attribute visibility { xsd:NCName }?, # For HTML/CSS
    background.properties.attlist, # For HTML/CSS
    border-separation.properties.attlist, # For HTML/CSS
+   common.inline.properties.attlist,
    common.properties.attlist,
    display.properties.attlist,
-   relative-position.properties.attlist
+   relative-position.properties.attlist,
+   transform.properties.attlist
 
 GraphicArea =
   element GraphicArea {
@@ -1811,6 +1938,7 @@ LeaderArea.attlist =
    attribute text-align-last { text }?,
    attribute text-altitude { text }?,
    attribute text-depth { text }?,
+   common.inline.properties.attlist,
    common.properties.attlist
 
 BidiOverrideArea =
@@ -1828,6 +1956,7 @@ BidiOverrideArea.attlist =
    attribute src { text }?,
    attribute text-altitude { text }?,
    attribute text-depth { text }?,
+   common.inline.properties.attlist,
    common.properties.attlist,
    display.properties.attlist,
    previous-next.properties.attlist
